@@ -1,0 +1,131 @@
+/* CHATBOT */
+#chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+#chatbot-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid black;
+  object-fit: cover;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* CHATBOX */
+#chatbot-box {
+  position: absolute;
+  bottom: 85px;
+  right: 0;
+  width: 320px;
+  height: 420px; /* FIXED HEIGHT */
+  background: white;
+  border-radius: 12px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+#chatbot-box.active {
+  display: flex;
+}
+
+/* HEADER */
+#chatbot-header {
+  background: #2c3e50;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* 🔥 THIS IS THE IMPORTANT FIX */
+#chatbot-messages {
+  flex: 1; /* <-- THIS FIXES SCROLL */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  font-size: 14px;
+  background: #f9f9f9;
+  scroll-behavior: smooth;
+}
+
+/* MESSAGES */
+.bot-message,
+.user-message {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  line-height: 1.4;
+  max-width: 85%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.bot-message {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.user-message {
+  background: #2c3e50;
+  color: white;
+  margin-left: auto;
+}
+
+/* INPUT */
+#chatbot-input-area {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+#chatbot-input-area button {
+  padding: 10px 14px;
+  border: none;
+  background: #27ae60;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#chatbot-input-area button:hover {
+  background: #1f8a4c;
+}
+
+/* LABEL */
+#chatbot-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#chatbot-label {
+  background-color: white;
+  color: #2c3e50;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  white-space: nowrap;
+}
+
+#typing-indicator {
+  font-style: italic;
+  opacity: 0.7;
+}

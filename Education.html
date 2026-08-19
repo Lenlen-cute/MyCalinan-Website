@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education – Calinan</title>
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="style/Education.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <a href="HomePage.html" class="back-btn">← Home</a>
+    <h1 class="logo">Education</h1>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search schools, colleges, level…" autocomplete="off">
+    </div>
+    <button id="locate-btn" title="Find my location">
+      <div class="spinner"></div>
+      <span class="btn-label">📍 Locate Me</span>
+    </button>
+  </div>
+</header>
+
+<!-- IMAGE MODAL -->
+<div class="image-modal" id="imageModal">
+  <span class="close">&times;</span>
+  <img id="modalImg" alt="School photo">
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Shaping Futures Through Education in Calinan</h2>
+  <p>Find schools, colleges, and institutions near you. Enable location to see distances and get directions.</p>
+  <div id="location-status">
+    <div class="loc-dot" id="loc-dot"></div>
+    <span id="loc-text">Detecting your location…</span>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="toolbar-label">Filter:</span>
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="Elementary">Elementary</button>
+  <button class="filter-chip" data-filter="High School">High School</button>
+  <button class="filter-chip" data-filter="College">College</button>
+  <button class="filter-chip" data-filter="Public">Public</button>
+  <button class="filter-chip" data-filter="Private">Private</button>
+  <button class="sort-btn" id="sort-btn" disabled title="Enable location first">
+    📶 Sort by nearest
+  </button>
+</div>
+<div id="result-count"></div>
+
+<!-- CARDS -->
+<section class="container" id="cards-container">
+
+  <!-- CARD 1 -->
+  <div class="card"
+       data-name="Calinan Central Elementary School"
+       data-category="Elementary Public"
+       data-lat="7.1895" data-lng="125.4565"
+       data-tag="Public Elementary School"
+       data-maps-query="Calinan+Central+Elementary+School+Davao+City">
+    <div class="card-image"><img src="image/Calinan Central Elementary School.png" alt="Calinan Central Elementary School"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Calinan+Central+Elementary+School+Davao+City" target="_blank">Calinan Central Elementary School</a></h3>
+      <p>Purok 5, Barangay Calinan, Davao City — One of the main public basic education institutions in the Calinan District, catering to learners from surrounding barangays.</p>
+      <span class="tag">Public Elementary School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card"
+       data-name="Lt. C. Villafuerte Sr. Elementary School"
+       data-category="Elementary Public"
+       data-lat="7.1888" data-lng="125.4570"
+       data-tag="Public Elementary School"
+       data-maps-query="Lt.+C.+Villafuerte+Sr.+Elementary+School+Davao+City">
+    <div class="card-image"><img src="image/Lt. C. Villafuerte Sr. Elementary School.png" alt="Lt. C. Villafuerte Sr. Elementary School"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Lt.+C.+Villafuerte+Sr.+Elementary+School+Davao+City" target="_blank">Lt. C. Villafuerte Sr. Elementary School</a></h3>
+      <p>Duyac St., Calinan District, Davao City — Provides accessible quality basic education for learners from Kindergarten to Grade 6 with active community programs.</p>
+      <span class="tag">Public Elementary School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card"
+       data-name="Calinan National High School"
+       data-category="High School Public"
+       data-lat="7.1875" data-lng="125.4575"
+       data-tag="Public High School"
+       data-maps-query="Calinan+National+High+School+Davao+City">
+    <div class="card-image"><img src="image/Calinan National High School.jpg" alt="Calinan National High School"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Calinan+National+High+School+Davao+City" target="_blank">Calinan National High School</a></h3>
+      <p>Duyac St., Calinan District, Davao City — A major public secondary school under DepEd Davao City Division, offering junior and senior high school programs.</p>
+      <span class="tag">Public High School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card"
+       data-name="Amigo School of Calinan"
+       data-category="Elementary High School Private"
+       data-lat="7.1860" data-lng="125.4520"
+       data-tag="Private Elementary & High School"
+       data-maps-query="Amigo+School+of+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Amigo School of Calinan.png" alt="Amigo School of Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Amigo+School+of+Calinan+Davao+City" target="_blank">Amigo School of Calinan</a></h3>
+      <p>De Lara St., Calinan District, Davao City — Private basic education school serving learners from surrounding barangays and upland communities with co-curricular programs.</p>
+      <span class="tag">Private Elementary & High School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="card"
+       data-name="St. Francis College of Davao Calinan"
+       data-category="High School Private"
+       data-lat="7.1840" data-lng="125.4590"
+       data-tag="Private High School"
+       data-maps-query="St.+Francis+College+of+Davao+Calinan+Davao+City">
+    <div class="card-image"><img src="image/St. Francis College of Davao Calinan.jpg" alt="St. Francis College of Davao Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=St.+Francis+College+of+Davao+Calinan+Davao+City" target="_blank">St. Francis College of Davao Calinan</a></h3>
+      <p>Sunrise Village, Penano Street, Calinan — Catholic secondary school recognized by DepEd as a Senior High School provider offering ABM, HUMSS, GAS, and TVL strands.</p>
+      <span class="tag">Private High School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card"
+       data-name="Philippine Nikkei Jin Kai School of Calinan"
+       data-category="Elementary High School Private"
+       data-lat="7.1750" data-lng="125.4480"
+       data-tag="Private Elementary & High School"
+       data-maps-query="Philippine+Nikkei+Jin+Kai+International+School+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Philippine Nikkei Jin Kai School of Calinan.jpg" alt="Philippine Nikkei Jin Kai School"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Philippine+Nikkei+Jin+Kai+International+School+Calinan+Davao+City" target="_blank">Philippine Nikkei Jin Kai School of Calinan</a></h3>
+      <p>Durian Village, Calinan District — Japanese-Filipino cultural and language education campus under the Philippine Nikkei Jin Kai international network.</p>
+      <span class="tag">Private Elementary & High School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 7 -->
+  <div class="card"
+       data-name="Philippine College of Technology Calinan Branch"
+       data-category="College High School Private"
+       data-lat="7.1820" data-lng="125.4490"
+       data-tag="Private College & High School"
+       data-maps-query="Philippine+College+of+Technology+Calinan+Branch+Davao+City">
+    <div class="card-image"><img src="image/Philippine College of Technology Calinan Branch.jpg" alt="Philippine College of Technology Calinan Branch"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Philippine+College+of+Technology+Calinan+Branch+Davao+City" target="_blank">Philippine College of Technology Calinan Branch</a></h3>
+      <p>Bayanihan, Calinan-Wangan Road — Technical-vocational and higher education campus offering skills-based programs designed for industry readiness.</p>
+      <span class="tag">Private College & High School</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 8 -->
+  <div class="card"
+       data-name="Holy Cross College of Calinan"
+       data-category="College High School Elementary Private"
+       data-lat="7.1900" data-lng="125.4548"
+       data-tag="Private College, High School & Elementary"
+       data-maps-query="Holy+Cross+College+of+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Holy Cross College of Calinan, Inc..png" alt="Holy Cross College of Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Holy+Cross+College+of+Calinan+Davao+City" target="_blank">Holy Cross College of Calinan</a></h3>
+      <p>McArthur Highway, Datu Abing St., Calinan — Catholic institution under the Archdiocese of Davao offering basic, tertiary, and graduate education with Christian values.</p>
+      <span class="tag">Private College, High School & Elementary</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty-state">
+    <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#2b6b45" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+    </svg>
+    <h3>No results found</h3>
+    <p>Try a different search term or filter.</p>
+  </div>
+
+</section>
+
+<!-- SPACER -->
+<div id="map-panel-spacer"></div>
+
+<!-- MAP PANEL -->
+<div id="map-panel">
+  <div id="map-panel-header">
+    <div>
+      <div id="map-panel-title">📍 Map</div>
+      <div id="map-panel-subtitle"></div>
+    </div>
+    <div id="map-panel-actions">
+      <a id="map-directions-link" href="#" target="_blank">🧭 Open in Google Maps</a>
+      <button id="map-panel-close" onclick="closeMap()" title="Close map">✕</button>
+    </div>
+  </div>
+  <div id="edu-map"></div>
+  <div id="route-info">
+    <span>🛣️ Road distance: <strong id="route-dist">–</strong></span>
+    <span>⏱️ Estimated time: <strong id="route-time">–</strong></span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  /* ══════════════════════════════════════════
+     STATE
+  ══════════════════════════════════════════ */
+  let userLat = null, userLng = null;
+  let watchId = null;
+  let eduMap = null, mapReady = false;
+  let userMarker = null;
+  let activeClinicMarker = null;
+  let routeLayer = null;
+  let activeFilter = 'all';
+  let sortByNearest = false;
+  let currentMapsQuery = '';
+
+  const allCards = Array.from(document.querySelectorAll('.card:not(#empty-state)'));
+
+  /* ══════════════════════════════════════════
+     IMAGE MODAL
+  ══════════════════════════════════════════ */
+  const modal    = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  document.querySelectorAll('.card-image img').forEach(img => {
+    img.addEventListener('click', () => {
+      modal.classList.add('active');
+      modalImg.src = img.src;
+    });
+  });
+  modal.addEventListener('click', e => { if (e.target !== modalImg) modal.classList.remove('active'); });
+  document.querySelector('.close').addEventListener('click', () => modal.classList.remove('active'));
+
+  /* ══════════════════════════════════════════
+     TOAST
+  ══════════════════════════════════════════ */
+  function showToast(msg, duration = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  /* ══════════════════════════════════════════
+     HAVERSINE DISTANCE (km)
+  ══════════════════════════════════════════ */
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function formatDist(km) {
+    if (km < 1) return Math.round(km * 1000) + ' m away';
+    return km.toFixed(1) + ' km away';
+  }
+
+  /* ══════════════════════════════════════════
+     LOCATION
+  ══════════════════════════════════════════ */
+  const locBtn    = document.getElementById('locate-btn');
+  const locStatus = document.getElementById('location-status');
+  const locDot    = document.getElementById('loc-dot');
+  const locText   = document.getElementById('loc-text');
+  const sortBtn   = document.getElementById('sort-btn');
+
+  locBtn.addEventListener('click', startLocating);
+
+  function startLocating() {
+    if (!navigator.geolocation) {
+      showToast('⚠️ Geolocation is not supported by your browser.');
+      return;
+    }
+    locBtn.classList.add('loading');
+    locBtn.disabled = true;
+    locStatus.classList.add('visible');
+    locText.textContent = 'Detecting your location…';
+
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+    watchId = navigator.geolocation.watchPosition(
+      onLocationSuccess,
+      onLocationError,
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    );
+  }
+
+  function onLocationSuccess(pos) {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+    locBtn.querySelector('.btn-label').textContent = '📍 Tracking';
+
+    locDot.classList.remove('loc-err');
+    locText.textContent = `Location active · ±${Math.round(pos.coords.accuracy)} m accuracy`;
+
+    sortBtn.disabled = false;
+
+    updateAllDistances();
+    updateUserMarker();
+  }
+
+  function onLocationError(err) {
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+
+    locDot.classList.add('loc-err');
+    const msgs = {
+      1: 'Location access denied. Please allow it in your browser settings.',
+      2: 'Location unavailable. Check your GPS or network.',
+      3: 'Location request timed out. Try again.'
+    };
+    locText.textContent = msgs[err.code] || 'Could not get location.';
+    showToast('⚠️ ' + locText.textContent);
+  }
+
+  function updateAllDistances() {
+    if (userLat === null) return;
+    allCards.forEach(card => {
+      const lat = parseFloat(card.dataset.lat);
+      const lng = parseFloat(card.dataset.lng);
+      const km  = haversine(userLat, userLng, lat, lng);
+      card.dataset.dist = km;
+
+      const badge = card.querySelector('.dist-badge');
+      badge.querySelector('.dist-text').textContent = formatDist(km);
+      badge.classList.add('visible');
+
+      card.querySelector('.route-btn').classList.add('visible');
+    });
+
+    if (sortByNearest) applySortAndFilter();
+  }
+
+  function updateUserMarker() {
+    if (!mapReady || userLat === null) return;
+    if (userMarker) eduMap.removeLayer(userMarker);
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="user-dot-wrapper">
+               <div class="user-dot-ring"></div>
+               <div class="user-dot-inner"></div>
+             </div>`,
+      iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -14]
+    });
+
+    userMarker = L.marker([userLat, userLng], { icon })
+      .addTo(eduMap)
+      .bindPopup('<div class="user-popup"><h4>📍 Your Location</h4><p>You are here</p></div>');
+  }
+
+  /* ══════════════════════════════════════════
+     SEARCH + FILTER + SORT
+  ══════════════════════════════════════════ */
+  const searchInput = document.getElementById('searchInput');
+
+  searchInput.addEventListener('input', applySortAndFilter);
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      applySortAndFilter();
+    });
+  });
+
+  sortBtn.addEventListener('click', () => {
+    if (userLat === null) return;
+    sortByNearest = !sortByNearest;
+    sortBtn.classList.toggle('active', sortByNearest);
+    sortBtn.textContent = sortByNearest ? '✅ Sorted by nearest' : '📶 Sort by nearest';
+    applySortAndFilter();
+  });
+
+  function applySortAndFilter() {
+    const query = searchInput.value.toLowerCase().trim();
+    const container = document.getElementById('cards-container');
+    const emptyState = document.getElementById('empty-state');
+
+    let visibleCards = allCards.filter(card => {
+      const name     = (card.dataset.name || '').toLowerCase();
+      const category = (card.dataset.category || '').toLowerCase();
+      const tag      = (card.dataset.tag || '').toLowerCase();
+
+      const matchSearch = !query || name.includes(query) || category.includes(query) || tag.includes(query);
+      const matchFilter = activeFilter === 'all' || category.includes(activeFilter.toLowerCase());
+      return matchSearch && matchFilter;
+    });
+
+    if (sortByNearest && userLat !== null) {
+      visibleCards.sort((a, b) => parseFloat(a.dataset.dist || 99999) - parseFloat(b.dataset.dist || 99999));
+    }
+
+    allCards.forEach(card => {
+      card.classList.add('hidden');
+      card.style.order = '';
+    });
+
+    visibleCards.forEach((card, i) => {
+      card.classList.remove('hidden');
+      card.style.order = i;
+    });
+
+    const count = visibleCards.length;
+    document.getElementById('result-count').textContent =
+      count > 0 ? `Showing ${count} of ${allCards.length} institutions` : '';
+
+    emptyState.style.display = count === 0 ? 'flex' : 'none';
+  }
+
+  /* ══════════════════════════════════════════
+     MAP
+  ══════════════════════════════════════════ */
+  function initMap() {
+    if (mapReady) return;
+    eduMap = L.map('edu-map', { zoomControl: true }).setView([7.1885, 125.4558], 15);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(eduMap);
+    mapReady = true;
+    if (userLat !== null) updateUserMarker();
+  }
+
+  function showOnMap(btn) {
+    const card  = btn.closest('.card');
+    const lat   = parseFloat(card.dataset.lat);
+    const lng   = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+    const tag   = card.dataset.tag;
+    const query = card.dataset.mapsQuery;
+    currentMapsQuery = query;
+
+    const panel    = document.getElementById('map-panel');
+    const spacer   = document.getElementById('map-panel-spacer');
+    const title    = document.getElementById('map-panel-title');
+    const subtitle = document.getElementById('map-panel-subtitle');
+    const dirLink  = document.getElementById('map-directions-link');
+    const routeInfo = document.getElementById('route-info');
+
+    panel.classList.add('active');
+    spacer.classList.add('active');
+    title.textContent = '📍 ' + name;
+    subtitle.textContent = tag;
+
+    dirLink.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    dirLink.classList.add('visible');
+    routeInfo.classList.remove('visible');
+
+    initMap();
+
+    if (activeClinicMarker) eduMap.removeLayer(activeClinicMarker);
+    if (routeLayer) { eduMap.removeLayer(routeLayer); routeLayer = null; }
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:#2b6b45; color:white; font-size:16px;
+        width:36px; height:36px; border-radius:50% 50% 50% 0;
+        transform:rotate(-45deg); display:flex; align-items:center; justify-content:center;
+        box-shadow:0 3px 10px rgba(0,0,0,0.3); border:2px solid white;">
+        <span style="transform:rotate(45deg)">🏫</span></div>`,
+      iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -40]
+    });
+
+    const distText = userLat !== null
+      ? `<br><strong>${formatDist(haversine(userLat, userLng, lat, lng))}</strong> straight-line from you`
+      : '';
+
+    activeClinicMarker = L.marker([lat, lng], { icon })
+      .addTo(eduMap)
+      .bindPopup(`
+        <div class="edu-popup">
+          <h4>${name}</h4>
+          <div class="popup-tag">${tag}</div>
+          <p>${distText}</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=${query}" target="_blank">🧭 Open in Google Maps</a>
+        </div>`, { maxWidth: 250 })
+      .openPopup();
+
+    eduMap.flyTo([lat, lng], 17, { duration: 1.0 });
+    setTimeout(() => eduMap.invalidateSize(), 320);
+    document.getElementById('map-panel').scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  /* ══════════════════════════════════════════
+     ROUTING via OSRM (free, no key needed)
+  ══════════════════════════════════════════ */
+  function getRoute(btn) {
+    if (userLat === null) {
+      showToast('📍 Enable location first to get directions.');
+      return;
+    }
+
+    const card  = btn.closest('.card');
+    const cLat  = parseFloat(card.dataset.lat);
+    const cLng  = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+
+    btn.classList.add('loading');
+    btn.textContent = '⏳ Loading route…';
+
+    showOnMap(card.querySelector('.view-map-btn'));
+
+    const url = `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${cLng},${cLat}?overview=full&geometries=geojson`;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.routes || data.routes.length === 0) throw new Error('No route found');
+
+        const route   = data.routes[0];
+        const coords  = route.geometry.coordinates.map(c => [c[1], c[0]]);
+        const distKm  = (route.distance / 1000).toFixed(1);
+        const mins    = Math.round(route.duration / 60);
+        const timeStr = mins < 60 ? `${mins} min` : `${Math.floor(mins/60)}h ${mins%60}m`;
+
+        initMap();
+        if (routeLayer) eduMap.removeLayer(routeLayer);
+
+        routeLayer = L.polyline(coords, {
+          color: '#2b6b45', weight: 5, opacity: 0.85,
+          lineCap: 'round', lineJoin: 'round'
+        }).addTo(eduMap);
+
+        eduMap.fitBounds(routeLayer.getBounds(), { padding: [40, 40] });
+
+        document.getElementById('route-dist').textContent = distKm + ' km';
+        document.getElementById('route-time').textContent = timeStr;
+        document.getElementById('route-info').classList.add('visible');
+
+        showToast(`🧭 Route to ${name}: ${distKm} km · ${timeStr}`);
+
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+      })
+      .catch(() => {
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+        showToast('⚠️ Could not load route. Check your internet connection.');
+      });
+  }
+
+  function closeMap() {
+    document.getElementById('map-panel').classList.remove('active');
+    document.getElementById('map-panel-spacer').classList.remove('active');
+    document.getElementById('route-info').classList.remove('visible');
+    if (routeLayer && mapReady) { eduMap.removeLayer(routeLayer); routeLayer = null; }
+  }
+
+  /* ══════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════ */
+  applySortAndFilter();
+</script>
+</body>
+</html>

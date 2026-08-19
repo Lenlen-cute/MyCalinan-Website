@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyCalinan</title>
+  <link rel="stylesheet" href="style/HomePage.css">
+  <link rel="stylesheet" href="style/Chatbot.css">
+
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <div class="left">
+      <div class="env no-translate">
+        <select id="languageSwitcher" onchange="changeLanguage(this.value)">
+          <option value="en">ENG</option>
+          <option value="ceb">CEB</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="center no-translate">
+      <h1 class="logo"  >
+        <img src="image/CALINAN LOGO.png" class="logo-img" alt="Logo">
+        <span class="logo-text">MyCalinan</span>
+        <img src="image/PCT LOGO (1).png" class="logo-img" alt="Logo">
+      </h1>
+    </div>
+
+
+<div class="auth-area no-translate" id="authArea">
+    <button class="login-btn" id="authBtn" onclick="window.location.href='Admin-login.html'">Login</button>
+    <div class="admin-dropdown-content" id="adminDropdown">
+      <div class="admin-dropdown-header" id="adminDropdownHeader">Signed in as Admin</div>
+      <a href="Admin-Announcements.html">📊 Admin Dashboard</a>
+      <a href="#" class="logout-link" onclick="adminLogout(event)">🚪 Log Out</a>
+    </div>
+</div>
+
+
+  </header>
+
+  <!-- MENU -->
+  <nav class="menu">
+    <ul>
+      <li class="dropdown">
+        <button onclick="toggleMenu('exploreMenu')">Explore ▾</button>
+        <div id="exploreMenu" class="dropdown-content">
+          <a href="Health.html">Health</a>
+          <a href="Education.html">Education</a>
+          <a href="Transport-Utilities.html">Transport & Utilities</a>
+          <a href="Finance.html">Finance</a>
+          <a href="Community.html">Community</a>
+          <a href="Life-Style.html">Lifestyle</a>
+          <a href="Shopping-Store.html">Shopping & Stores</a>
+          <a href="Food-Dining.html">Food & Dining</a>
+          <a href="Hotspots.html">Hotspots</a>
+        </div>
+      </li>
+
+
+
+      <li class="dropdown">
+        <button onclick="toggleMenu('mapMenu')">Map ▾</button>
+        <div id="mapMenu" class="dropdown-content">
+          <a href="Calinan-Map.html">Barangay Map</a>
+        </div>
+      </li>
+
+      <li class="dropdown">
+        <button onclick="toggleMenu('documentsMenu')">Documents ▾</button>
+        <div id="documentsMenu" class="dropdown-content">
+          <a href="Police-Clearance.html">Police Clearance</a>
+          <a href="Baranggay-Clearance.html">Barangay Clearance</a>
+          <a href="Baranggay-Certification.html">Barangay Certification</a>
+          <a href="Cedula.html">Cedula</a>
+          <a href="Postal-ID.html">Get Postal ID</a>
+        </div>
+      </li>
+
+      <li><a href="History.html">History</a></li>
+      <li><a href="Hotlines.html">Hotlines</a></li>
+      <li><a href="Announcements.html">Announcements</a></li>
+      <li><a href="Events.html">Events</a></li>
+    </ul>
+
+  </nav>
+   
+  
+
+  <!-- HERO SECTION 1-->
+  <section class="hero">
+
+    <div class="hero-box">
+      <img src="image/Calinanview.png" class="logo-img">
+    </div>
+
+    <div class="hero-text">
+      <h3>Calinan Poblacion</h3>
+
+      <p class="history-text">
+        Calinan Poblacion, located in the 3rd District of Davao City and approximately 27 kilometers
+        northwest of the city center, serves as the central barangay of Calinan District. Known as 
+        the "Fruit Basket of Davao City", it is famous for its abundant production of durian, bananas,
+         and other tropical fruits. Originally inhabited by the Bagobo tribe under the leadership of 
+         "Datu Abeng", the area began as a small settlement surrounded by forests and clear streams. 
+         In the early 1900s, migrants from various parts of the Philippines settled in Calinan, 
+         contributing to its growth and cultural diversity. The development of roads, schools, and
+          marketplaces transformed the community into a thriving agricultural and commercial center.
+           Despite facing challenges such as war and devastating fires, the people of Calinan remained 
+           resilient and continued to rebuild and progress. Today, Calinan Poblacion stands as a 
+           vibrant and progressive barangay, playing a significant role in the trade, education, 
+           and agricultural development of Davao City.
+      </p>
+    </div>
+  </section>
+  <!-- HERO SECTION 2 -->
+  <section class="hero2">
+    <div class="hero2-text">
+      <h3>Built for community growth, designed for Calinanians</h3>
+
+
+      <div class="hero2-desc">
+        <p>
+        MyCalinan is a web-based Smart Tourism and Community Information System designed to promote
+         Calinan's tourist attractions, local businesses, cultural heritage, public services,
+        and community activities through a centralized digital platform. Developed for residents,
+           visitors, and barangay officials it provides easy access to tourism information, government
+            services, community announcements, and barangay document inquiries. The system also
+             features real-time location tracking, interactive navigation, live weather updates,
+              and an AI-powered virtual assistant to enhance user experience. By bringing essential
+               information and services into one platform, MyCalinan aims to support local development,
+        strengthen community engagement, and improve accessibility within Calinan Poblacion.
+        <br><br>
+
+        With MyCalinan, you can:
+        </p>
+      <section class="photo-section">
+
+        <h2 class="section-title">Discover places</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/PhpEagleCenter.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/MalagosGarden.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Davao Bamboo Sanctuary and Ecological Park (1).png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title"> Explore via map</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Map1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Map2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Map3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+      <section class="photo-section">
+
+        <h2 class="section-title">Browse marketplace</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Brows1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Brows2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Brows3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title">Access hotlines</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Hotlines1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Hotlines2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Hotlines3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title">Learn history</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/History1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/History2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/History3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+      </section>
+      </div>
+    </div>
+  </section>
+
+
+    <!-- ================= EVENTS SECTION ================= -->
+<!-- COMMUNITY ANNOUNCEMENTS -->
+<section class="announcement-section">
+
+    <div class="dashboard-header">
+        <h1>Community Announcements</h1>
+        <p>
+            Stay updated with the latest activities,
+            advisories, and community programs in Calinan.
+        </p>
+    </div>
+
+    <div class="announcement-container" id="announcementContainer">
+
+        <!-- MongoDB announcements will load here -->
+
+    </div>
+
+</section>
+
+<section class="events-section">
+  <h1>Community Events</h1>
+
+  <div id="eventsContainer"> 
+  </div>
+</section>
+
+
+<section class="weather-section">
+<div class="weather-box">
+<!-- HEADER -->
+<div class="weather-header">
+    <div>
+        <h1>🌤 Smart Weather Update</h1>
+        <p>Real-time Weather Monitoring System</p>
+    </div>
+    <div class="weather-date" id="date-time">
+        Loading time...
+    </div>
+</div>
+<!-- MAIN WEATHER -->
+<div class="weather-main-card">
+    <div class="weather-icon">
+        <img id="weather-icon"
+        src=""
+        alt="Weather Icon">
+    </div>
+    <div class="temperature">
+        <h1>
+            <span id="temperature">
+            --
+            </span>
+            °C
+        </h1>
+        <h2 id="condition">
+            Loading...
+        </h2>
+        <p id="city">
+            📍 Loading location...
+        </p>
+    </div>
+    <div class="weather-summary">
+        <div class="summary-card">
+            💧
+            <h3>
+                Humidity
+            </h3>
+            <p id="humidity">
+                --
+            </p>
+        </div>
+        <div class="summary-card">
+            🌬
+            <h3>
+                Wind
+            </h3>
+            <p id="wind">
+                --
+            </p>
+        </div>
+        <div class="summary-card">
+            🌡
+            <h3>
+                Pressure
+            </h3>
+            <p id="pressure">
+                --
+            </p>
+        </div>
+    </div>
+</div>
+<!-- CONDITIONS -->
+<h2 class="weather-title">
+TODAY'S CONDITIONS
+</h2>
+<div class="condition-grid">
+<div class="condition-card">
+💧
+<h3>
+Humidity
+</h3>
+<p id="humidity-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+🌬
+<h3>
+Wind Speed
+</h3>
+<p id="wind-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+🌡
+<h3>
+Pressure
+</h3>
+<p id="pressure-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+👁
+<h3>
+Visibility
+</h3>
+<p id="visibility">
+--
+</p>
+</div>
+<div class="condition-card">
+☁️
+<h3>
+Cloudiness
+</h3>
+<p id="clouds">
+--
+</p>
+</div>
+<div class="condition-card">
+🔥
+<h3>
+Feels Like
+</h3>
+<p id="feels">
+--
+</p>
+</div>
+</div>
+<!-- HOURLY -->
+<h2 class="weather-title">
+⏰ HOURLY FORECAST
+</h2>
+<div class="hourly-weather">
+<div class="hour-card">
+<b>
+10 AM
+</b>
+<h2>
+☀️
+</h2>
+<p>
+28°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+12 PM
+</b>
+<h2>
+🌤
+</h2>
+<p>
+31°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+3 PM
+</b>
+<h2>
+🌧
+</h2>
+<p>
+29°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+6 PM
+</b>
+<h2>
+🌙
+</h2>
+<p>
+26°C
+</p>
+</div>
+</div>
+<!-- BOTTOM -->
+<div class="weather-bottom">
+<div class="forecast-box">
+<h3>
+📅 Tomorrow Forecast
+</h3>
+<p>
+🌦 Light Showers
+</p>
+<p>
+🌡 28°C - 31°C
+</p>
+<p>
+☔ Rain Probability: 45%
+</p>
+</div>
+<div class="weather-insight">
+🤖
+<div>
+<h3>
+Smart Weather Insight
+</h3>
+<p>
+Weather information is updated
+automatically using real-time data.
+</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+        <section class="hero2">
+          <div class="hero2-text">
+            <h3>Calinan</h3>
+
+
+            <p class="hero2-desc">
+              A peaceful and growing district of Davao City, is a place where nature and people live in harmony. It is
+              known for its rich farmland, fresh fruits, and beautiful green surroundings that show the beauty of simple
+              life. The community here is strong, kind, and always ready to help one another, making Calinan feel like a
+              true home for everyone. Life may be simple, but it is full of meaning, hope, and hard work. Every sunrise
+              brings new chances, and every day is a reminder that progress comes with unity and faith in each other.
+
+              As the philosopher Lao Tzu once said, "The journey of a thousand miles begins with a single step." This
+              reminds every Filipino that even small efforts can lead to great success. Calinan stands as a symbol of
+              patience, growth, and the strength of Filipino spirit, inspiring everyone to keep moving forward in life.
+            </p>
+          </div>
+        </section>
+  
+  <div id="chatbot-container">
+    <div id="chatbot-box">
+      <div id="chatbot-header">MyCalinan Assistant
+        <button id="voice-toggle-btn" onclick="toggleVoice()" title="Voice replies: ON (click to mute)">🔊</button>
+      </div>
+
+      <div id="chatbot-messages">
+        <div class="bot-message">"Hey hey! 😄 I'm Calibot, the eagle robot of Calinan! 🦅⚡
+          Got questions? Ask me anything—I've got answers ready for you! 🚀"</div>
+      </div>
+
+      <div id="chatbot-suggestions">
+        <button class="suggestion-chip"
+                data-label-en="🍽 Eatery Nearby" data-label-ceb="🍽 Kan-anan Duol"
+                data-query-en="Recommend me an eatery nearby" data-query-ceb="Pasugyot og kan-anan nga duol"
+                onclick="quickAsk(this)">🍽 Eatery Nearby</button>
+        <button class="suggestion-chip"
+                data-label-en="☀️ Weather Today" data-label-ceb="☀️ Panahon Karon"
+                data-query-en="Tell me the weather today" data-query-ceb="Unsa ang panahon karon"
+                onclick="quickAsk(this)">☀️ Weather Today</button>
+      </div>
+
+      <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Ask something...">
+        <button onclick="sendMessage()">Send</button>
+        <button id="mic-btn" onclick="toggleMic()" title="Speak your question">🎤</button>
+        <button onclick="stopBot()" style="background:#e74c3c;"></button>
+      </div>
+    </div>
+    <div id="chatbot-wrapper">
+      <div id="chatbot-label">Talk to AI</div>
+      <img id="chatbot-icon" src="image/CalibotAi.png" onclick="toggleChatbot()">
+    </div>
+
+    
+  </div>
+
+  <script>
+    /* ============= CHATBOT WEATHER LOOKUP ============= */
+    const CHAT_WEATHER_API_KEY = "f807f8e4da415c3094ba3d2a9e39d200";
+    const CHAT_WEATHER_CITY = "Davao,PH";
+
+    function isWeatherQuery(text) {
+      const weatherWords = [
+        "weather", "forecast", "temperature", "climate", "rain", "rainy",
+        "panahon", "klima", "init", "bugnaw", "ulan", "unsaon ang panahon"
+      ];
+      // FIX: use word-boundary matching instead of plain .includes(),
+      // otherwise words like "train" or "complain" would wrongly match "rain".
+      return weatherWords.some(word => new RegExp(`\\b${word}\\b`, "i").test(text));
+    }
+
+    async function fetchWeatherForChat(signal) {
+      try {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${CHAT_WEATHER_CITY}&units=metric&appid=${CHAT_WEATHER_API_KEY}`,
+          { signal }
+        );
+        const data = await res.json();
+
+        if (!res.ok || !data.main || !data.weather) {
+          return "Sorry, I could not fetch the weather right now. Please try again later. 🌥";
+        }
+
+        const temp = Math.round(data.main.temp);
+        const feels = Math.round(data.main.feels_like);
+        const condition = data.weather[0].description;
+        const humidity = data.main.humidity;
+        const windKph = Math.round(data.wind.speed * 3.6);
+
+        return `Here's today's weather in ${data.name}:<br><br>` +
+          `🌡 <b>Temperature:</b> ${temp}°C (feels like ${feels}°C)<br>` +
+          `☁️ <b>Condition:</b> ${condition}<br>` +
+          `💧 <b>Humidity:</b> ${humidity}%<br>` +
+          `🌬 <b>Wind:</b> ${windKph} km/h`;
+      } catch (error) {
+        if (error.name === "AbortError") throw error;
+        console.error("Chatbot weather error:", error);
+        return "Sorry, I could not fetch the weather right now. Please try again later. 🌥";
+      }
+    }
+
+    /* ============= ADMIN SESSION AWARENESS (navbar button) ============= */
+    const ADMIN_TOKEN_KEY    = 'mycalinan_admin_token';
+    const ADMIN_USERNAME_KEY = 'mycalinan_admin_username';
+
+    function getAdminToken() {
+      return localStorage.getItem(ADMIN_TOKEN_KEY)
+          || sessionStorage.getItem(ADMIN_TOKEN_KEY)
+          || '';
+    }
+
+    function getAdminUsername() {
+      return localStorage.getItem(ADMIN_USERNAME_KEY)
+          || sessionStorage.getItem(ADMIN_USERNAME_KEY)
+          || 'Admin';
+    }
+
+    function updateAuthUI() {
+      const authArea       = document.getElementById('authArea');
+      const authBtn         = document.getElementById('authBtn');
+      const dropdown        = document.getElementById('adminDropdown');
+      const dropdownHeader  = document.getElementById('adminDropdownHeader');
+      if (!authArea || !authBtn) return;
+
+      if (getAdminToken()) {
+        // Already logged in as admin — show their name instead of "Login"
+        authArea.classList.add('logged-in');
+        authBtn.textContent = `👤 ${getAdminUsername()}`;
+        authBtn.onclick = (e) => { e.stopPropagation(); toggleAdminDropdown(); };
+        if (dropdownHeader) dropdownHeader.textContent = `Signed in as ${getAdminUsername()}`;
+      } else {
+        authArea.classList.remove('logged-in', 'open');
+        authBtn.textContent = 'Login';
+        authBtn.onclick = () => { window.location.href = 'Admin-login.html'; };
+        if (dropdown) dropdown.classList.remove('open');
+      }
+    }
+
+    function toggleAdminDropdown() {
+      const dropdown = document.getElementById('adminDropdown');
+      const authArea = document.getElementById('authArea');
+      if (!dropdown) return;
+      dropdown.classList.toggle('open');
+      if (authArea) authArea.classList.toggle('open');
+    }
+
+    function adminLogout(e) {
+      if (e) e.preventDefault();
+      [localStorage, sessionStorage].forEach(store => {
+        store.removeItem(ADMIN_TOKEN_KEY);
+        store.removeItem(ADMIN_USERNAME_KEY);
+        store.removeItem('mycalinan_admin_role');
+      });
+      updateAuthUI();
+    }
+
+    // Close the admin dropdown when clicking anywhere outside it
+    window.addEventListener('click', function (e) {
+      if (!e.target.closest('#authArea')) {
+        const dropdown = document.getElementById('adminDropdown');
+        const authArea = document.getElementById('authArea');
+        if (dropdown) dropdown.classList.remove('open');
+        if (authArea) authArea.classList.remove('open');
+      }
+    });
+
+    let currentLang = "en";
+    let stopRequested = false;
+    let isBotTyping = false;
+    let currentRequestId = 0;
+    let typingTimer = null;
+    let activeController = null;
+
+    const PROTECTED_TERMS = {
+      "Calinan": "__CALINAN__",
+      "MyCalinan": "__MYCALINAN__",
+      "Davao": "__DAVAO__"
+    };
+
+    /* ============= VOICE OUTPUT (Web Speech API - Text to Speech) ============= */
+    let voiceEnabled = localStorage.getItem("calibotVoiceEnabled") !== "false"; // ON by default
+    let availableVoices = [];
+
+    function loadVoices() {
+      availableVoices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+    }
+
+    if (window.speechSynthesis) {
+      loadVoices();
+      speechSynthesis.onvoiceschanged = loadVoices; // Chrome loads voices async
+    }
+
+    function stripHtmlForSpeech(html) {
+      const temp = document.createElement("div");
+      temp.innerHTML = String(html || "");
+      let text = temp.textContent || temp.innerText || "";
+
+      // FIX: remove emojis so the voice doesn't try to read them aloud.
+      // \p{Extended_Pictographic} covers the emoji ranges; the extra
+      // characters below are invisible modifiers (variation selector,
+      // zero-width joiner, keycap) that can otherwise be left dangling.
+      text = text.replace(/\p{Extended_Pictographic}/gu, "");
+      text = text.replace(/[\uFE0F\u200D\u20E3]/g, "");
+      text = text.replace(/\s{2,}/g, " ").trim();
+
+      return text;
+    }
+
+    function pickVoice(lang) {
+      if (!availableVoices.length) return null;
+
+      // Cebuano has no dedicated browser voice yet, so fall back to
+      // Filipino if the OS/browser has it, otherwise default English.
+      const preferredCodes = lang === "ceb"
+        ? ["fil-PH", "fil", "tl-PH", "en-PH", "en-US"]
+        : ["en-PH", "en-US", "en-GB", "en"];
+
+      for (const code of preferredCodes) {
+        const match = availableVoices.find(v =>
+          v.lang && v.lang.toLowerCase().startsWith(code.toLowerCase())
+        );
+        if (match) return match;
+      }
+      return availableVoices[0];
+    }
+
+    function speakText(htmlText) {
+      if (!voiceEnabled || !window.speechSynthesis) return;
+
+      const plainText = stripHtmlForSpeech(htmlText).trim();
+      if (plainText === "") return;
+
+      speechSynthesis.cancel(); // stop anything already speaking
+
+      const utterance = new SpeechSynthesisUtterance(plainText);
+      const voice = pickVoice(currentLang);
+
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = currentLang === "ceb" ? "fil-PH" : "en-US";
+      }
+
+      utterance.rate = 1;
+      utterance.pitch = 1;
+
+      speechSynthesis.speak(utterance);
+    }
+
+    function toggleVoice() {
+      voiceEnabled = !voiceEnabled;
+      localStorage.setItem("calibotVoiceEnabled", voiceEnabled ? "true" : "false");
+
+      if (!voiceEnabled && window.speechSynthesis) {
+        speechSynthesis.cancel();
+      }
+      updateVoiceButton();
+    }
+
+    function updateVoiceButton() {
+      const btn = document.getElementById("voice-toggle-btn");
+      if (!btn) return;
+      btn.textContent = voiceEnabled ? "🔊" : "🔇";
+      btn.title = voiceEnabled
+        ? "Voice replies: ON (click to mute)"
+        : "Voice replies: OFF (click to unmute)";
+    }
+
+    /* ============= VOICE INPUT (Web Speech API - Speech to Text) ============= */
+    let recognition = null;
+    let isListening = false;
+
+    function getSpeechRecognition() {
+      const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+      return SpeechRecognitionAPI ? new SpeechRecognitionAPI() : null;
+    }
+
+    function micLangCode(lang) {
+      // Browser speech recognition has no Cebuano model; Filipino is the
+      // closest supported option, falling back to English.
+      return lang === "ceb" ? "fil-PH" : "en-US";
+    }
+
+    async function startListening() {
+      if (isListening) return;
+
+      recognition = getSpeechRecognition();
+
+      if (!recognition) {
+        let msg = "⚠️ Sorry, voice input isn't supported in this browser. Please try Chrome.";
+        if (currentLang !== "en") msg = await translateText(msg);
+        addBotMessage(msg, 10, true);
+        return;
+      }
+
+      // Stop the bot from talking over you while you're speaking
+      if (window.speechSynthesis) {
+        speechSynthesis.cancel();
+      }
+
+      recognition.lang = micLangCode(currentLang);
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      const micBtn = document.getElementById("mic-btn");
+
+      recognition.onstart = () => {
+        isListening = true;
+        if (micBtn) micBtn.classList.add("listening");
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const input = document.getElementById("chatbot-input");
+        if (input && transcript.trim() !== "") {
+          input.value = transcript;
+          sendMessage();
+        }
+      };
+
+      recognition.onerror = async (event) => {
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+          let msg = "⚠️ Microphone access was blocked. Please allow mic permission and try again.";
+          if (currentLang !== "en") msg = await translateText(msg);
+          addBotMessage(msg, 10, true);
+        } else if (event.error !== "no-speech" && event.error !== "aborted") {
+          let msg = "⚠️ Sorry, I couldn't hear that clearly. Please try again.";
+          if (currentLang !== "en") msg = await translateText(msg);
+          addBotMessage(msg, 10, true);
+        }
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        if (micBtn) micBtn.classList.remove("listening");
+        recognition = null;
+      };
+
+      recognition.start();
+    }
+
+    function stopListening() {
+      if (recognition) {
+        recognition.stop();
+      }
+    }
+
+    function toggleMic() {
+      if (isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+
+async function changeLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem("siteLang", lang);
+  fixCebuanoLabels();
+  await translatePage(lang);
+}
+const originalTexts = new Map();
+
+function saveOriginalTexts() {
+  document.querySelectorAll("h1, h2, h3, p, span, a").forEach(el => {
+    if (el.closest(".no-translate")) return;
+    if (el.closest("#chatbot-container")) return;
+
+    // ❗ ONLY translate TEXT nodes, not structure
+    if (el.children.length > 0 && el.tagName !== "A") return;
+
+    if (!originalTexts.has(el)) {
+      originalTexts.set(el, el.innerText);
+    }
+  });
+}
+async function translatePage(lang) {
+  saveOriginalTexts();
+
+  if (lang === "en") {
+    originalTexts.forEach((text, el) => {
+      el.innerText = text;
+    });
+    return;
+  }
+
+  const elements = [];
+  const texts = [];
+
+  originalTexts.forEach((text, el) => {
+    if (text.trim() !== "") {
+      elements.push(el);
+      texts.push(text);
+    }
+  });
+
+  const translated = await translateTexts(texts);
+
+  translated.forEach((text, i) => {
+    if (elements[i]) {
+      elements[i].innerText = text;
+    }
+  });
+}
+    function protectText(text) {
+      let protectedText = String(text || "");
+      Object.keys(PROTECTED_TERMS).forEach(term => {
+        protectedText = protectedText.replaceAll(term, PROTECTED_TERMS[term]);
+      });
+      return protectedText;
+    }
+
+    function restoreText(text) {
+      let restoredText = String(text || "");
+      Object.keys(PROTECTED_TERMS).forEach(term => {
+        restoredText = restoredText.replaceAll(PROTECTED_TERMS[term], term);
+      });
+
+      restoredText = restoredText.replaceAll("Kalye", "Calinan");
+      restoredText = restoredText.replaceAll("kalye", "Calinan");
+
+      return restoredText;
+    }
+
+    // FIX: centralize the truncation logic so the cache write key
+    // always matches the cache read key (previously write skipped the "..." suffix).
+    function truncateForCache(text) {
+      return text.length > 450 ? text.slice(0, 450) + "..." : text;
+    }
+
+    async function translateTexts(texts) {
+      if (currentLang === "en") return texts;
+
+      const results = [];
+      const missing = [];
+      const missingIndex = [];
+
+      texts.forEach((text, index) => {
+        text = String(text || "").trim();
+
+        if (text === "") {
+          results[index] = "";
+          return;
+        }
+
+        const shortText = truncateForCache(text);
+        const cacheKey = `${currentLang}_${shortText}`;
+        const cached = localStorage.getItem(cacheKey);
+
+        if (cached) {
+          results[index] = cached;
+        } else {
+          results[index] = null;
+          missing.push(protectText(shortText));
+          missingIndex.push(index);
+        }
+      });
+
+      if (missing.length > 0) {
+        try {
+          const res = await fetch("http://localhost:5000/api/translate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              texts: missing,
+              target: currentLang
+            })
+          });
+
+          const data = await res.json();
+          const translatedList = data.translated || missing;
+
+          translatedList.forEach((translated, i) => {
+            const originalIndex = missingIndex[i];
+            const fixedText = restoreText(translated);
+
+            results[originalIndex] = fixedText;
+            // FIX: use the same truncateForCache() helper as the read path above
+            localStorage.setItem(`${currentLang}_${truncateForCache(texts[originalIndex])}`, fixedText);
+          });
+
+        } catch (error) {
+          console.error("Translation error:", error);
+
+          missing.forEach((text, i) => {
+            results[missingIndex[i]] = restoreText(text);
+          });
+        }
+      }
+
+      return results;
+    }
+
+    async function translateText(text) {
+      const translated = await translateTexts([text]);
+      return translated[0];
+    }
+
+    function fixCebuanoLabels() {
+      const chatbotLabel = document.getElementById("chatbot-label");
+      if (chatbotLabel) {
+        chatbotLabel.innerText = currentLang === "ceb" ? "Isturya sa AI" : "Talk to AI";
+      }
+
+      document.querySelectorAll(".suggestion-chip").forEach(chip => {
+        const label = currentLang === "ceb" ? chip.dataset.labelCeb : chip.dataset.labelEn;
+        if (label) chip.innerText = label;
+      });
+    }
+
+    /* MENU */
+    function toggleMenu(id) {
+      const menu = document.getElementById(id);
+      if (!menu) return;
+
+      document.querySelectorAll(".dropdown-content").forEach(el => {
+        if (el.id !== id) el.style.display = "none";
+      });
+
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    window.addEventListener("click", function (e) {
+      if (!e.target.closest("button") && !e.target.closest(".dropdown-content")) {
+        document.querySelectorAll(".dropdown-content").forEach(el => {
+          el.style.display = "none";
+        });
+      }
+    });
+
+    /* CHATBOT */
+    function toggleChatbot() {
+      const chatbotBox = document.getElementById("chatbot-box");
+      if (!chatbotBox) return;
+
+      chatbotBox.classList.toggle("active");
+    }
+
+    function scrollMessages() {
+      const messages = document.getElementById("chatbot-messages");
+      if (messages) {
+        messages.scrollTop = messages.scrollHeight;
+      }
+    }
+
+    function stopTypingTimer() {
+      if (typingTimer) {
+        clearTimeout(typingTimer);
+        typingTimer = null;
+      }
+    }
+
+    function typeMessage(element, htmlText, speed = 12, onDone = null) {
+      let i = 0;
+      let temp = "";
+
+      stopTypingTimer();
+
+      function type() {
+        if (stopRequested) {
+          element.innerHTML = temp;
+          stopTypingTimer();
+          if (onDone) onDone();
+          return;
+        }
+
+        if (i < htmlText.length) {
+          temp += htmlText.charAt(i);
+          element.innerHTML = temp;
+          i++;
+          scrollMessages();
+
+          typingTimer = setTimeout(type, speed);
+        } else {
+          stopTypingTimer();
+          if (onDone) onDone();
+        }
+      }
+
+      type();
+    }
+
+    function addUserMessage(text) {
+      const messages = document.getElementById("chatbot-messages");
+      if (!messages) return;
+
+      const userDiv = document.createElement("div");
+      userDiv.className = "user-message";
+      userDiv.textContent = text;
+
+      messages.appendChild(userDiv);
+      scrollMessages();
+    }
+
+    function addBotMessage(htmlText, speed = 8, ignoreStop = false, onDone = null) {
+      const messages = document.getElementById("chatbot-messages");
+      if (!messages) return;
+
+      const botDiv = document.createElement("div");
+      botDiv.className = "bot-message";
+      messages.appendChild(botDiv);
+
+      const finish = () => {
+        speakText(htmlText);
+        if (onDone) onDone();
+      };
+
+      if (ignoreStop) {
+        botDiv.innerHTML = htmlText;
+        finish();
+      } else {
+        typeMessage(botDiv, htmlText, speed, finish);
+      }
+
+      scrollMessages();
+    }
+
+    function addTypingMessage() {
+      const messages = document.getElementById("chatbot-messages");
+      if (!messages) return null;
+
+      const oldTyping = document.getElementById("typing-indicator");
+      if (oldTyping) oldTyping.remove();
+
+      const typingDiv = document.createElement("div");
+      typingDiv.className = "bot-message";
+      typingDiv.id = "typing-indicator";
+      typingDiv.innerHTML = currentLang === "ceb" ? "Naga-type..." : "Typing...";
+
+      messages.appendChild(typingDiv);
+      scrollMessages();
+
+      return typingDiv;
+    }
+
+    function isGreeting(text) {
+      const greetings = [
+        "hi",
+        "hello",
+        "hey",
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "maayong adlaw",
+        "maayong buntag",
+        "maayong gabii"
+      ];
+
+      return greetings.includes(text.toLowerCase().trim());
+    }
+
+    function isThankYou(text) {
+      const thanks = [
+        "thank you",
+        "thanks",
+        "thankyou",
+        "ty",
+        "salamat",
+        "salamat kaayo",
+        "daghang salamat",
+        "thank u"
+      ];
+
+      return thanks.includes(text.toLowerCase().trim());
+    }
+
+    function buildNaturalReply(data) {
+      if (!Array.isArray(data) || data.length === 0) {
+        return "Sorry, I cannot find that in MyCalinan data. Please try another keyword.😅";
+      }
+
+      if (data[0]?.clarify === true) {
+        return data[0].message;
+      }
+
+      let reply = "Here is what I found:<br><br>";
+
+      data.forEach(item => {
+        if (!item || item.name === "Unnamed" || item.name === "" || item.name === null) {
+          return;
+        }
+
+        reply += `<b>${item.name}</b>`;
+
+        if (item.description) {
+          reply += `<br>${item.description}`;
+        }
+
+        if (item.collection === "documents") {
+          if (Array.isArray(item.requirements) && item.requirements.length) {
+            reply += `<br><b>Requirements:</b><ul>` +
+              item.requirements.map(r => `<li>${r}</li>`).join("") +
+              `</ul>`;
+          }
+
+          if (item.fee) {
+            reply += `<br><b>Fee:</b> ${item.fee}`;
+          }
+
+          if (item.processingTime) {
+            reply += `<br><b>Processing time:</b> ${item.processingTime}`;
+          }
+
+          if (Array.isArray(item.steps) && item.steps.length) {
+            reply += `<br><b>How to apply:</b><ol>` +
+              item.steps.map(s => `<li>${s}</li>`).join("") +
+              `</ol>`;
+          }
+
+          if (item.office) {
+            reply += `<br><b>Where:</b> ${item.office}`;
+          }
+
+          if (item.schedule) {
+            reply += `<br><b>Schedule:</b> ${item.schedule}`;
+          }
+
+          if (item.page) {
+            reply += `<br><a href="${item.page}" target="_blank">Full details / apply here</a>`;
+          }
+        } else if (item.collection === "history") {
+          if (item.year) {
+            reply += `<br><b>Year:</b> ${item.year}`;
+          }
+        } else {
+          if (item.location) {
+            reply += `<br><b>Location:</b> ${item.location}`;
+          }
+
+          if (item.hotline) {
+            reply += `<br><b>Hotline:</b> ${item.hotline}`;
+          }
+
+          if (item.emergencyNumber) {
+            reply += `<br><b>Emergency:</b> ${item.emergencyNumber}`;
+          }
+
+          if (item.contactNumber) {
+            reply += `<br><b>Contact:</b> ${item.contactNumber}`;
+          }
+
+          if (item.website) {
+            reply += `<br><b>Website:</b> <a href="${item.website}" target="_blank">${item.website}</a>`;
+          }
+
+          if (item.mapLink) {
+            reply += `<br><a href="${item.mapLink}" target="_blank">📍 View Map</a>`;
+          }
+        }
+
+        reply += `<br><br>`;
+      });
+
+      return reply;
+    }
+
+    function resetBotState() {
+      isBotTyping = false;
+      stopRequested = false;
+
+      const typing = document.getElementById("typing-indicator");
+      if (typing) typing.remove();
+
+      stopTypingTimer();
+    }
+
+    async function stopBot() {
+      stopRequested = true;
+      isBotTyping = false;
+      currentRequestId++;
+
+      stopTypingTimer();
+
+      if (activeController) {
+        activeController.abort();
+        activeController = null;
+      }
+
+      if (window.speechSynthesis) {
+        speechSynthesis.cancel();
+      }
+
+      stopListening();
+
+      const typing = document.getElementById("typing-indicator");
+      if (typing) typing.remove();
+
+      let reply = "Okay, I'll stop. You can ask another question now.😊";
+      if (currentLang !== "en") {
+        reply = await translateText(reply);
+      }
+
+      addBotMessage(reply, 10, true);
+    }
+
+    async function sendMessage() {
+      resetBotState();
+
+      currentRequestId++;
+      const requestId = currentRequestId;
+
+      if (activeController) {
+        activeController.abort();
+      }
+
+      activeController = new AbortController();
+
+      const input = document.getElementById("chatbot-input");
+      const messages = document.getElementById("chatbot-messages");
+
+      if (!input || !messages) return;
+
+      const text = input.value.trim();
+
+      if (text === "") return;
+
+      const lower = text.toLowerCase();
+
+      const badWords = [
+        "yawa", "bwisit", "buwisit", "gago", "pisti", "piste",
+        "animal", "buang", "bogo", "idiot", "stupid", "fuck", "shit", "bwicit"
+      ];
+
+      const hasBadWord = badWords.some(word => lower.includes(word));
+
+      if (hasBadWord) {
+        addUserMessage("⚠️ Message blocked");
+      } else {
+        addUserMessage(text);
+      }
+
+      input.value = "";
+      isBotTyping = true;
+
+      if (hasBadWord) {
+        const replies = [
+          "Relax lang bai. Pangutana lang og tarong, tabangan tika. 😊",
+          "Di ko kaaway nimo. Ask lang properly and I will help you. 😅",
+          "Chill lang. I can help you better if tarong imong pangutana. 😊"
+        ];
+
+        let reply = replies[Math.floor(Math.random() * replies.length)];
+
+        if (currentLang !== "en") {
+          reply = await translateText(reply);
+        }
+
+        if (requestId !== currentRequestId) return;
+
+        addBotMessage(reply, 8, false, () => {
+          isBotTyping = false;
+        });
+
+        return;
+      }
+
+      if (isGreeting(lower)) {
+        let greet = "Hello! 👋 I am Calibot! You can ask me about schools, hospitals, food, shopping, hotlines, transport, history, tourist spots, and documents in Calinan.";
+
+        if (currentLang !== "en") {
+          greet = await translateText(greet);
+        }
+
+        if (requestId !== currentRequestId) return;
+
+        addBotMessage(greet, 12, false, () => {
+          isBotTyping = false;
+        });
+
+        return;
+      }
+
+      if (isThankYou(lower)) {
+        let reply = "You are welcome! Ask me anything more about Calinan.";
+
+        if (currentLang !== "en") {
+          reply = await translateText(reply);
+        }
+
+        if (requestId !== currentRequestId) return;
+
+        addBotMessage(reply, 12, false, () => {
+          isBotTyping = false;
+        });
+
+        return;
+      }
+
+      if (isWeatherQuery(lower)) {
+        const typingDiv = addTypingMessage();
+
+        try {
+          let reply = await fetchWeatherForChat(activeController.signal);
+
+          if (requestId !== currentRequestId) return;
+          if (typingDiv) typingDiv.remove();
+
+          if (currentLang !== "en") {
+            reply = await translateText(reply);
+          }
+
+          if (requestId !== currentRequestId) return;
+
+          addBotMessage(reply, 8, false, () => {
+            isBotTyping = false;
+          });
+        } catch (error) {
+          if (error.name === "AbortError") {
+            isBotTyping = false;
+            return;
+          }
+        }
+
+        return;
+      }
+
+      const typingDiv = addTypingMessage();
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/search?q=${encodeURIComponent(text)}`, {
+          signal: activeController.signal
+        });
+
+        const data = await res.json();
+
+        // Handle clarification questions
+        // FIX: previously this branch skipped the requestId race-check,
+        // never removed the "Typing..." indicator, and never translated
+        // the clarifying question into Cebuano.
+        if (data.length > 0 && data[0].clarify) {
+
+          if (requestId !== currentRequestId) return;
+          if (typingDiv) typingDiv.remove();
+
+          let clarifyMsg = data[0].message;
+          if (currentLang !== "en") {
+            clarifyMsg = await translateText(clarifyMsg);
+          }
+
+          if (requestId !== currentRequestId) return;
+
+          addBotMessage(clarifyMsg, 8, false, () => {
+            isBotTyping = false;
+          });
+
+          return;
+        }
+
+        let reply = buildNaturalReply(data);
+        if (currentLang !== "en") {
+          reply = await translateText(reply);
+        }
+
+        if (requestId !== currentRequestId) return;
+
+        // FIX: the "Typing..." bubble was never removed on a successful
+        // reply, so it stayed stuck in the chat above every real answer.
+        if (typingDiv) typingDiv.remove();
+
+        addBotMessage(reply, 8, false, () => {
+          isBotTyping = false;
+        });
+
+      } catch (error) {
+        if (error.name === "AbortError") {
+          isBotTyping = false;
+          return;
+        }
+
+        if (requestId !== currentRequestId) return;
+
+        if (typingDiv) typingDiv.remove();
+
+        let errorMsg = "⚠️ Cannot connect to AI server. Make sure Python Flask is running.";
+
+        if (currentLang !== "en") {
+          errorMsg = await translateText(errorMsg);
+        }
+
+        addBotMessage(errorMsg, 12, false, () => {
+          isBotTyping = false;
+        });
+      }
+    }
+
+    function quickAsk(button) {
+      const input = document.getElementById("chatbot-input");
+      if (!input || !button) return;
+
+      const query = currentLang === "ceb" ? button.dataset.queryCeb : button.dataset.queryEn;
+      input.value = query || button.dataset.queryEn;
+      sendMessage();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      updateAuthUI();
+
+      const savedLang = localStorage.getItem("siteLang") || "en";
+      currentLang = savedLang;
+
+      const switcher = document.getElementById("languageSwitcher");
+      if (switcher) switcher.value = savedLang;
+
+      fixCebuanoLabels();
+
+      if (savedLang !== "en") {
+        translatePage(savedLang);
+      }
+
+      const input = document.getElementById("chatbot-input");
+
+      if (input) {
+        input.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+      }
+
+      fixCebuanoLabels();
+      updateVoiceButton();
+    });
+  </script>
+
+
+<script src="js/weather.js"></script>
+
+
+
+<footer class="copyright">
+  <p>
+    © 2026 MyCalinan. All Rights Reserved | Designed & Developed by Caldi, Saludo and Palermo </p>
+  <p>
+  <a href="Terms-Conditions.html" class="Terms-Conditions">MyCalinan Website terms and conditions of use.</a> 
+   <a href="Privacy-Notice.html" class="Privacy-Notice">Privacy Notice</a>
+  </p>
+</footer>
+
+<script>
+
+async function loadAnnouncements(){
+
+    try{
+
+        const response =
+            await fetch("http://localhost:5000/api/announcements");
+
+        const data = await response.json();
+
+        const container =
+            document.getElementById("announcementContainer");
+
+        container.innerHTML = "";
+
+        data.forEach(item => {
+
+            container.innerHTML += `
+            <div class="announcement-card">
+
+                <img src="${item.image}"
+                     alt="${item.title}">
+
+                <div class="announcement-content">
+
+                    <div class="announcement-header">
+
+                        <span class="announcement-tag">
+                            ${item.category}
+                        </span>
+
+                        <span class="announcement-date">
+                            ${item.date}
+                        </span>
+
+                    </div>
+
+                    <h3>${item.title}</h3>
+
+                    <p>${item.description}</p>
+
+                </div>
+
+            </div>
+            `;
+        });
+
+    }
+    catch(error){
+        console.error(error);
+    }
+}
+
+loadAnnouncements();
+
+
+async function loadEvents() {
+
+    try {
+
+        const response =
+            await fetch("http://localhost:5000/api/events");
+
+        const data = await response.json();
+
+        const container =
+            document.getElementById("eventsContainer");
+
+        container.innerHTML = "";
+
+        data.forEach(item => {
+
+            container.innerHTML += `
+            <div class="announcement-card">
+
+                <img src="${item.image}"
+                     alt="${item.title}">
+
+                <div class="announcement-content">
+
+                    <div class="announcement-header">
+
+                        <span class="announcement-tag">
+                            Event
+                        </span>
+
+                        <span class="announcement-date">
+                            ${item.date}
+                        </span>
+
+                    </div>
+
+                    <h3>${item.title}</h3>
+
+                    <p>${item.description}</p>
+
+                </div>
+
+            </div>
+            `;
+        });
+
+    }
+    catch(error){
+        console.error("Event Error:", error);
+    }
+}
+
+loadEvents();
+</script>
+
+</body>
+
+</html>

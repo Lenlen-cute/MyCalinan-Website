@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Events & Festivals | MyCalinan</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f7f9;
+    color:#333;
+}
+
+header{
+    background:#1a5c38;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+}
+
+header h1{
+    font-size:2rem;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.stat-card i{
+    color:#1a5c38;
+    font-size:1.4rem;
+    margin-bottom:8px;
+}
+
+.stat-card h2{
+    color:#1a5c38;
+    margin-bottom:4px;
+}
+
+.events-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card-body{
+    padding:18px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:600;
+    margin-bottom:12px;
+}
+
+.badge.event{
+    background:#e3f0ff;
+    color:#1a56a0;
+}
+
+.badge.festival{
+    background:#fde8f5;
+    color:#8b1a6b;
+}
+
+.badge.program{
+    background:#d4edda;
+    color:#155724;
+}
+
+.badge.advisory{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.badge.general{
+    background:#e8f5ee;
+    color:#1a5c38;
+}
+
+.title{
+    font-size:1.15rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.meta{
+    color:#666;
+    font-size:.9rem;
+    margin-bottom:10px;
+}
+
+.meta i{
+    width:18px;
+    color:#1a5c38;
+}
+
+.description{
+    line-height:1.6;
+    color:#555;
+}
+
+.loading,
+.empty{
+    text-align:center;
+    padding:60px;
+    color:#777;
+}
+.back-btn{
+    position:absolute;
+    left:20px;
+    top:20px;
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,.15);
+    padding:10px 16px;
+    border-radius:8px;
+    transition:.2s;
+    font-size:.9rem;
+}
+
+.back-btn:hover{
+    background:rgba(255,255,255,.25);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <a href="HomePage.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </a>
+
+    <h1>
+        <i class="fas fa-calendar-alt"></i>
+        Events & Festivals
+    </h1>
+
+</header>
+
+<div class="container">
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h2 id="totalEvents">0</h2>
+            <p>Total Listings</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-calendar-day"></i>
+            <h2 id="eventCount">0</h2>
+            <p>Events</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-mask"></i>
+            <h2 id="festivalCount">0</h2>
+            <p>Festivals</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-exclamation-circle"></i>
+            <h2 id="advisoryCount">0</h2>
+            <p>Advisories</p>
+        </div>
+
+    </div>
+
+    <div id="eventsContainer">
+
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Loading events...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const API_URL = "http://localhost:5000/api/events";
+
+function escapeHtml(text){
+    if(text == null) return "";
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function getCategoryClass(category){
+
+    const c = (category || "").toLowerCase();
+
+    if(c.includes("event")) return "event";
+    if(c.includes("festival")) return "festival";
+    if(c.includes("program")) return "program";
+    if(c.includes("advisory")) return "advisory";
+
+    return "general";
+}
+
+async function loadEvents(){
+
+    const container = document.getElementById("eventsContainer");
+
+    try{
+
+        const response = await fetch(API_URL);
+
+        if(!response.ok){
+            throw new Error("Server error");
+        }
+
+        const events = await response.json();
+
+        if(!events.length){
+
+            container.innerHTML = `
+                <div class="empty">
+                    No events available.
+                </div>
+            `;
+
+            return;
+        }
+
+        let eventCount = 0;
+        let festivalCount = 0;
+        let advisoryCount = 0;
+
+        let html = `<div class="events-grid">`;
+
+        events.forEach(item => {
+
+            const category = item.category || "General";
+            const lower = category.toLowerCase();
+
+            if(lower.includes("event")) eventCount++;
+            if(lower.includes("festival")) festivalCount++;
+            if(lower.includes("advisory")) advisoryCount++;
+
+            html += `
+            <div class="card">
+
+                ${
+                    item.image
+                    ? `<img src="${item.image}"
+                        alt="${escapeHtml(item.name || item.title)}">`
+                    : ""
+                }
+
+                <div class="card-body">
+
+                    <span class="badge ${getCategoryClass(category)}">
+                        ${escapeHtml(category)}
+                    </span>
+
+                    <div class="title">
+                        ${escapeHtml(item.name || item.title || "Untitled Event")}
+                    </div>
+
+                    <div class="meta">
+                        <p>
+                            <i class="fas fa-calendar"></i>
+                            ${escapeHtml(item.date || "No date")}
+                        </p>
+                    </div>
+
+                    ${
+                        item.location
+                        ? `
+                        <div class="meta">
+                            <p>
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${escapeHtml(item.location)}
+                            </p>
+                        </div>
+                        `
+                        : ""
+                    }
+
+                    <div class="description">
+                        ${escapeHtml(item.description || "")}
+                    </div>
+
+                </div>
+
+            </div>
+            `;
+        });
+
+        html += `</div>`;
+
+        container.innerHTML = html;
+
+        document.getElementById("totalEvents").textContent =
+            events.length;
+
+        document.getElementById("eventCount").textContent =
+            eventCount;
+
+        document.getElementById("festivalCount").textContent =
+            festivalCount;
+
+        document.getElementById("advisoryCount").textContent =
+            advisoryCount;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty">
+                ⚠️ Unable to load events.<br>
+                Make sure Flask is running on port 5000.
+            </div>
+        `;
+    }
+}
+
+loadEvents();
+
+setInterval(loadEvents, 30000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+<title>Map Services | MyCalinan</title>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+
+:root{
+    --green-900:#1f4d33;
+    --green-800:#2b6b45;
+    --green-700:#3c8a5d;
+    --green-600:#5aa77a;
+    --green-soft:#eaf6ef;
+    --bg:#f7faf8;
+    --white:#fff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    background:var(--bg);
+}
+
+/* HEADER */
+
+.header{
+    background:#368659;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.header h1{
+    font-size:35px;
+}
+
+.header p{
+    margin-top:10px;
+}
+
+/* SEARCH */
+
+.search-section{
+    padding:25px;
+    text-align:center;
+}
+
+.search-section input{
+    width:350px;
+    max-width:90%;
+    padding:12px;
+    border-radius:30px;
+    border:1px solid #ccc;
+}
+
+.search-section button{
+    padding:12px 20px;
+    border:none;
+    border-radius:30px;
+    background:#2b6b45;
+    color:white;
+    cursor:pointer;
+}
+
+/* CATEGORY */
+
+.categories{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.categories button{
+    border:none;
+    padding:10px 18px;
+    border-radius:30px;
+    background:#5aa77a;
+    color:white;
+    cursor:pointer;
+}
+
+/* MAP */
+
+#map{
+    height:600px;
+    width:95%;
+    margin:auto;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+/* GRID */
+
+.info-grid{
+    width:95%;
+    margin:30px auto;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:#2b6b45;
+    margin-bottom:15px;
+}
+
+.card p{
+    margin-bottom:8px;
+}
+
+/* LIST */
+
+ul{
+    list-style:none;
+}
+
+ul li{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+/* ROUTE BUTTON */
+
+.route-btn{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+
+    background:#2b6b45;
+    color:white;
+
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* EMERGENCY */
+
+.emergency button{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#d9534f;
+    color:white;
+
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Map Services</h1>
+    <p>Explore Calinan with GPS, Navigation and Nearby Places</p>
+</div>
+
+<div class="search-section">
+
+    <input
+    type="text"
+    placeholder="Search destination...">
+
+    <button>
+        Search
+    </button>
+
+</div>
+
+<div class="categories">
+
+<button>Tourist Spots</button>
+<button>Hospitals</button>
+<button>Schools</button>
+<button>Restaurants</button>
+<button>Police Stations</button>
+<button>Government Offices</button>
+
+</div>
+
+<div id="map"></div>
+
+<div class="info-grid">
+
+    <!-- GPS -->
+
+    <div class="card">
+
+        <h3>Your Location</h3>
+
+        <p>
+            Latitude:
+            <span id="lat">Loading...</span>
+        </p>
+
+        <p>
+            Longitude:
+            <span id="lng">Loading...</span>
+        </p>
+
+    </div>
+
+    <!-- Nearby Places -->
+
+    <div class="card">
+
+        <h3>Nearby Places</h3>
+
+        <ul>
+            <li>Philippine Eagle Center</li>
+            <li>Malagos Garden Resort</li>
+            <li>Calinan Public Market</li>
+            <li>Bamboo Sanctuary</li>
+        </ul>
+
+    </div>
+
+    <!-- Route -->
+
+    <div class="card">
+
+        <h3>Route Planning</h3>
+
+        <select style="width:100%;padding:10px;">
+
+            <option>
+                Philippine Eagle Center
+            </option>
+
+            <option>
+                Malagos Garden Resort
+            </option>
+
+            <option>
+                Calinan Public Market
+            </option>
+
+        </select>
+
+        <button class="route-btn">
+            Get Directions
+        </button>
+
+    </div>
+
+    <!-- Emergency -->
+
+    <div class="card emergency">
+
+        <h3>Emergency Services</h3>
+
+        <button>
+            Nearest Hospital
+        </button>
+
+        <button>
+            Nearest Police Station
+        </button>
+
+        <button>
+            Nearest Fire Station
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+// Initialize Map
+
+const map = L.map('map').setView(
+[7.1800,125.4550],
+13
+);
+
+L.tileLayer(
+'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+maxZoom:19,
+attribution:'© OpenStreetMap'
+}
+).addTo(map);
+
+// Sample Tourist Spot
+
+L.marker([7.187,125.456])
+.addTo(map)
+.bindPopup("Philippine Eagle Center");
+
+// User GPS
+
+navigator.geolocation.getCurrentPosition(
+
+(position)=>{
+
+const lat = position.coords.latitude;
+const lng = position.coords.longitude;
+
+document.getElementById("lat").innerText = lat.toFixed(6);
+document.getElementById("lng").innerText = lng.toFixed(6);
+
+L.marker([lat,lng])
+.addTo(map)
+.bindPopup("Your Current Location")
+.openPopup();
+
+map.setView([lat,lng],15);
+
+},
+
+(error)=>{
+alert("Location permission denied.");
+}
+
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance – Calinan</title>
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="style/Finance.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <a href="HomePage.html" class="back-btn">← Home</a>
+    <h1 class="logo">Finance</h1>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search bank, remittance, pawnshop…" autocomplete="off">
+    </div>
+    <button id="locate-btn" title="Find my location">
+      <div class="spinner"></div>
+      <span class="btn-label">📍 Locate Me</span>
+    </button>
+  </div>
+</header>
+
+<!-- IMAGE MODAL -->
+<div class="image-modal" id="imageModal">
+  <span class="close">&times;</span>
+  <img id="modalImg" alt="Photo">
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Finance Services in Calinan</h2>
+  <p>Find banks, remittance centers, and financial institutions near you. Enable location to see distances and get directions.</p>
+  <div id="location-status">
+    <div class="loc-dot" id="loc-dot"></div>
+    <span id="loc-text">Detecting your location…</span>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="toolbar-label">Filter:</span>
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="Bank">Banks</button>
+  <button class="filter-chip" data-filter="Remittance">Remittance</button>
+  <button class="sort-btn" id="sort-btn" disabled title="Enable location first">
+    📶 Sort by nearest
+  </button>
+</div>
+<div id="result-count"></div>
+
+<!-- CARDS -->
+<section class="container" id="cards-container">
+
+  <!-- CARD 1 -->
+  <div class="card"
+       data-name="BDO Calinan"
+       data-category="Bank"
+       data-lat="7.1876" data-lng="125.4524"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="BDO+Calinan+WTKC+Realty+Bldg+Davao+Bukidnon+National+Highway+Calinan+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/BDO.png" alt="BDO Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=BDO+Calinan+WTKC+Realty+Bldg+Davao+Bukidnon+National+Highway+Calinan+Davao+City+Davao+del+Sur" target="_blank">BDO Calinan</a></h3>
+      <p>WTKC Realty Bldg., Davao–Bukidnon National Highway, Calinan — Branch of Banco de Oro Unibank, one of the largest banks in the Philippines, serving retail and commercial banking needs in the Calinan district.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card"
+       data-name="BDO Network Bank"
+       data-category="Bank"
+       data-lat="7.1850" data-lng="125.4498"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="BDO+Network+Bank+ONB+Calinan+Building+Davao+Buda+National+Hwy+Calinan+District+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/BDO Network Bank.jpg" alt="BDO Network Bank"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=BDO+Network+Bank+ONB+Calinan+Building+Davao+Buda+National+Hwy+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">BDO Network Bank</a></h3>
+      <p>ONB Calinan Building, Davao–Buda National Hwy — Formerly One Network Bank (ONB), serving farmers, employees, small businesses, and residents with savings, loans, ATM access, and money transfers.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card"
+       data-name="PNB"
+       data-category="Bank"
+       data-lat="7.1882" data-lng="125.4548"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="PNB+Davao+Calinan+LTH+Building+Davao+Bukidnon+Hwy+Calinan+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/PNB.png" alt="PNB"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=PNB+Davao+Calinan+LTH+Building+Davao+Bukidnon+Hwy+Calinan+Davao+City+Davao+del+Sur" target="_blank">PNB</a></h3>
+      <p>LTH Building, Davao–Bukidnon Hwy, Calinan — Full-service branch of the Philippine National Bank providing a range of banking and financial services to residents and businesses along the highway corridor.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card"
+       data-name="ChinaBank"
+       data-category="Bank"
+       data-lat="7.1888" data-lng="125.4552"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="China+Bank+Honesto+Garcia+St+Calinan+Davao+Buda+National+Hwy+Calinan+District+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/ChinaBank1.png" alt="ChinaBank"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=China+Bank+Honesto+Garcia+St+Calinan+Davao+Buda+National+Hwy+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">ChinaBank</a></h3>
+      <p>Honesto Garcia St., Calinan District — Branch of China Banking Corporation, one of the Philippines' oldest private universal banks, serving individuals, businesses, and agricultural clients in the area.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="card"
+       data-name="Landbank"
+       data-category="Bank"
+       data-lat="7.1878" data-lng="125.4546"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="Landbank+Calinan+Purok+13+Palarca+Street+Calinan+Poblacion+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/Landbank1.png" alt="Landbank"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Landbank+Calinan+Purok+13+Palarca+Street+Calinan+Poblacion+Davao+City+Davao+del+Sur" target="_blank">Landbank</a></h3>
+      <p>Purok 13, Palarca Street, Calinan Poblacion — Government bank branch offering savings accounts, ATM, loans, fund transfers, and government-related transactions for residents, farmers, and pensioners.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card"
+       data-name="Landbank"
+       data-category="Bank"
+       data-lat="7.1879" data-lng="125.4547"
+       data-tag="Bank"
+       data-pin="🏦"
+       data-maps-query="Landbank+Calinan+Purok+13+Palarca+Street+Calinan+Poblacion+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/Landbank2.jpg" alt="Landbank"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Landbank+Calinan+Purok+13+Palarca+Street+Calinan+Poblacion+Davao+City+Davao+del+Sur" target="_blank">Landbank</a></h3>
+      <p>Purok 13, Palarca Street, Calinan Poblacion — Convenient financial access for the Calinan community without traveling to downtown Davao, with full banking services and government transaction support.</p>
+      <span class="tag">Bank</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 7 -->
+  <div class="card"
+       data-name="M Lhuillier"
+       data-category="Remittance"
+       data-lat="7.1870" data-lng="125.4512"
+       data-tag="Remittance Center"
+       data-pin="💸"
+       data-maps-query="M+Lhuillier+Calinan+Davao+Bukidnon+Hwy+Calinan+District+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/M Lhuillier.jpg" alt="M Lhuillier"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=M+Lhuillier+Calinan+Davao+Bukidnon+Hwy+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">M Lhuillier</a></h3>
+      <p>Davao–Bukidnon Highway, Calinan — Branch of M Lhuillier Financial Services providing quick-access pawning, money remittance, and financial solutions for the local community.</p>
+      <span class="tag">Remittance Center</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 8 -->
+  <div class="card"
+       data-name="Palawan Pawnshop"
+       data-category="Remittance"
+       data-lat="7.1886" data-lng="125.4560"
+       data-tag="Remittance Center"
+       data-pin="💸"
+       data-maps-query="Palawan+Pawnshop+Villafuerte+St+Calinan+District+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/Palawan Pawnshop.png" alt="Palawan Pawnshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Palawan+Pawnshop+Villafuerte+St+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Palawan Pawnshop</a></h3>
+      <p>Villafuerte St., Calinan — Palawan Express branch providing pawnbroking, money remittance, and payment solutions for residents and businesses in the Calinan Poblacion area.</p>
+      <span class="tag">Remittance Center</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 9 -->
+  <div class="card"
+       data-name="Palawan Pawnshop"
+       data-category="Remittance"
+       data-lat="7.1865" data-lng="125.4518"
+       data-tag="Remittance Center"
+       data-pin="💸"
+       data-maps-query="Palawan+Pawnshop+Davao+Bukidnon+Hwy+Calinan+Calinan+District+Davao+City+Davao+del+Sur">
+    <div class="card-image"><img src="image/Palawan Pawnshop1.png" alt="Palawan Pawnshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Palawan+Pawnshop+Davao+Bukidnon+Hwy+Calinan+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Palawan Pawnshop</a></h3>
+      <p>Davao–Bukidnon Highway, Calinan — Accessible pawnbroking, money remittance, and payment services for residents and businesses along the main highway in Calinan District.</p>
+      <span class="tag">Remittance Center</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty-state">
+    <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#2b6b45" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+    </svg>
+    <h3>No results found</h3>
+    <p>Try a different search term or filter.</p>
+  </div>
+
+</section>
+
+<!-- SPACER -->
+<div id="map-panel-spacer"></div>
+
+<!-- MAP PANEL -->
+<div id="map-panel">
+  <div id="map-panel-header">
+    <div>
+      <div id="map-panel-title">📍 Map</div>
+      <div id="map-panel-subtitle"></div>
+    </div>
+    <div id="map-panel-actions">
+      <a id="map-directions-link" href="#" target="_blank">🧭 Open in Google Maps</a>
+      <button id="map-panel-close" onclick="closeMap()" title="Close map">✕</button>
+    </div>
+  </div>
+  <div id="finance-map"></div>
+  <div id="route-info">
+    <span>🛣️ Road distance: <strong id="route-dist">–</strong></span>
+    <span>⏱️ Estimated time: <strong id="route-time">–</strong></span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  /* ══════════════════════════════════════════
+     STATE
+  ══════════════════════════════════════════ */
+  let userLat = null, userLng = null;
+  let watchId = null;
+  let financeMap = null, mapReady = false;
+  let userMarker = null;
+  let activeMarker = null;
+  let routeLayer = null;
+  let activeFilter = 'all';
+  let sortByNearest = false;
+
+  const allCards = Array.from(document.querySelectorAll('.card:not(#empty-state)'));
+
+  /* ══════════════════════════════════════════
+     IMAGE MODAL
+  ══════════════════════════════════════════ */
+  const modal    = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  document.querySelectorAll('.card-image img').forEach(img => {
+    img.addEventListener('click', () => {
+      modal.classList.add('active');
+      modalImg.src = img.src;
+    });
+  });
+  modal.addEventListener('click', e => { if (e.target !== modalImg) modal.classList.remove('active'); });
+  document.querySelector('.close').addEventListener('click', () => modal.classList.remove('active'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('active'); });
+
+  /* ══════════════════════════════════════════
+     TOAST
+  ══════════════════════════════════════════ */
+  function showToast(msg, duration = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  /* ══════════════════════════════════════════
+     HAVERSINE DISTANCE (km)
+  ══════════════════════════════════════════ */
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function formatDist(km) {
+    if (km < 1) return Math.round(km * 1000) + ' m away';
+    return km.toFixed(1) + ' km away';
+  }
+
+  /* ══════════════════════════════════════════
+     LOCATION
+  ══════════════════════════════════════════ */
+  const locBtn    = document.getElementById('locate-btn');
+  const locStatus = document.getElementById('location-status');
+  const locDot    = document.getElementById('loc-dot');
+  const locText   = document.getElementById('loc-text');
+  const sortBtn   = document.getElementById('sort-btn');
+
+  locBtn.addEventListener('click', startLocating);
+
+  function startLocating() {
+    if (!navigator.geolocation) {
+      showToast('⚠️ Geolocation is not supported by your browser.');
+      return;
+    }
+    locBtn.classList.add('loading');
+    locBtn.disabled = true;
+    locStatus.classList.add('visible');
+    locText.textContent = 'Detecting your location…';
+
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+    watchId = navigator.geolocation.watchPosition(
+      onLocationSuccess,
+      onLocationError,
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    );
+  }
+
+  function onLocationSuccess(pos) {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+    locBtn.querySelector('.btn-label').textContent = '📍 Tracking';
+
+    locDot.classList.remove('loc-err');
+    locText.textContent = `Location active · ±${Math.round(pos.coords.accuracy)} m accuracy`;
+
+    sortBtn.disabled = false;
+
+    updateAllDistances();
+    updateUserMarker();
+  }
+
+  function onLocationError(err) {
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+
+    locDot.classList.add('loc-err');
+    const msgs = {
+      1: 'Location access denied. Please allow it in your browser settings.',
+      2: 'Location unavailable. Check your GPS or network.',
+      3: 'Location request timed out. Try again.'
+    };
+    locText.textContent = msgs[err.code] || 'Could not get location.';
+    showToast('⚠️ ' + locText.textContent);
+  }
+
+  function updateAllDistances() {
+    if (userLat === null) return;
+    allCards.forEach(card => {
+      const lat = parseFloat(card.dataset.lat);
+      const lng = parseFloat(card.dataset.lng);
+      const km  = haversine(userLat, userLng, lat, lng);
+      card.dataset.dist = km;
+
+      const badge = card.querySelector('.dist-badge');
+      badge.querySelector('.dist-text').textContent = formatDist(km);
+      badge.classList.add('visible');
+
+      card.querySelector('.route-btn').classList.add('visible');
+    });
+
+    if (sortByNearest) applySortAndFilter();
+  }
+
+  function updateUserMarker() {
+    if (!mapReady || userLat === null) return;
+    if (userMarker) financeMap.removeLayer(userMarker);
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="user-dot-wrapper">
+               <div class="user-dot-ring"></div>
+               <div class="user-dot-inner"></div>
+             </div>`,
+      iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -14]
+    });
+
+    userMarker = L.marker([userLat, userLng], { icon })
+      .addTo(financeMap)
+      .bindPopup('<div class="user-popup"><h4>📍 Your Location</h4><p>You are here</p></div>');
+  }
+
+  /* ══════════════════════════════════════════
+     SEARCH + FILTER + SORT
+  ══════════════════════════════════════════ */
+  const searchInput = document.getElementById('searchInput');
+
+  searchInput.addEventListener('input', applySortAndFilter);
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      applySortAndFilter();
+    });
+  });
+
+  sortBtn.addEventListener('click', () => {
+    if (userLat === null) return;
+    sortByNearest = !sortByNearest;
+    sortBtn.classList.toggle('active', sortByNearest);
+    sortBtn.textContent = sortByNearest ? '✅ Sorted by nearest' : '📶 Sort by nearest';
+    applySortAndFilter();
+  });
+
+  function applySortAndFilter() {
+    const query = searchInput.value.toLowerCase().trim();
+    const emptyState = document.getElementById('empty-state');
+
+    let visibleCards = allCards.filter(card => {
+      const name     = (card.dataset.name || '').toLowerCase();
+      const category = (card.dataset.category || '').toLowerCase();
+      const tag      = (card.dataset.tag || '').toLowerCase();
+
+      const matchSearch = !query || name.includes(query) || category.includes(query) || tag.includes(query);
+      const matchFilter = activeFilter === 'all' || category.includes(activeFilter.toLowerCase());
+      return matchSearch && matchFilter;
+    });
+
+    if (sortByNearest && userLat !== null) {
+      visibleCards.sort((a, b) => parseFloat(a.dataset.dist || 99999) - parseFloat(b.dataset.dist || 99999));
+    }
+
+    allCards.forEach(card => {
+      card.classList.add('hidden');
+      card.style.order = '';
+    });
+
+    visibleCards.forEach((card, i) => {
+      card.classList.remove('hidden');
+      card.style.order = i;
+    });
+
+    const count = visibleCards.length;
+    document.getElementById('result-count').textContent =
+      count > 0 ? `Showing ${count} of ${allCards.length} locations` : '';
+
+    emptyState.style.display = count === 0 ? 'flex' : 'none';
+  }
+
+  /* ══════════════════════════════════════════
+     MAP
+  ══════════════════════════════════════════ */
+  function initMap() {
+    if (mapReady) return;
+    financeMap = L.map('finance-map', { zoomControl: true }).setView([7.1876, 125.4530], 15);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(financeMap);
+    mapReady = true;
+    if (userLat !== null) updateUserMarker();
+  }
+
+  function showOnMap(btn) {
+    const card  = btn.closest('.card');
+    const lat   = parseFloat(card.dataset.lat);
+    const lng   = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+    const tag   = card.dataset.tag;
+    const query = card.dataset.mapsQuery;
+    const pin   = card.dataset.pin || '📍';
+
+    const panel    = document.getElementById('map-panel');
+    const spacer   = document.getElementById('map-panel-spacer');
+    const title    = document.getElementById('map-panel-title');
+    const subtitle = document.getElementById('map-panel-subtitle');
+    const dirLink  = document.getElementById('map-directions-link');
+    const routeInfo = document.getElementById('route-info');
+
+    panel.classList.add('active');
+    spacer.classList.add('active');
+    title.textContent = '📍 ' + name;
+    subtitle.textContent = tag;
+
+    dirLink.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    dirLink.classList.add('visible');
+    routeInfo.classList.remove('visible');
+
+    initMap();
+
+    if (activeMarker) financeMap.removeLayer(activeMarker);
+    if (routeLayer) { financeMap.removeLayer(routeLayer); routeLayer = null; }
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:#2b6b45; color:white; font-size:16px;
+        width:36px; height:36px; border-radius:50% 50% 50% 0;
+        transform:rotate(-45deg); display:flex; align-items:center; justify-content:center;
+        box-shadow:0 3px 10px rgba(0,0,0,0.3); border:2px solid white;">
+        <span style="transform:rotate(45deg)">${pin}</span></div>`,
+      iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -40]
+    });
+
+    const distText = userLat !== null
+      ? `<br><strong>${formatDist(haversine(userLat, userLng, lat, lng))}</strong> straight-line from you`
+      : '';
+
+    activeMarker = L.marker([lat, lng], { icon })
+      .addTo(financeMap)
+      .bindPopup(`
+        <div class="finance-popup">
+          <h4>${name}</h4>
+          <div class="popup-tag">${tag}</div>
+          <p>${distText}</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=${query}" target="_blank">🧭 Open in Google Maps</a>
+        </div>`, { maxWidth: 250 })
+      .openPopup();
+
+    financeMap.flyTo([lat, lng], 17, { duration: 1.0 });
+    setTimeout(() => financeMap.invalidateSize(), 320);
+    document.getElementById('map-panel').scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  /* ══════════════════════════════════════════
+     ROUTING via OSRM
+  ══════════════════════════════════════════ */
+  function getRoute(btn) {
+    if (userLat === null) {
+      showToast('📍 Enable location first to get directions.');
+      return;
+    }
+
+    const card  = btn.closest('.card');
+    const cLat  = parseFloat(card.dataset.lat);
+    const cLng  = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+
+    btn.classList.add('loading');
+    btn.textContent = '⏳ Loading route…';
+
+    showOnMap(card.querySelector('.view-map-btn'));
+
+    const url = `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${cLng},${cLat}?overview=full&geometries=geojson`;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.routes || data.routes.length === 0) throw new Error('No route found');
+
+        const route   = data.routes[0];
+        const coords  = route.geometry.coordinates.map(c => [c[1], c[0]]);
+        const distKm  = (route.distance / 1000).toFixed(1);
+        const mins    = Math.round(route.duration / 60);
+        const timeStr = mins < 60 ? `${mins} min` : `${Math.floor(mins/60)}h ${mins%60}m`;
+
+        initMap();
+        if (routeLayer) financeMap.removeLayer(routeLayer);
+
+        routeLayer = L.polyline(coords, {
+          color: '#2b6b45', weight: 5, opacity: 0.85,
+          lineCap: 'round', lineJoin: 'round'
+        }).addTo(financeMap);
+
+        financeMap.fitBounds(routeLayer.getBounds(), { padding: [40, 40] });
+
+        document.getElementById('route-dist').textContent = distKm + ' km';
+        document.getElementById('route-time').textContent = timeStr;
+        document.getElementById('route-info').classList.add('visible');
+
+        showToast(`🧭 Route to ${name}: ${distKm} km · ${timeStr}`);
+
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+      })
+      .catch(() => {
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+        showToast('⚠️ Could not load route. Check your internet connection.');
+      });
+  }
+
+  function closeMap() {
+    document.getElementById('map-panel').classList.remove('active');
+    document.getElementById('map-panel-spacer').classList.remove('active');
+    document.getElementById('route-info').classList.remove('visible');
+    if (routeLayer && mapReady) { financeMap.removeLayer(routeLayer); routeLayer = null; }
+  }
+
+  /* ══════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════ */
+  applySortAndFilter();
+</script>
+</body>
+</html>
