@@ -48,8 +48,7 @@
 
                         <button
                             type="button"
-                            class="show-password"
-                            onclick="togglePassword()">
+                            class="show-password">
                             Show
                         </button>
                     </div>
@@ -67,105 +66,17 @@
                 <div class="footer-text">
                     Authorized Administrators Only
                 </div>
-                 <!-- Home link sits inside the card, separated by a subtle divider -->
-            <div class="home-link">
-                <a href="HomePage.html" class="home-btn">Back to MyCalinan</a>
-            </div>
+
+                <div class="home-link">
+                    <a href="HomePage.html" class="home-btn">Back to MyCalinan</a>
+                </div>
 
             </form>
-            
-</form>
 
-
-    </div>
-</div>
         </div>
     </div>
 
-<script>
-    // Point this at wherever the Flask API actually runs.
-    const API_BASE_URL = "http://localhost:5000";
-
-    function togglePassword() {
-        const password = document.getElementById("password");
-        const btn = document.querySelector(".show-password");
-
-        if (password.type === "password") {
-            password.type = "text";
-            btn.textContent = "Hide";
-        } else {
-            password.type = "password";
-            btn.textContent = "Show";
-        }
-    }
-
-    function showLoginError(message) {
-        const errorBox = document.getElementById("login-error");
-        if (!errorBox) return;
-        errorBox.textContent = message;
-        errorBox.style.display = "block";
-    }
-
-    function hideLoginError() {
-        const errorBox = document.getElementById("login-error");
-        if (!errorBox) return;
-        errorBox.style.display = "none";
-    }
-
-    function storeSession(remember, payload) {
-        // "Remember Me" persists the session across browser restarts
-        // (localStorage); unchecked keeps it only for the current tab
-        // session (sessionStorage).
-        const storage = remember ? localStorage : sessionStorage;
-        storage.setItem("mycalinan_admin_token", payload.token);
-        storage.setItem("mycalinan_admin_username", payload.username);
-        storage.setItem("mycalinan_admin_role", payload.role);
-    }
-
-    document.getElementById("admin-login-form").addEventListener("submit", async function (e) {
-        e.preventDefault();
-        hideLoginError();
-
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value;
-        const remember = document.getElementById("remember").checked;
-        const submitBtn = document.getElementById("login-submit-btn");
-
-        if (!username || !password) {
-            showLoginError("Please enter both username and password.");
-            return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Signing in...";
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                showLoginError(data.error || "Login failed. Please try again.");
-                return;
-            }
-
-            storeSession(remember, data);
-
-            // Redirect only after the credentials have actually been verified.
-            window.location.href = "Admin-Dashboard.html";
-
-        } catch (err) {
-            console.error("Admin login error:", err);
-            showLoginError("Cannot connect to the server. Make sure the API is running.");
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Sign In";
-        }
-    });
-</script>
+    <!-- Link to compiled JavaScript -->
+    <script src="js/admin-login.js" defer></script>
 </body>
 </html>
