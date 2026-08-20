@@ -296,57 +296,7 @@ ul li{
 
 </div>
 
-<script>
-
-// Initialize Map
-
-const map = L.map('map').setView(
-[7.1800,125.4550],
-13
-);
-
-L.tileLayer(
-'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-{
-maxZoom:19,
-attribution:'© OpenStreetMap'
-}
-).addTo(map);
-
-// Sample Tourist Spot
-
-L.marker([7.187,125.456])
-.addTo(map)
-.bindPopup("Philippine Eagle Center");
-
-// User GPS
-
-navigator.geolocation.getCurrentPosition(
-
-(position)=>{
-
-const lat = position.coords.latitude;
-const lng = position.coords.longitude;
-
-document.getElementById("lat").innerText = lat.toFixed(6);
-document.getElementById("lng").innerText = lng.toFixed(6);
-
-L.marker([lat,lng])
-.addTo(map)
-.bindPopup("Your Current Location")
-.openPopup();
-
-map.setView([lat,lng],15);
-
-},
-
-(error)=>{
-alert("Location permission denied.");
-}
-
-);
-
-</script>
+<script src="dist/map-services.js"></script>
 
 </body>
 </html>
