@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyCalinan</title>
+  <link rel="stylesheet" href="style/HomePage.css">
+  <link rel="stylesheet" href="style/Chatbot.css">
+
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <div class="left">
+      <div class="env no-translate">
+        <select id="languageSwitcher" onchange="changeLanguage(this.value)">
+          <option value="en">ENG</option>
+          <option value="ceb">CEB</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="center no-translate">
+      <h1 class="logo"  >
+        <img src="image/CALINAN LOGO.png" class="logo-img" alt="Logo">
+        <span class="logo-text">MyCalinan</span>
+        <img src="image/PCT LOGO (1).png" class="logo-img" alt="Logo">
+      </h1>
+    </div>
+
+
+<div class="auth-area no-translate" id="authArea">
+    <button class="login-btn" id="authBtn" onclick="window.location.href='Admin-login.html'">Login</button>
+    <div class="admin-dropdown-content" id="adminDropdown">
+      <div class="admin-dropdown-header" id="adminDropdownHeader">Signed in as Admin</div>
+      <a href="Admin-Announcements.html">📊 Admin Dashboard</a>
+      <a href="#" class="logout-link" onclick="adminLogout(event)">🚪 Log Out</a>
+    </div>
+</div>
+
+
+  </header>
+
+  <!-- MENU -->
+  <nav class="menu">
+    <ul>
+      <li class="dropdown">
+        <button onclick="toggleMenu('exploreMenu')">Explore ▾</button>
+        <div id="exploreMenu" class="dropdown-content">
+          <a href="Health.html">Health</a>
+          <a href="Education.html">Education</a>
+          <a href="Transport-Utilities.html">Transport & Utilities</a>
+          <a href="Finance.html">Finance</a>
+          <a href="Community.html">Community</a>
+          <a href="Life-Style.html">Lifestyle</a>
+          <a href="Shopping-Store.html">Shopping & Stores</a>
+          <a href="Food-Dining.html">Food & Dining</a>
+          <a href="Hotspots.html">Hotspots</a>
+        </div>
+      </li>
+
+
+
+      <li class="dropdown">
+        <button onclick="toggleMenu('mapMenu')">Map ▾</button>
+        <div id="mapMenu" class="dropdown-content">
+          <a href="Calinan-Map.html">Barangay Map</a>
+        </div>
+      </li>
+
+      <li class="dropdown">
+        <button onclick="toggleMenu('documentsMenu')">Documents ▾</button>
+        <div id="documentsMenu" class="dropdown-content">
+          <a href="Police-Clearance.html">Police Clearance</a>
+          <a href="Baranggay-Clearance.html">Barangay Clearance</a>
+          <a href="Baranggay-Certification.html">Barangay Certification</a>
+          <a href="Cedula.html">Cedula</a>
+          <a href="Postal-ID.html">Get Postal ID</a>
+        </div>
+      </li>
+
+      <li><a href="History.html">History</a></li>
+      <li><a href="Hotlines.html">Hotlines</a></li>
+      <li><a href="Announcements.html">Announcements</a></li>
+      <li><a href="Events.html">Events</a></li>
+    </ul>
+
+  </nav>
+   
+  
+
+  <!-- HERO SECTION 1-->
+  <section class="hero">
+
+    <div class="hero-box">
+      <img src="image/Calinanview.png" class="logo-img">
+    </div>
+
+    <div class="hero-text">
+      <h3>Calinan Poblacion</h3>
+
+      <p class="history-text">
+        Calinan Poblacion, located in the 3rd District of Davao City and approximately 27 kilometers
+        northwest of the city center, serves as the central barangay of Calinan District. Known as 
+        the "Fruit Basket of Davao City", it is famous for its abundant production of durian, bananas,
+         and other tropical fruits. Originally inhabited by the Bagobo tribe under the leadership of 
+         "Datu Abeng", the area began as a small settlement surrounded by forests and clear streams. 
+         In the early 1900s, migrants from various parts of the Philippines settled in Calinan, 
+         contributing to its growth and cultural diversity. The development of roads, schools, and
+          marketplaces transformed the community into a thriving agricultural and commercial center.
+           Despite facing challenges such as war and devastating fires, the people of Calinan remained 
+           resilient and continued to rebuild and progress. Today, Calinan Poblacion stands as a 
+           vibrant and progressive barangay, playing a significant role in the trade, education, 
+           and agricultural development of Davao City.
+      </p>
+    </div>
+  </section>
+  <!-- HERO SECTION 2 -->
+  <section class="hero2">
+    <div class="hero2-text">
+      <h3>Built for community growth, designed for Calinanians</h3>
+
+
+      <div class="hero2-desc">
+        <p>
+        MyCalinan is a web-based Smart Tourism and Community Information System designed to promote
+         Calinan's tourist attractions, local businesses, cultural heritage, public services,
+        and community activities through a centralized digital platform. Developed for residents,
+           visitors, and barangay officials it provides easy access to tourism information, government
+            services, community announcements, and barangay document inquiries. The system also
+             features real-time location tracking, interactive navigation, live weather updates,
+              and an AI-powered virtual assistant to enhance user experience. By bringing essential
+               information and services into one platform, MyCalinan aims to support local development,
+        strengthen community engagement, and improve accessibility within Calinan Poblacion.
+        <br><br>
+
+        With MyCalinan, you can:
+        </p>
+      <section class="photo-section">
+
+        <h2 class="section-title">Discover places</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/PhpEagleCenter.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/MalagosGarden.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Davao Bamboo Sanctuary and Ecological Park (1).png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title"> Explore via map</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Map1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Map2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Map3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+      <section class="photo-section">
+
+        <h2 class="section-title">Browse marketplace</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Brows1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Brows2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Brows3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title">Access hotlines</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/Hotlines1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/Hotlines2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/Hotlines3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="photo-section">
+
+        <h2 class="section-title">Learn history</h2>
+
+        <div class="card-container">
+
+          <!-- CARD 1 -->
+          <div class="photo-card">
+            <img src="image/History1.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="photo-card">
+            <img src="image/History2.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="photo-card">
+            <img src="image/History3.png" alt="">
+            <div class="card-text">
+            </div>
+          </div>
+
+        </div>
+      </section>
+      </div>
+    </div>
+  </section>
+
+
+    <!-- ================= EVENTS SECTION ================= -->
+<!-- COMMUNITY ANNOUNCEMENTS -->
+<section class="announcement-section">
+
+    <div class="dashboard-header">
+        <h1>Community Announcements</h1>
+        <p>
+            Stay updated with the latest activities,
+            advisories, and community programs in Calinan.
+        </p>
+    </div>
+
+    <div class="announcement-container" id="announcementContainer">
+
+        <!-- MongoDB announcements will load here -->
+
+    </div>
+
+</section>
+
+<section class="events-section">
+  <h1>Community Events</h1>
+
+  <div id="eventsContainer"> 
+  </div>
+</section>
+
+
+<section class="weather-section">
+<div class="weather-box">
+<!-- HEADER -->
+<div class="weather-header">
+    <div>
+        <h1>🌤 Smart Weather Update</h1>
+        <p>Real-time Weather Monitoring System</p>
+    </div>
+    <div class="weather-date" id="date-time">
+        Loading time...
+    </div>
+</div>
+<!-- MAIN WEATHER -->
+<div class="weather-main-card">
+    <div class="weather-icon">
+        <img id="weather-icon"
+        src=""
+        alt="Weather Icon">
+    </div>
+    <div class="temperature">
+        <h1>
+            <span id="temperature">
+            --
+            </span>
+            °C
+        </h1>
+        <h2 id="condition">
+            Loading...
+        </h2>
+        <p id="city">
+            📍 Loading location...
+        </p>
+    </div>
+    <div class="weather-summary">
+        <div class="summary-card">
+            💧
+            <h3>
+                Humidity
+            </h3>
+            <p id="humidity">
+                --
+            </p>
+        </div>
+        <div class="summary-card">
+            🌬
+            <h3>
+                Wind
+            </h3>
+            <p id="wind">
+                --
+            </p>
+        </div>
+        <div class="summary-card">
+            🌡
+            <h3>
+                Pressure
+            </h3>
+            <p id="pressure">
+                --
+            </p>
+        </div>
+    </div>
+</div>
+<!-- CONDITIONS -->
+<h2 class="weather-title">
+TODAY'S CONDITIONS
+</h2>
+<div class="condition-grid">
+<div class="condition-card">
+💧
+<h3>
+Humidity
+</h3>
+<p id="humidity-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+🌬
+<h3>
+Wind Speed
+</h3>
+<p id="wind-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+🌡
+<h3>
+Pressure
+</h3>
+<p id="pressure-condition">
+--
+</p>
+</div>
+<div class="condition-card">
+👁
+<h3>
+Visibility
+</h3>
+<p id="visibility">
+--
+</p>
+</div>
+<div class="condition-card">
+☁️
+<h3>
+Cloudiness
+</h3>
+<p id="clouds">
+--
+</p>
+</div>
+<div class="condition-card">
+🔥
+<h3>
+Feels Like
+</h3>
+<p id="feels">
+--
+</p>
+</div>
+</div>
+<!-- HOURLY -->
+<h2 class="weather-title">
+⏰ HOURLY FORECAST
+</h2>
+<div class="hourly-weather">
+<div class="hour-card">
+<b>
+10 AM
+</b>
+<h2>
+☀️
+</h2>
+<p>
+28°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+12 PM
+</b>
+<h2>
+🌤
+</h2>
+<p>
+31°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+3 PM
+</b>
+<h2>
+🌧
+</h2>
+<p>
+29°C
+</p>
+</div>
+<div class="hour-card">
+<b>
+6 PM
+</b>
+<h2>
+🌙
+</h2>
+<p>
+26°C
+</p>
+</div>
+</div>
+<!-- BOTTOM -->
+<div class="weather-bottom">
+<div class="forecast-box">
+<h3>
+📅 Tomorrow Forecast
+</h3>
+<p>
+🌦 Light Showers
+</p>
+<p>
+🌡 28°C - 31°C
+</p>
+<p>
+☔ Rain Probability: 45%
+</p>
+</div>
+<div class="weather-insight">
+🤖
+<div>
+<h3>
+Smart Weather Insight
+</h3>
+<p>
+Weather information is updated
+automatically using real-time data.
+</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+        <section class="hero2">
+          <div class="hero2-text">
+            <h3>Calinan</h3>
+
+
+            <p class="hero2-desc">
+              A peaceful and growing district of Davao City, is a place where nature and people live in harmony. It is
+              known for its rich farmland, fresh fruits, and beautiful green surroundings that show the beauty of simple
+              life. The community here is strong, kind, and always ready to help one another, making Calinan feel like a
+              true home for everyone. Life may be simple, but it is full of meaning, hope, and hard work. Every sunrise
+              brings new chances, and every day is a reminder that progress comes with unity and faith in each other.
+
+              As the philosopher Lao Tzu once said, "The journey of a thousand miles begins with a single step." This
+              reminds every Filipino that even small efforts can lead to great success. Calinan stands as a symbol of
+              patience, growth, and the strength of Filipino spirit, inspiring everyone to keep moving forward in life.
+            </p>
+          </div>
+        </section>
+  
+  <div id="chatbot-container">
+    <div id="chatbot-box">
+      <div id="chatbot-header">MyCalinan Assistant
+        <button id="voice-toggle-btn" onclick="toggleVoice()" title="Voice replies: ON (click to mute)">🔊</button>
+      </div>
+
+      <div id="chatbot-messages">
+        <div class="bot-message">"Hey hey! 😄 I'm Calibot, the eagle robot of Calinan! 🦅⚡
+          Got questions? Ask me anything—I've got answers ready for you! 🚀"</div>
+      </div>
+
+      <div id="chatbot-suggestions">
+        <button class="suggestion-chip"
+                data-label-en="🍽 Eatery Nearby" data-label-ceb="🍽 Kan-anan Duol"
+                data-query-en="Recommend me an eatery nearby" data-query-ceb="Pasugyot og kan-anan nga duol"
+                onclick="quickAsk(this)">🍽 Eatery Nearby</button>
+        <button class="suggestion-chip"
+                data-label-en="☀️ Weather Today" data-label-ceb="☀️ Panahon Karon"
+                data-query-en="Tell me the weather today" data-query-ceb="Unsa ang panahon karon"
+                onclick="quickAsk(this)">☀️ Weather Today</button>
+      </div>
+
+      <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Ask something...">
+        <button onclick="sendMessage()">Send</button>
+        <button id="mic-btn" onclick="toggleMic()" title="Speak your question">🎤</button>
+        <button onclick="stopBot()" style="background:#e74c3c;"></button>
+      </div>
+    </div>
+    <div id="chatbot-wrapper">
+      <div id="chatbot-label">Talk to AI</div>
+      <img id="chatbot-icon" src="image/CalibotAi.png" onclick="toggleChatbot()">
+    </div>
+
+  </div>
+
+</body>
+
+</html>

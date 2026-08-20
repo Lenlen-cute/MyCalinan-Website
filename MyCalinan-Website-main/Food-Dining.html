@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food & Dining – Calinan</title>
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="style/Food-Dining.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <a href="HomePage.html" class="back-btn">← Home</a>
+    <h1 class="logo">Food &amp; Dining</h1>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchBar" placeholder="Search Restaurant, Cafe…" autocomplete="off">
+    </div>
+    <button id="locate-btn" title="Find my location">
+      <div class="spinner"></div>
+      <span class="btn-label">📍 Locate Me</span>
+    </button>
+  </div>
+</header>
+
+<!-- IMAGE MODAL -->
+<div class="image-modal" id="imageModal">
+  <span class="close">&times;</span>
+  <img id="modalImg" class="modal-content" alt="Photo">
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Savor the Flavors of Calinan</h2>
+  <p>Discover restaurants, eateries, cafés, and bakeshops around the Calinan area. Enable location to see distances and get directions.</p>
+  <div id="location-status">
+    <div class="loc-dot" id="loc-dot"></div>
+    <span id="loc-text">Detecting your location…</span>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="toolbar-label">Filter:</span>
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="Restaurant">Restaurant</button>
+  <button class="filter-chip" data-filter="Eatery">Eatery</button>
+  <button class="filter-chip" data-filter="Fast-Food">Fast-Food</button>
+  <button class="filter-chip" data-filter="Cafe">Cafe</button>
+  <button class="filter-chip" data-filter="Bakeshop">Bakeshop</button>
+  <button class="filter-chip" data-filter="Bar">Bar</button>
+  <button class="sort-btn" id="sort-btn" disabled title="Enable location first">
+    📶 Sort by nearest
+  </button>
+</div>
+<div id="result-count"></div>
+
+<!-- CARDS -->
+<section class="container" id="cards-container">
+
+  <!-- CARD 1 -->
+  <div class="card"
+       data-name="Penong's Calinan"
+       data-category="Restaurant"
+       data-lat="7.1882" data-lng="125.4542"
+       data-tag="Restaurant"
+       data-pin="🍗"
+       data-maps-query="Penong%27s+Calinan+District+Davao+City">
+    <div class="card-image"><img src="image/Penong_s Calinan.jpg" alt="Penong's Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Penong%27s+Calinan+District+Davao+City" target="_blank">Penong's Calinan</a></h3>
+      <p>Calinan District — Founded in 2003, Penong's is a nationwide favorite known for its Chicken Inato, flame-grilled chicken barbecue served with unlimited rice.</p>
+      <span class="tag">Restaurant</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card"
+       data-name="TAPOK Grill and Seafood Restaurant"
+       data-category="Eatery"
+       data-lat="7.1930" data-lng="125.4510"
+       data-tag="Eatery"
+       data-pin="🦐"
+       data-maps-query="Tapok+Grill+and+Seafood+Restaurant+Acacia+Calinan+Davao+City">
+    <div class="card-image"><img src="image/TAPOK Grill and Seafood Restaurant.jpg" alt="TAPOK Grill and Seafood Restaurant"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Tapok+Grill+and+Seafood+Restaurant+Acacia+Calinan+Davao+City" target="_blank">TAPOK Grill and Seafood Restaurant</a></h3>
+      <p>Bukidnon Highway, Acacia — Casual dining spot known for grilled seafood and a lively weekend atmosphere, with live acoustic performances.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card"
+       data-name="Station Grill"
+       data-category="Restaurant"
+       data-lat="7.1875" data-lng="125.4530"
+       data-tag="Restaurant"
+       data-pin="🍖"
+       data-maps-query="Station+Grill+National+Highway+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Station Grill.png" alt="Station Grill"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Station+Grill+National+Highway+Calinan+Davao+City" target="_blank">Station Grill</a></h3>
+      <p>National Highway, Calinan District — Casual Filipino restaurant offering grilled specialties and comfort food in a relaxed, friendly setting.</p>
+      <span class="tag">Restaurant</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card"
+       data-name="Dowens Food & Drinks"
+       data-category="Eatery"
+       data-lat="7.1878" data-lng="125.4545"
+       data-tag="Eatery"
+       data-pin="🍽️"
+       data-maps-query="Dowens+Food+%26+Drinks+Calinan+District+Davao+City">
+    <div class="card-image"><img src="image/DOWENS FOOD & DRINKS.png" alt="Dowens Food & Drinks"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Dowens+Food+%26+Drinks+Calinan+District+Davao+City" target="_blank">Dowens Food &amp; Drinks</a></h3>
+      <p>Calinan District — Small local eatery serving affordable meals and refreshments, a casual spot for residents and students to hang out.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="card"
+       data-name="Kabawan Sa Calinan"
+       data-category="Eatery"
+       data-lat="7.1885" data-lng="125.4522"
+       data-tag="Eatery"
+       data-pin="🍲"
+       data-maps-query="Kabawan+Sa+Calinan+Davao-Bukidnon+Highway+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Kabawan Sa Calinan.png" alt="Kabawan Sa Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Kabawan+Sa+Calinan+Davao-Bukidnon+Highway+Calinan+Davao+City" target="_blank">Kabawan Sa Calinan</a></h3>
+      <p>Davao–Bukidnon Highway, Calinan Poblacion — Well-known eatery famous for hearty buffalo-based dishes like bulalo and hinalang.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card"
+       data-name="Laher's Lechon Haus"
+       data-category="Eatery"
+       data-lat="7.1880" data-lng="125.4538"
+       data-tag="Eatery"
+       data-pin="🐷"
+       data-maps-query="Laher%27s+Lechon+Haus+Villafuerte+Street+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Laher_s Lechon Haus.jpg" alt="Laher's Lechon Haus"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Laher%27s+Lechon+Haus+Villafuerte+Street+Calinan+Davao+City" target="_blank">Laher's Lechon Haus</a></h3>
+      <p>Villafuerte Street, Calinan Poblacion — Local lechon eatery known for crispy, Cebu-style roasted pork and affordable packages for celebrations.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 7 -->
+  <div class="card"
+       data-name="Kwekens Carenderia"
+       data-category="Eatery"
+       data-lat="7.1900" data-lng="125.4543"
+       data-tag="Eatery"
+       data-pin="🍱"
+       data-maps-query="Kwekens+Carenderia+Datu+Abing+Street+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Kwekens Carenderia.png" alt="Kwekens Carenderia"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Kwekens+Carenderia+Datu+Abing+Street+Calinan+Davao+City" target="_blank">Kwekens Carenderia</a></h3>
+      <p>Datu Abing Street, Calinan Poblacion — Small carinderia serving affordable lutong-bahay meals like adobo and tinola, cafeteria-style.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 8 -->
+  <div class="card"
+       data-name="Onen's Chicken House"
+       data-category="Eatery"
+       data-lat="7.1902" data-lng="125.4544"
+       data-tag="Eatery"
+       data-pin="🍗"
+       data-maps-query="Onen%27s+Chicken+House+Datu+Abing+Street+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Onen’s Chicken House.png" alt="Onen's Chicken House"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Onen%27s+Chicken+House+Datu+Abing+Street+Calinan+Davao+City" target="_blank">Onen's Chicken House</a></h3>
+      <p>Datu Abing Street, Calinan Poblacion — Popular fried chicken spot known for unlimited rice meals, lomi, and short orders.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 9 -->
+  <div class="card"
+       data-name="Kunam Chicken House"
+       data-category="Eatery"
+       data-lat="7.1877" data-lng="125.4540"
+       data-tag="Eatery"
+       data-pin="🍗"
+       data-maps-query="Kunam+Chicken+House+Calinan+Poblacion+Davao+City">
+    <div class="card-image"><img src="image/Kunam Chicken House.png" alt="Kunam Chicken House"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Kunam+Chicken+House+Calinan+Poblacion+Davao+City" target="_blank">Kunam Chicken House</a></h3>
+      <p>Calinan Poblacion — Local fried chicken eatery known for chicken inato-style meals and affordable unlimited rice servings.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 10 -->
+  <div class="card"
+       data-name="Nam…Manok Chicken House"
+       data-category="Eatery"
+       data-lat="7.1903" data-lng="125.4543"
+       data-tag="Eatery"
+       data-pin="🍗"
+       data-maps-query="Nam+Manok+Chicken+House+Datu+Abing+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Nam…Manok Chicken House Branch 1.png" alt="Nam…Manok Chicken House"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Nam+Manok+Chicken+House+Datu+Abing+St+Calinan+Davao+City" target="_blank">Nam…Manok Chicken House</a></h3>
+      <p>Datu Abing St, Calinan District — Local chicken house known for flavorful fried chicken and chicken inato-style meals with unlimited rice.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 11 -->
+  <div class="card"
+       data-name="Nam…Manok Chicken House"
+       data-category="Eatery"
+       data-lat="7.1868" data-lng="125.4535"
+       data-tag="Eatery"
+       data-pin="🍗"
+       data-maps-query="Nam+Manok+Chicken+House+Purok+32+Roman+Diaz+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Nam…Manok Chicken Branch 2.png" alt="Nam…Manok Chicken House"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Nam+Manok+Chicken+House+Purok+32+Roman+Diaz+St+Calinan+Davao+City" target="_blank">Nam…Manok Chicken House</a></h3>
+      <p>Purok 32 Roman Diaz St, Calinan District — Local chicken house known for flavorful fried chicken and chicken inato-style meals with unlimited rice.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 12 -->
+  <div class="card"
+       data-name="Nam…Manok Chicken House"
+       data-category="Eatery"
+       data-lat="7.1872" data-lng="125.4548"
+       data-tag="Eatery"
+       data-pin="🍗"
+       data-maps-query="Nam+Manok+Chicken+House+Canete+Building+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Nam…Manok Chicken House Branch 3.png" alt="Nam…Manok Chicken House"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Nam+Manok+Chicken+House+Canete+Building+Calinan+Davao+City" target="_blank">Nam…Manok Chicken House</a></h3>
+      <p>Canete Building, Calinan District — Local chicken house known for flavorful fried chicken and chicken inato-style meals with unlimited rice.</p>
+      <span class="tag">Eatery</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 13 -->
+  <div class="card"
+       data-name="Minute Burger"
+       data-category="Fast-Food"
+       data-lat="7.1904" data-lng="125.4542"
+       data-tag="Fast-Food"
+       data-pin="🍔"
+       data-maps-query="Minute+Burger+Datu+Abing+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Minute Burger1.png" alt="Minute Burger"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Minute+Burger+Datu+Abing+St+Calinan+Davao+City" target="_blank">Minute Burger</a></h3>
+      <p>Datu Abing St, Calinan District — Filipino fast-food chain branch known for affordable "Buy 1, Take 1" burgers, part of the Leslie Corporation network.</p>
+      <span class="tag">Fast-Food</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 14 -->
+  <div class="card"
+       data-name="Minute Burger"
+       data-category="Fast-Food"
+       data-lat="7.1873" data-lng="125.4514"
+       data-tag="Fast-Food"
+       data-pin="🍔"
+       data-maps-query="Minute+Burger+Aurora+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Minute Burger2.png" alt="Minute Burger"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Minute+Burger+Aurora+St+Calinan+Davao+City" target="_blank">Minute Burger</a></h3>
+      <p>Aurora St, Calinan District — Filipino fast-food chain branch known for affordable "Buy 1, Take 1" burgers, part of the Leslie Corporation network.</p>
+      <span class="tag">Fast-Food</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 15 -->
+  <div class="card"
+       data-name="Jollibee Calinan"
+       data-category="Fast-Food"
+       data-lat="7.1872" data-lng="125.4549"
+       data-tag="Fast-Food"
+       data-pin="🍟"
+       data-maps-query="Jollibee+Canete+Building+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Jollibee.png" alt="Jollibee Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Jollibee+Canete+Building+Calinan+Davao+City" target="_blank">Jollibee</a></h3>
+      <p>Canete Building, Calinan District — Branch of the Philippines' best-known fast-food chain, serving Chickenjoy, Jolly Spaghetti, and Yumburgers.</p>
+      <span class="tag">Fast-Food</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 16 -->
+  <div class="card"
+       data-name="Kopikuys"
+       data-category="Cafe"
+       data-lat="7.1876" data-lng="125.4536"
+       data-tag="Café"
+       data-pin="☕"
+       data-maps-query="Kopikuys+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Kopikuys.jpg" alt="Kopikuys"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Kopikuys+Calinan+Davao+City" target="_blank">Kopikuys</a></h3>
+      <p>Calinan District — Local café offering affordable coffee, drinks, and light meals, a go-to hangout for students and residents.</p>
+      <span class="tag">Café</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 17 -->
+  <div class="card"
+       data-name="Hikaru de Cielo Cafe"
+       data-category="Cafe"
+       data-lat="7.1950" data-lng="125.4500"
+       data-tag="Café"
+       data-pin="☕"
+       data-maps-query="Hikaru+de+Cielo+Cafe+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Hikaru de Cielo Cafe.jpg" alt="Hikaru de Cielo Cafe"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Hikaru+de+Cielo+Cafe+Calinan+Davao+City" target="_blank">Hikaru de Cielo Cafe</a></h3>
+      <p>Purok 21, San Roque, Davao–Bukidnon Hwy — Cozy café-restaurant with a scenic, chill atmosphere, rice meals, and buffet-style dining.</p>
+      <span class="tag">Café</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 18 -->
+  <div class="card"
+       data-name="Kapekol Calinan"
+       data-category="Cafe"
+       data-lat="7.1878" data-lng="125.4541"
+       data-tag="Café"
+       data-pin="☕"
+       data-maps-query="Kapekol+Calinan+Poblacion+Davao+City">
+    <div class="card-image"><img src="image/Kapekol.png" alt="Kapekol Calinan"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Kapekol+Calinan+Poblacion+Davao+City" target="_blank">Kapekol Calinan</a></h3>
+      <p>Calinan Poblacion — Small budget-friendly "street coffee" stall serving quick, low-cost iced and hot coffee drinks.</p>
+      <span class="tag">Café</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 19 -->
+  <div class="card"
+       data-name="TeaTuh Cafe"
+       data-category="Cafe"
+       data-lat="7.1880" data-lng="125.4537"
+       data-tag="Café"
+       data-pin="🧋"
+       data-maps-query="TeaTuh+Cafe+Villafuerte+Street+Calinan+Poblacion+Davao+City">
+    <div class="card-image"><img src="image/TeaTuh Cafe.png" alt="TeaTuh Cafe"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=TeaTuh+Cafe+Villafuerte+Street+Calinan+Poblacion+Davao+City" target="_blank">TeaTuh Cafe</a></h3>
+      <p>Villafuerte Street, Calinan Poblacion — Budget-friendly coffee and milk tea shop, a go-to tambayan spot for students and locals.</p>
+      <span class="tag">Café</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 20 -->
+  <div class="card"
+       data-name="Machatuals"
+       data-category="Cafe"
+       data-lat="7.1893" data-lng="125.4562"
+       data-tag="Café"
+       data-pin="🍵"
+       data-maps-query="Machatuals+Calinan+Poblacion+Davao+City">
+    <div class="card-image"><img src="image/Machatuals.jpg" alt="Machatuals"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Machatuals+Calinan+Poblacion+Davao+City" target="_blank">Machatuals</a></h3>
+      <p>R. Magsaysay St, Calinan — Small milk tea and matcha drink shop offering affordable, refreshing beverages for students and locals.</p>
+      <span class="tag">Café</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 21 -->
+  <div class="card"
+       data-name="Rose Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1884" data-lng="125.4521"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Rose+Bakeshop+Davao-Bukidnon+Hwy+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Rose Bakeshop1.png" alt="Rose Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Rose+Bakeshop+Davao-Bukidnon+Hwy+Calinan+Davao+City" target="_blank">Rose Bakeshop</a></h3>
+      <p>Davao–Bukidnon Hwy, Calinan — Well-known Filipino bakery chain offering soft pandesal, sweet breads, and affordable baked pasalubong.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 22 -->
+  <div class="card"
+       data-name="Rose Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1857" data-lng="125.4578"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Rose+Bakeshop+De+Lara+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Rose Bakeshop2.png" alt="Rose Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Rose+Bakeshop+De+Lara+St+Calinan+Davao+City" target="_blank">Rose Bakeshop</a></h3>
+      <p>De Lara St, Calinan District — Well-known Filipino bakery chain offering soft pandesal, sweet breads, and affordable baked pasalubong.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 23 -->
+  <div class="card"
+       data-name="Panadero Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1866" data-lng="125.4530"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Panadero+Bakeshop+Fausta+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Panadero Bakeshop1.png" alt="Panadero Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Panadero+Bakeshop+Fausta+St+Calinan+Davao+City" target="_blank">Panadero Bakeshop</a></h3>
+      <p>Fausta St, National Highway, Calinan — Branch of a large 100+ branch Philippine bakery chain known for everyday pandesal and pastries.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 24 -->
+  <div class="card"
+       data-name="Panadero Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1870" data-lng="125.4533"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Panadero+Bakeshop+Purok+30+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Panadero Bakeshop2.png" alt="Panadero Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Panadero+Bakeshop+Purok+30+Calinan+Davao+City" target="_blank">Panadero Bakeshop</a></h3>
+      <p>Purok 30, Calinan — Branch of a large 100+ branch Philippine bakery chain known for everyday pandesal and pastries.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 25 -->
+  <div class="card"
+       data-name="Manolette Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1881" data-lng="125.4536"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Manolette+Bakeshop+Villafuerte+St+Calinan+District+Davao+City">
+    <div class="card-image"><img src="image/Manolette Bakeshop1.png" alt="Manolette Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Manolette+Bakeshop+Villafuerte+St+Calinan+District+Davao+City" target="_blank">Manolette Bakeshop</a></h3>
+      <p>Villafuerte St, Calinan District — Local bakery offering freshly baked bread, cakes, and pastries, a convenient everyday stop.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 26 -->
+  <div class="card"
+       data-name="Manolette Bakeshop"
+       data-category="Bakeshop"
+       data-lat="7.1873" data-lng="125.4514"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Manolette+Bakeshop+Aurora+Calinan+District+Davao+City">
+    <div class="card-image"><img src="image/Manolette Bakeshop2.jpg" alt="Manolette Bakeshop"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Manolette+Bakeshop+Aurora+Calinan+District+Davao+City" target="_blank">Manolette Bakeshop</a></h3>
+      <p>Aurora St, Calinan District — Local bakery offering freshly baked bread, cakes, and pastries, a convenient everyday stop.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 27 -->
+  <div class="card"
+       data-name="Nikka's Breadhaus"
+       data-category="Bakeshop"
+       data-lat="7.1869" data-lng="125.4533"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="Nikka%27s+Breadhaus+H.+Garcia+Street+Corner+Roman+Diaz+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Nikka_s Breadhaus.jpg" alt="Nikka's Breadhaus"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Nikka%27s+Breadhaus+H.+Garcia+Street+Corner+Roman+Diaz+St+Calinan+Davao+City" target="_blank">Nikka's Breadhaus</a></h3>
+      <p>H. Garcia St corner Roman Diaz St, Calinan Poblacion — Local bakery known for freshly baked bread and affordable pastries.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 28 -->
+  <div class="card"
+       data-name="A&A Breadhaus"
+       data-category="Bakeshop"
+       data-lat="7.1882" data-lng="125.4537"
+       data-tag="Bakeshop"
+       data-pin="🍞"
+       data-maps-query="A%26A+Breadhaus+Villafuerte+St+Calinan+Davao+City">
+    <div class="card-image"><img src="image/A&A Breadhaus.jpg" alt="A&A Breadhaus"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=A%26A+Breadhaus+Villafuerte+St+Calinan+Davao+City" target="_blank">A&amp;A Breadhaus</a></h3>
+      <p>Villafuerte St, Calinan — Local bakery offering freshly baked bread, cakes, and pastries, with delivery available in the area.</p>
+      <span class="tag">Bakeshop</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 29 -->
+  <div class="card"
+       data-name="Starlett Night Bar"
+       data-category="Bar"
+       data-lat="7.1876" data-lng="125.4540"
+       data-tag="KTV Bar"
+       data-pin="🎤"
+       data-maps-query="Starlett+Night+Bar+Calinan+Davao+City">
+    <div class="card-image"><img src="image/Starlett Night Bar.png" alt="Starlett Night Bar"></div>
+    <div class="card-content">
+      <h3><a href="https://www.google.com/maps/search/?api=1&query=Starlett+Night+Bar+Calinan+Davao+City" target="_blank">Starlett Night Bar</a></h3>
+      <p>Calinan District — One of the few nightlife spots in the area, offering drinks, music, and late-night socializing in a casual bar setting.</p>
+      <span class="tag">KTV Bar</span>
+      <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+      <div class="card-actions">
+        <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+        <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty-state">
+    <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#2b6b45" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+    </svg>
+    <h3>No results found</h3>
+    <p>Try a different search term or filter.</p>
+  </div>
+
+</section>
+
+<!-- SPACER -->
+<div id="map-panel-spacer"></div>
+
+<!-- MAP PANEL -->
+<div id="map-panel">
+  <div id="map-panel-header">
+    <div>
+      <div id="map-panel-title">📍 Map</div>
+      <div id="map-panel-subtitle"></div>
+    </div>
+    <div id="map-panel-actions">
+      <a id="map-directions-link" href="#" target="_blank">🧭 Open in Google Maps</a>
+      <button id="map-panel-close" onclick="closeMap()" title="Close map">✕</button>
+    </div>
+  </div>
+  <div id="food-map"></div>
+  <div id="route-info">
+    <span>🛣️ Road distance: <strong id="route-dist">–</strong></span>
+    <span>⏱️ Estimated time: <strong id="route-time">–</strong></span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  /* ══════════════════════════════════════════
+     STATE
+  ══════════════════════════════════════════ */
+  let userLat = null, userLng = null;
+  let watchId = null;
+  let foodMap = null, mapReady = false;
+  let userMarker = null;
+  let activeMarker = null;
+  let routeLayer = null;
+  let activeFilter = 'all';
+  let sortByNearest = false;
+
+  const allCards = Array.from(document.querySelectorAll('.card'));
+
+  /* ══════════════════════════════════════════
+     IMAGE MODAL
+  ══════════════════════════════════════════ */
+  const modal    = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  document.querySelectorAll('.card-image img').forEach(img => {
+    img.addEventListener('click', () => {
+      modal.classList.add('active');
+      modalImg.src = img.src;
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  modal.addEventListener('click', e => {
+    if (e.target !== modalImg) {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  });
+  document.querySelector('.close').addEventListener('click', () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  });
+
+  /* ══════════════════════════════════════════
+     TOAST
+  ══════════════════════════════════════════ */
+  function showToast(msg, duration = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  /* ══════════════════════════════════════════
+     HAVERSINE DISTANCE (km)
+  ══════════════════════════════════════════ */
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function formatDist(km) {
+    if (km < 1) return Math.round(km * 1000) + ' m away';
+    return km.toFixed(1) + ' km away';
+  }
+
+  /* ══════════════════════════════════════════
+     LOCATION
+  ══════════════════════════════════════════ */
+  const locBtn    = document.getElementById('locate-btn');
+  const locStatus = document.getElementById('location-status');
+  const locDot    = document.getElementById('loc-dot');
+  const locText   = document.getElementById('loc-text');
+  const sortBtn   = document.getElementById('sort-btn');
+
+  locBtn.addEventListener('click', startLocating);
+
+  function startLocating() {
+    if (!navigator.geolocation) {
+      showToast('⚠️ Geolocation is not supported by your browser.');
+      return;
+    }
+    locBtn.classList.add('loading');
+    locBtn.disabled = true;
+    locStatus.classList.add('visible');
+    locText.textContent = 'Detecting your location…';
+
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+    watchId = navigator.geolocation.watchPosition(
+      onLocationSuccess,
+      onLocationError,
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    );
+  }
+
+  function onLocationSuccess(pos) {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+    locBtn.querySelector('.btn-label').textContent = '📍 Tracking';
+
+    locDot.classList.remove('loc-err');
+    locText.textContent = `Location active · ±${Math.round(pos.coords.accuracy)} m accuracy`;
+
+    sortBtn.disabled = false;
+
+    updateAllDistances();
+    updateUserMarker();
+  }
+
+  function onLocationError(err) {
+    locBtn.classList.remove('loading');
+    locBtn.disabled = false;
+
+    locDot.classList.add('loc-err');
+    const msgs = {
+      1: 'Location access denied. Please allow it in your browser settings.',
+      2: 'Location unavailable. Check your GPS or network.',
+      3: 'Location request timed out. Try again.'
+    };
+    locText.textContent = msgs[err.code] || 'Could not get location.';
+    showToast('⚠️ ' + locText.textContent);
+  }
+
+  function updateAllDistances() {
+    if (userLat === null) return;
+    allCards.forEach(card => {
+      const lat = parseFloat(card.dataset.lat);
+      const lng = parseFloat(card.dataset.lng);
+      const km  = haversine(userLat, userLng, lat, lng);
+      card.dataset.dist = km;
+
+      const badge = card.querySelector('.dist-badge');
+      badge.querySelector('.dist-text').textContent = formatDist(km);
+      badge.classList.add('visible');
+
+      card.querySelector('.route-btn').classList.add('visible');
+    });
+
+    if (sortByNearest) applySortAndFilter();
+  }
+
+  function updateUserMarker() {
+    if (!mapReady || userLat === null) return;
+    if (userMarker) foodMap.removeLayer(userMarker);
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="user-dot-wrapper">
+               <div class="user-dot-ring"></div>
+               <div class="user-dot-inner"></div>
+             </div>`,
+      iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -14]
+    });
+
+    userMarker = L.marker([userLat, userLng], { icon })
+      .addTo(foodMap)
+      .bindPopup('<div class="user-popup"><h4>📍 Your Location</h4><p>You are here</p></div>');
+  }
+
+  /* ══════════════════════════════════════════
+     SEARCH + FILTER + SORT
+  ══════════════════════════════════════════ */
+  const searchInput = document.getElementById('searchBar');
+
+  searchInput.addEventListener('input', applySortAndFilter);
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      applySortAndFilter();
+    });
+  });
+
+  sortBtn.addEventListener('click', () => {
+    if (userLat === null) return;
+    sortByNearest = !sortByNearest;
+    sortBtn.classList.toggle('active', sortByNearest);
+    sortBtn.textContent = sortByNearest ? '✅ Sorted by nearest' : '📶 Sort by nearest';
+    applySortAndFilter();
+  });
+
+  function applySortAndFilter() {
+    const query = searchInput.value.toLowerCase().trim();
+    const emptyState = document.getElementById('empty-state');
+
+    let visibleCards = allCards.filter(card => {
+      const name     = (card.dataset.name || '').toLowerCase();
+      const category = (card.dataset.category || '').toLowerCase();
+      const tag      = (card.dataset.tag || '').toLowerCase();
+
+      const matchSearch = !query || name.includes(query) || category.includes(query) || tag.includes(query);
+      const matchFilter = activeFilter === 'all' || category.includes(activeFilter.toLowerCase());
+      return matchSearch && matchFilter;
+    });
+
+    if (sortByNearest && userLat !== null) {
+      visibleCards.sort((a, b) => parseFloat(a.dataset.dist || 99999) - parseFloat(b.dataset.dist || 99999));
+    }
+
+    allCards.forEach(card => {
+      card.classList.add('hidden');
+      card.style.order = '';
+    });
+
+    visibleCards.forEach((card, i) => {
+      card.classList.remove('hidden');
+      card.style.order = i;
+    });
+
+    const count = visibleCards.length;
+    document.getElementById('result-count').textContent =
+      count > 0 ? `Showing ${count} of ${allCards.length} locations` : '';
+
+    emptyState.style.display = count === 0 ? 'flex' : 'none';
+  }
+
+  /* ══════════════════════════════════════════
+     MAP
+  ══════════════════════════════════════════ */
+  function initMap() {
+    if (mapReady) return;
+    foodMap = L.map('food-map', { zoomControl: true }).setView([7.1880, 125.4540], 14);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(foodMap);
+    mapReady = true;
+    if (userLat !== null) updateUserMarker();
+  }
+
+  function showOnMap(btn) {
+    const card  = btn.closest('.card');
+    const lat   = parseFloat(card.dataset.lat);
+    const lng   = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+    const tag   = card.dataset.tag;
+    const query = card.dataset.mapsQuery;
+    const pin   = card.dataset.pin || '📍';
+
+    const panel    = document.getElementById('map-panel');
+    const spacer   = document.getElementById('map-panel-spacer');
+    const title    = document.getElementById('map-panel-title');
+    const subtitle = document.getElementById('map-panel-subtitle');
+    const dirLink  = document.getElementById('map-directions-link');
+    const routeInfo = document.getElementById('route-info');
+
+    panel.classList.add('active');
+    spacer.classList.add('active');
+    title.textContent = '📍 ' + name;
+    subtitle.textContent = tag;
+
+    dirLink.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    dirLink.classList.add('visible');
+    routeInfo.classList.remove('visible');
+
+    initMap();
+
+    if (activeMarker) foodMap.removeLayer(activeMarker);
+    if (routeLayer) { foodMap.removeLayer(routeLayer); routeLayer = null; }
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:#2b6b45; color:white; font-size:16px;
+        width:36px; height:36px; border-radius:50% 50% 50% 0;
+        transform:rotate(-45deg); display:flex; align-items:center; justify-content:center;
+        box-shadow:0 3px 10px rgba(0,0,0,0.3); border:2px solid white;">
+        <span style="transform:rotate(45deg)">${pin}</span></div>`,
+      iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -40]
+    });
+
+    const distText = userLat !== null
+      ? `<br><strong>${formatDist(haversine(userLat, userLng, lat, lng))}</strong> straight-line from you`
+      : '';
+
+    activeMarker = L.marker([lat, lng], { icon })
+      .addTo(foodMap)
+      .bindPopup(`
+        <div class="place-popup">
+          <h4>${name}</h4>
+          <div class="popup-tag">${tag}</div>
+          <p>${distText}</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=${query}" target="_blank">🧭 Open in Google Maps</a>
+        </div>`, { maxWidth: 250 })
+      .openPopup();
+
+    foodMap.flyTo([lat, lng], 17, { duration: 1.0 });
+    setTimeout(() => foodMap.invalidateSize(), 320);
+    document.getElementById('map-panel').scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  /* ══════════════════════════════════════════
+     ROUTING via OSRM
+  ══════════════════════════════════════════ */
+  function getRoute(btn) {
+    if (userLat === null) {
+      showToast('📍 Enable location first to get directions.');
+      return;
+    }
+
+    const card  = btn.closest('.card');
+    const cLat  = parseFloat(card.dataset.lat);
+    const cLng  = parseFloat(card.dataset.lng);
+    const name  = card.dataset.name;
+
+    btn.classList.add('loading');
+    btn.textContent = '⏳ Loading route…';
+
+    showOnMap(card.querySelector('.view-map-btn'));
+
+    const url = `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${cLng},${cLat}?overview=full&geometries=geojson`;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.routes || data.routes.length === 0) throw new Error('No route found');
+
+        const route   = data.routes[0];
+        const coords  = route.geometry.coordinates.map(c => [c[1], c[0]]);
+        const distKm  = (route.distance / 1000).toFixed(1);
+        const mins    = Math.round(route.duration / 60);
+        const timeStr = mins < 60 ? `${mins} min` : `${Math.floor(mins/60)}h ${mins%60}m`;
+
+        initMap();
+        if (routeLayer) foodMap.removeLayer(routeLayer);
+
+        routeLayer = L.polyline(coords, {
+          color: '#2b6b45', weight: 5, opacity: 0.85,
+          lineCap: 'round', lineJoin: 'round'
+        }).addTo(foodMap);
+
+        foodMap.fitBounds(routeLayer.getBounds(), { padding: [40, 40] });
+
+        document.getElementById('route-dist').textContent = distKm + ' km';
+        document.getElementById('route-time').textContent = timeStr;
+        document.getElementById('route-info').classList.add('visible');
+
+        showToast(`🧭 Route to ${name}: ${distKm} km · ${timeStr}`);
+
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+      })
+      .catch(() => {
+        btn.classList.remove('loading');
+        btn.textContent = '🧭 Get Directions';
+        showToast('⚠️ Could not load route. Check your internet connection.');
+      });
+  }
+
+  function closeMap() {
+    document.getElementById('map-panel').classList.remove('active');
+    document.getElementById('map-panel-spacer').classList.remove('active');
+    document.getElementById('route-info').classList.remove('visible');
+    if (routeLayer && mapReady) { foodMap.removeLayer(routeLayer); routeLayer = null; }
+  }
+
+  /* ══════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════ */
+  applySortAndFilter();
+</script>
+
+</body>
+</html>

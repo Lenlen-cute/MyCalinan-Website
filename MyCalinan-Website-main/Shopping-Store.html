@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping & Store – Calinan</title>
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="style/Shopping-Store.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <a href="HomePage.html" class="back-btn">← Home</a>
+    <h1 class="logo">Shopping &amp; Store</h1>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search store, mall, hardware…" autocomplete="off">
+    </div>
+    <button id="locate-btn" title="Find my location">
+      <div class="spinner"></div>
+      <span class="btn-label">📍 Locate Me</span>
+    </button>
+  </div>
+</header>
+
+<!-- IMAGE MODAL -->
+<div class="image-modal" id="imageModal">
+  <span class="close" id="closeBtn">&times;</span>
+  <img class="modal-content" id="modalImg" alt="Photo">
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Shopping & Stores in Calinan</h2>
+  <p>Explore local malls, groceries, hardware, motor shops, and service stores around the Calinan area. Enable location to see distances and get directions.</p>
+  <div id="location-status">
+    <div class="loc-dot" id="loc-dot"></div>
+    <span id="loc-text">Detecting your location…</span>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="toolbar-label">Filter:</span>
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="Mall & Grocery">Mall &amp; Grocery</button>
+  <button class="filter-chip" data-filter="General Merchandise">General Merchandise</button>
+  <button class="filter-chip" data-filter="Hardware & Construction">Hardware &amp; Construction</button>
+  <button class="filter-chip" data-filter="Motor Parts">Motor Parts</button>
+  <button class="filter-chip" data-filter="Convenience Store">Convenience</button>
+  <button class="filter-chip" data-filter="Electronics & Repair">Electronics &amp; Repair</button>
+  <button class="filter-chip" data-filter="Printing & Photo">Printing &amp; Photo</button>
+  <button class="sort-btn" id="sort-btn" disabled title="Enable location first">
+    📶 Sort by nearest
+  </button>
+</div>
+<div id="result-count"></div>
+
+<!-- CARDS -->
+<main class="container" id="cards-container">
+
+<!-- CARD 1 -->
+<div class="card" data-name="Gaisano Grand Calinan" data-category="Mall & Grocery" data-lat="7.1905" data-lng="125.4558" data-tag="Mall" data-pin="🛍️" data-maps-query="Gaisano+Grand+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Gaisano Grand Calinan.jpg" alt="Gaisano Grand Calinan Mall"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Gaisano+Grand+Calinan+Davao+City" target="_blank">Gaisano Grand Calinan</a></h3>
+    <p>Gaisano Grand Calinan is the main shopping mall in Calinan District, serving as a central hub for shopping, dining, and everyday services. It features a supermarket, department store, food stalls, and various retail shops, making it a convenient one-stop destination for locals.<br><br>Location: Davao–Bukidnon Highway, Calinan Poblacion, Davao City</p>
+    <span class="tag">Mall</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 2 -->
+<div class="card" data-name="NCCC Calinan" data-category="Mall & Grocery" data-lat="7.1897" data-lng="125.4548" data-tag="Department Store" data-pin="🏬" data-maps-query="NCCC+Calinan+Davao+City">
+  <div class="card-image"><img src="image/NCCC Calinan.jpg" alt="NCCC Calinan"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=NCCC+Calinan+Davao+City" target="_blank">NCCC Calinan</a></h3>
+    <p>NCCC Calinan is a small community shopping center in Calinan Poblacion that provides basic shopping, groceries, and everyday services for locals. It is a convenient stop for daily needs, with nearby food stalls and small shops around the area.<br><br>Location: Davao–Bukidnon Highway, Calinan Poblacion, Davao City</p>
+    <span class="tag">Department Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 3 -->
+<div class="card" data-name="Lots For Less" data-category="Mall & Grocery" data-lat="7.1890" data-lng="125.4530" data-tag="Supermarket" data-pin="🛒" data-maps-query="Lots+For+Less+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Lots For Less.jpg" alt="Lots For Less"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Lots+For+Less+Calinan+Davao+City" target="_blank">Lots For Less</a></h3>
+    <p>Lots for Less is a budget-friendly grocery store in Calinan known for affordable products, discounted prices, and value-for-money essentials. It is a popular shopping spot for residents looking to save on food, beverages, and household items.<br><br>Location: De Lara St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Supermarket</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 4 -->
+<div class="card" data-name="Felcris Supermarket Inc." data-category="Mall & Grocery" data-lat="7.1885" data-lng="125.4525" data-tag="Supermarket" data-pin="🛒" data-maps-query="Felcris+Supermarket+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Felcris Supermarket Inc..jpg" alt="Felcris Supermarket Inc."></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Felcris+Supermarket+Calinan+Davao+City" target="_blank">Felcris Supermarket Inc.</a></h3>
+    <p>Felcris Supermarket Calinan offers groceries, snacks, household items, and clothing at affordable prices. It is a practical go-to place for residents who want organized and budget-friendly shopping.<br><br>Location: De Lara St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Supermarket</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 5 -->
+<div class="card" data-name="Multiple-Eight Merchandise" data-category="General Merchandise" data-lat="7.1910" data-lng="125.4560" data-tag="General Merchandise" data-pin="🏪" data-maps-query="Multiple+Eight+Merchandise+Davao-Bukidnon+Hwy+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Multiple-Eight Merchandise.png" alt="Multiple-Eight Merchandise"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Multiple+Eight+Merchandise+Davao-Bukidnon+Hwy+Calinan+Davao+City" target="_blank">Multiple-Eight Merchandise</a></h3>
+    <p>Multiple Eight Merchandise is a budget-friendly general grocery store in Calinan known for selling affordable items such as snacks, foods and household goods. It is popular among locals for its low prices and promos.<br><br>Location: Bukidnon Hwy, Calinan Poblacion, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">General Merchandise</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 6 -->
+<div class="card" data-name="Four Star Merchandise" data-category="General Merchandise" data-lat="7.1902" data-lng="125.4542" data-tag="General Merchandise" data-pin="🏪" data-maps-query="Four+Star+Merchandise+Purok+30+Calinan+Poblacion+Davao+City">
+  <div class="card-image"><img src="image/Four Star Merchandise.png" alt="Four Star Merchandise"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Four+Star+Merchandise+Purok+30+Calinan+Poblacion+Davao+City" target="_blank">Four Star Merchandise</a></h3>
+    <p>Four Stars General Merchandise is a general merchandise and school supply store in Calinan Poblacion offering affordable snacks, retail goods, and everyday essentials — popular with students, parents, and small buyers.<br><br>Location: Purok 30, Calinan Poblacion, Calinan, Davao City, Davao del Sur</p>
+    <span class="tag">General Merchandise</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 7 -->
+<div class="card" data-name="Rillan Trading" data-category="General Merchandise" data-lat="7.1895" data-lng="125.4535" data-tag="Trading Store" data-pin="🏪" data-maps-query="Rillan+Trading+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Rillan Trading.png" alt="Rillan Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Rillan+Trading+Villafuerte+St+Calinan+Davao+City" target="_blank">Rillan Trading</a></h3>
+    <p>Rillan Trading is a small local trading store in Calinan Poblacion that sells a mix of general merchandise, school supplies, and everyday items, catering to students, parents, and small negosyo owners.<br><br>Location: Villafuerte Street, Calinan Poblacion, Davao City</p>
+    <span class="tag">Trading Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 8 -->
+<div class="card" data-name="Ploya Marketing" data-category="General Merchandise" data-lat="7.1893" data-lng="125.4533" data-tag="School & Office Supplies" data-pin="📚" data-maps-query="Ploya+Marketing+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Ploya Marketing.png" alt="Ploya Marketing"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Ploya+Marketing+Villafuerte+St+Calinan+Davao+City" target="_blank">Ploya Marketing</a></h3>
+    <p>Ploya Marketing is a local general merchandise store in Calinan Poblacion specializing in school supplies, office materials, and assorted retail items — a go-to place for students and parents, especially during back-to-school season.<br><br>Location: Villafuerte Street, Calinan Poblacion, Davao City</p>
+    <span class="tag">School &amp; Office Supplies</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 9 -->
+<div class="card" data-name="KSC Calinan" data-category="Mall & Grocery" data-lat="7.1891" data-lng="125.4531" data-tag="Department Store" data-pin="🏬" data-maps-query="KSC+Calinan+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/KSC Calinan.jpg" alt="KSC Calinan"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=KSC+Calinan+Villafuerte+St+Calinan+Davao+City" target="_blank">KSC Calinan</a></h3>
+    <p>KSC (Kristine Shopping Center) in Calinan is a local department-style store offering clothing, footwear, school supplies, accessories, and household items — a popular spot for budget-friendly everyday essentials.<br><br>Location: Villafuerte Street, Calinan Poblacion, Davao City</p>
+    <span class="tag">Department Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 10 -->
+<div class="card" data-name="BCG Trading" data-category="General Merchandise" data-lat="7.1912" data-lng="125.4562" data-tag="Utility Supply Store" data-pin="📦" data-maps-query="BCG+Trading+Purok+13+Davao-Bukidnon+Road+Calinan+Davao+City">
+  <div class="card-image"><img src="image/BCG Trading.jpg" alt="BCG Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=BCG+Trading+Purok+13+Davao-Bukidnon+Road+Calinan+Davao+City" target="_blank">BCG Trading</a></h3>
+    <p>BCG Trading is a local supply and trading store in Calinan focusing on store equipment, containers, ice chests, fish boxes, and household-use utility items — ideal for small negosyo owners and vendors.<br><br>Location: Purok 13, Davao–Bukidnon Road, Calinan, Davao City</p>
+    <span class="tag">Utility Supply Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 11 -->
+<div class="card" data-name="D & D Calinan Plasticware" data-category="General Merchandise" data-lat="7.1913" data-lng="125.4563" data-tag="Plasticware Store" data-pin="🧴" data-maps-query="D+%26+D+Calinan+Plasticware+Purok+13+Davao-Bukidnon+Road+Calinan+Davao+City">
+  <div class="card-image"><img src="image/D & D Calinan Plasticware.png" alt="D & D Calinan Plasticware"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=D+%26+D+Calinan+Plasticware+Purok+13+Davao-Bukidnon+Road+Calinan+Davao+City" target="_blank">D &amp; D Calinan Plasticware</a></h3>
+    <p>D & D Calinan Plasticware specializes in plastic household items and utility products — affordable containers, kitchenware, and storage supplies for residents and small negosyo owners.<br><br>Location: Purok 13, Davao–Bukidnon Road, Calinan, Davao City</p>
+    <span class="tag">Plasticware Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 12 -->
+<div class="card" data-name="A.L. Calinan Trading" data-category="Mall & Grocery" data-lat="7.1894" data-lng="125.4534" data-tag="Department Store" data-pin="🏬" data-maps-query="A.L.+Calinan+Trading+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/A.L. Calinan Trading.jpg" alt="A.L. Calinan Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=A.L.+Calinan+Trading+Villafuerte+St+Calinan+Davao+City" target="_blank">A.L. Calinan Trading</a></h3>
+    <p>A.L. Calinan Trading is a popular general merchandise store known for school supplies, toys, party materials, decorations, and household goods — especially popular during back-to-school season.<br><br>Location: Villafuerte Street, Calinan Poblacion, Davao City</p>
+    <span class="tag">Department Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 13 -->
+<div class="card" data-name="JW KIMHIM Trading" data-category="General Merchandise" data-lat="7.1915" data-lng="125.4565" data-tag="Wholesale Trading" data-pin="📦" data-maps-query="JW+KIMHIM+Trading+Davao-Bukidnon+Hwy+Calinan+Davao+City">
+  <div class="card-image"><img src="image/JW KIMHIM Trading.png" alt="JW KIMHIM Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=JW+KIMHIM+Trading+Davao-Bukidnon+Hwy+Calinan+Davao+City" target="_blank">JW KIMHIM Trading</a></h3>
+    <p>JW Kimhim Trading is a local trading and distribution store dealing in plastic products and wholesale goods — a common go-to supplier for containers, storage items, and utility products for vendors and sari-sari stores.<br><br>Location: Davao - Bukidnon Hwy, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Wholesale Trading</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 14 -->
+<div class="card" data-name="Calinan Skylight Hardware" data-category="Hardware & Construction" data-lat="7.1888" data-lng="125.4528" data-tag="Hardware Store" data-pin="🔧" data-maps-query="Calinan+Skylight+Hardware+R.+Magsaysay+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Calinan Skylight Hardware.jpg" alt="Calinan Skylight Hardware"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Calinan+Skylight+Hardware+R.+Magsaysay+St+Calinan+Davao+City" target="_blank">Calinan Skylight Hardware</a></h3>
+    <p>Calinan Skylight Hardware is a locally owned hardware store along R. Magsaysay Street known for its comprehensive range of construction, electrical, and plumbing supplies, serving both professional builders and household customers.<br><br>Location: R. Magsaysay St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Hardware Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 15 -->
+<div class="card" data-name="Calinan Blue Star Hardware" data-category="Hardware & Construction" data-lat="7.1886" data-lng="125.4526" data-tag="Hardware Store" data-pin="🔧" data-maps-query="Calinan+Blue+Star+Hardware+R.+Magsaysay+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Calinan Blue Star Hardware.jpg" alt="Calinan Blue Star Hardware"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Calinan+Blue+Star+Hardware+R.+Magsaysay+St+Calinan+Davao+City" target="_blank">Calinan Blue Star Hardware</a></h3>
+    <p>Calinan Blue Star Hardware is a local hardware store along Aurora Quezon Street supplying construction and household maintenance materials to residents and contractors in the Calinan district.<br><br>Location: R. Magsaysay St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Hardware Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 16 -->
+<div class="card" data-name="Edaka Hardware" data-category="Hardware & Construction" data-lat="7.1892" data-lng="125.4532" data-tag="Hardware Store" data-pin="🔧" data-maps-query="Edaka+Hardware+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Edaka Hardware.jpg" alt="Edaka Hardware"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Edaka+Hardware+Villafuerte+St+Calinan+Davao+City" target="_blank">Edaka Hardware</a></h3>
+    <p>Edaka Hardware is a neighborhood hardware store on Villafuerte Street serving local residents and contractors with retail and wholesale construction supplies, tools, and home improvement materials.<br><br>Location: Villafuerte St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Hardware Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 17 -->
+<div class="card" data-name="Polycrop Marketing" data-category="Hardware & Construction" data-lat="7.1890" data-lng="125.4530" data-tag="Hardware Store" data-pin="🔧" data-maps-query="Polycrop+Marketing+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/POLYCROP MARKETING.jpg" alt="POLYCROP MARKETING"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Polycrop+Marketing+Villafuerte+St+Calinan+Davao+City" target="_blank">POLYCROP MARKETING</a></h3>
+    <p>Polycrop Marketing is a local hardware and construction supply store on Villafuerte Street serving as a key supplier of materials and tools for residential and commercial construction projects in the Calinan District.<br><br>Location: Villafuerte St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Hardware Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 18 -->
+<div class="card" data-name="KCT Motor Vehicle Parts & Accessories" data-category="Motor Parts" data-lat="7.1878" data-lng="125.4518" data-tag="Motorshop" data-pin="🏍️" data-maps-query="KCT+Motor+Vehicle+Parts+%26+Accessories+Shop+Roman+Diaz+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/KCT Motor Vehicle Parts & Accessories Shop.jpg" alt="KCT Motor Vehicle Parts & Accessories Shop"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=KCT+Motor+Vehicle+Parts+%26+Accessories+Shop+Roman+Diaz+St+Calinan+Davao+City" target="_blank">KCT Motor Vehicle Parts &amp; Accessories Shop</a></h3>
+    <p>KCT Motor Vehicle Parts & Accessories Shop is a local motorcycle parts store and repair shop in Calinan selling motor vehicle parts and accessories while offering basic repair services.<br><br>Location: Roman Diaz St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 19 -->
+<div class="card" data-name="LYR Motorparts Calinan" data-category="Motor Parts" data-lat="7.1880" data-lng="125.4520" data-tag="Motorshop" data-pin="🏍️" data-maps-query="LYR+Motorparts+Calinan+32+Malanos+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/LYR Motorparts Calinan.jpg" alt="LYR Motorparts Calinan"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=LYR+Motorparts+Calinan+32+Malanos+St+Calinan+Davao+City" target="_blank">LYR Motorparts Calinan</a></h3>
+    <p>LYR Motorparts Calinan is a motorcycle parts and accessories retailer at 32 Malanos Street, part of the LYR Marketing Corporation network — an authorized Bajaj dealer and distributor across Mindanao.<br><br>Location: Roman Diaz St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 20 -->
+<div class="card" data-name="Motohub Davao Calinan Branch" data-category="Motor Parts" data-lat="7.1908" data-lng="125.4555" data-tag="Motorshop" data-pin="🏍️" data-maps-query="Motohub+Davao+Calinan+Branch+Davao-Bukidnon+Rd+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Motohub Davao Calinan Branch.png" alt="Motohub Davao Calinan Branch"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Motohub+Davao+Calinan+Branch+Davao-Bukidnon+Rd+Calinan+Davao+City" target="_blank">Motohub Davao Calinan Branch</a></h3>
+    <p>Motohub Davao Calinan Branch is part of the Motohub Philippines network, offering premium motorcycle gear, riding equipment, accessories, and parts along Davao–Bukidnon Road.<br><br>Location: Davao-Bukidnon Rd, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 21 -->
+<div class="card" data-name="Roan Parts And Accessories (Branch)" data-category="Motor Parts" data-lat="7.1876" data-lng="125.4516" data-tag="Motorshop Branch" data-pin="🏍️" data-maps-query="Roan+Parts+And+Accessories+Purok+32+Roman+Diaz+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Roan Parts And Accessories.png" alt="Roan Parts And Accessories"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Roan+Parts+And+Accessories+Purok+32+Roman+Diaz+St+Calinan+Davao+City" target="_blank">Roan Parts And Accessories</a></h3>
+    <p>Roan Parts And Accessories is a local motor-parts retailer on Roman Diaz Street, providing parts, accessories, and maintenance items for motorcycle and small-vehicle owners in Calinan.<br><br>Location: Purok 32 Roman Diaz St, Calinan, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop Branch</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 22 -->
+<div class="card" data-name="Roan Parts And Accessories (Main)" data-category="Motor Parts" data-lat="7.1874" data-lng="125.4514" data-tag="Motorshop Main Branch" data-pin="🏍️" data-maps-query="Roan+Parts+And+Accessories+H.+Quiambao+St+Roman+Diaz+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Roan Parts And Accessories.jpg" alt="Roan Parts And Accessories"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Roan+Parts+And+Accessories+H.+Quiambao+St+Roman+Diaz+St+Calinan+Davao+City" target="_blank">Roan Parts And Accessories</a></h3>
+    <p>Calinan Primestar Motorcycle Parts and Accessories Shop at H. Quiambao Street corner Roman Diaz Street — a key stop for riders in Calinan seeking maintenance essentials and aftermarket parts.<br><br>Location: H. Quiambao St, corner Roman Diaz St, Calinan Poblacion, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop Main Branch</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 23 -->
+<div class="card" data-name="Pagaran Motor Parts" data-category="Motor Parts" data-lat="7.1872" data-lng="125.4512" data-tag="Motorshop" data-pin="🏍️" data-maps-query="Pagaran+Motor+Parts+Datu+Abing+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Pagaran Motor Parts.jpg" alt="Pagaran Motor Parts"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Pagaran+Motor+Parts+Datu+Abing+St+Calinan+Davao+City" target="_blank">Pagaran Motor Parts</a></h3>
+    <p>Pagaran Motor Parts is an automotive parts retailer in Calinan District providing motorcycle and vehicle spare parts for repair shops, mechanics, and individual vehicle owners in the Davao del Sur area.<br><br>Location: Datu Abing St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 24 -->
+<div class="card" data-name="OEM Auto Parts Supply" data-category="Motor Parts" data-lat="7.1906" data-lng="125.4553" data-tag="Motorshop" data-pin="🔩" data-maps-query="OEM+AUTO+PARTS+SUPPLY+Davao-Bukidnon+Rd+Calinan+Davao+City">
+  <div class="card-image"><img src="image/OEM AUTO PARTS SUPPLY.jpg" alt="OEM AUTO PARTS SUPPLY"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=OEM+AUTO+PARTS+SUPPLY+Davao-Bukidnon+Rd+Calinan+Davao+City" target="_blank">OEM AUTO PARTS SUPPLY</a></h3>
+    <p>OEM Auto Parts Supply is a local automotive parts retailer along Davao–Bukidnon Road offering replacement components, accessories, and maintenance essentials for cars and motorcycles in the Davao region.<br><br>Location: Davao-Bukidnon Rd, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Motorshop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 25 -->
+<div class="card" data-name="LSAC Enterprises" data-category="General Merchandise" data-lat="7.1918" data-lng="125.4568" data-tag="Trading Store" data-pin="🏪" data-maps-query="LSAC+ENTERPRISES+P-23+Davao-Bukidnon+Rd+Calinan+Davao+City">
+  <div class="card-image"><img src="image/LSAC ENTERPRISES.png" alt="LSAC ENTERPRISES"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=LSAC+ENTERPRISES+P-23+Davao-Bukidnon+Rd+Calinan+Davao+City" target="_blank">LSAC ENTERPRISES</a></h3>
+    <p>LSAC Enterprises is a business establishment along P-23 Davao–Bukidnon Road serving the local community of Calinan and nearby barangays with goods and services for residential and commercial clients.<br><br>Location: P-23 Davao-Bukidnon Rd, Calinan, Davao City, Davao del Sur</p>
+    <span class="tag">Trading Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 26 -->
+<div class="card" data-name="Mmjf Lumberyard" data-category="Hardware & Construction" data-lat="7.1884" data-lng="125.4524" data-tag="Lumber Shop" data-pin="🪵" data-maps-query="Mmjf+Lumberyard+58+R.+Magsaysay+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Mmjf Lumberyard.png" alt="Mmjf Lumberyard"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Mmjf+Lumberyard+58+R.+Magsaysay+St+Calinan+Davao+City" target="_blank">Mmjf Lumberyard</a></h3>
+    <p>Mmjf Lumberyard is a local construction supply business at 58 R. Magsaysay Street specializing in providing lumber and building materials to both individual builders and contractors within the Davao region.<br><br>Location: 58 R. Magsaysay St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Lumber Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 27 -->
+<div class="card" data-name="Jee Lumber Hardware Supply" data-category="Hardware & Construction" data-lat="7.1916" data-lng="125.4566" data-tag="Lumber Shop" data-pin="🪵" data-maps-query="Jee+Lumber+Hardware+Supply+Davao-Bukidnon+Rd+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Jee Lumber Hardware Supply.jpg" alt="Jee Lumber Hardware Supply"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Jee+Lumber+Hardware+Supply+Davao-Bukidnon+Rd+Calinan+Davao+City" target="_blank">Jee Lumber Hardware Supply</a></h3>
+    <p>Jee Lumber Hardware Supply is a locally operated hardware and construction materials retailer in Calinan District serving homeowners, builders, and small contractors with essential supplies for residential and commercial projects.<br><br>Location: Davao-Bukidnon Rd, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Lumber Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 28 -->
+<div class="card" data-name="Melchor B. Lascamana Coco Lumber Trading" data-category="Hardware & Construction" data-lat="7.1914" data-lng="125.4564" data-tag="Lumber Trading" data-pin="🪵" data-maps-query="Melchor+B.+Lascamana+Coco+Lumber+Trading+Davao-Bukidnon+Rd+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Melchor B. Lascamana Coco Lumber Trading.jpg" alt="Melchor B. Lascamana Coco Lumber Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Melchor+B.+Lascamana+Coco+Lumber+Trading+Davao-Bukidnon+Rd+Calinan+Davao+City" target="_blank">Melchor B. Lascamana Coco Lumber Trading</a></h3>
+    <p>Melchor B. Lascamana Coco Lumber Trading specializes in the sale and distribution of coco lumber — a sustainable building material from coconut trees widely used for construction and carpentry in the region.<br><br>Location: Davao-Bukidnon Rd, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Lumber Trading</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 29 -->
+<div class="card" data-name="James Five Construction Trading" data-category="Hardware & Construction" data-lat="7.1900" data-lng="125.4545" data-tag="Construction Supply" data-pin="🏗️" data-maps-query="James+Five+Construction+Trading+Calinan+Poblacion+Davao+City">
+  <div class="card-image"><img src="image/James Five Construction Trading.png" alt="James Five Construction Trading"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=James+Five+Construction+Trading+Calinan+Poblacion+Davao+City" target="_blank">James Five Construction Trading</a></h3>
+    <p>James Five Construction Trading mainly sells bamboo poles, coco lumber, plywood, wood planks, and other building materials — a practical roadside supplier serving homeowners, carpenters, and contractors in Calinan.<br><br>Location: Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Construction Supply</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 30 -->
+<div class="card" data-name="Karchel Furniture Works" data-category="Hardware & Construction" data-lat="7.1882" data-lng="125.4522" data-tag="Wood Furniture Shop" data-pin="🪑" data-maps-query="Karchel+Furniture+Works+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Karchel Furniture Works.jpg" alt="Karchel Furniture Works"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Karchel+Furniture+Works+Calinan+Davao+City" target="_blank">Karchel Furniture Works</a></h3>
+    <p>A well-known custom furniture maker in Calinan specializing in made-to-order sofas, cabinets, beds, tables, modular laminated furniture, repainting, and restoration of old furniture.<br><br>Location: R. Magsaysay Street, Calinan Poblacion, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Wood Furniture Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 31 -->
+<div class="card" data-name="Davao Central Convenience Store (Datu Abing)" data-category="Convenience Store" data-lat="7.1870" data-lng="125.4510" data-tag="Convenience Store" data-pin="🏪" data-maps-query="Davao+Central+Convenience+Store+Inc+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Davao Central Convenience Store, Inc.1.png" alt="Davao Central Convenience Store, Inc."></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Davao+Central+Convenience+Store+Inc+Calinan+Davao+City" target="_blank">Davao Central Convenience Store, Inc.</a></h3>
+    <p>A neighborhood convenience store in Calinan providing fast and accessible shopping for snacks, drinks, canned goods, toiletries, and emergency household items without needing to visit larger supermarkets.<br><br>Location: Datu Abing St., Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Convenience Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 32 -->
+<div class="card" data-name="Davao Central Convenience Store (Villafuerte)" data-category="Convenience Store" data-lat="7.1896" data-lng="125.4536" data-tag="Convenience Store" data-pin="🏪" data-maps-query="Davao+Central+Convenience+Store+Inc+Villafuerte+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Davao Central Convenience Store, Inc.2.png" alt="Davao Central Convenience Store, Inc."></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Davao+Central+Convenience+Store+Inc+Villafuerte+St+Calinan+Davao+City" target="_blank">Davao Central Convenience Store, Inc.</a></h3>
+    <p>A neighborhood convenience store in Calinan providing fast and accessible shopping for snacks, drinks, canned goods, toiletries, and emergency household items without needing to visit larger supermarkets.<br><br>Location: Villafuerte St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Convenience Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 33 -->
+<div class="card" data-name="Davao Central Convenience Store (Roman Diaz)" data-category="Convenience Store" data-lat="7.1877" data-lng="125.4517" data-tag="Convenience Store" data-pin="🏪" data-maps-query="Davao+Central+Convenience+Store+Inc+Roman+Diaz+St+Calinan+Davao+City">
+  <div class="card-image"><img src="image/Davao Central Convenience Store, Inc.3.png" alt="Davao Central Convenience Store, Inc."></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Davao+Central+Convenience+Store+Inc+Roman+Diaz+St+Calinan+Davao+City" target="_blank">Davao Central Convenience Store, Inc.</a></h3>
+    <p>A neighborhood convenience store in Calinan providing fast and accessible shopping for snacks, drinks, canned goods, toiletries, and emergency household items without needing to visit larger supermarkets.<br><br>Location: Roman Diaz St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Convenience Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 34 -->
+<div class="card" data-name="7-Eleven Calinan" data-category="Convenience Store" data-lat="7.1903" data-lng="125.4550" data-tag="Convenience Store" data-pin="🏪" data-maps-query="7-Eleven+Calinan+Davao+City">
+  <div class="card-image"><img src="image/7-Eleven Calinan.jpg" alt="7-Eleven Calinan"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=7-Eleven+Calinan+Davao+City" target="_blank">7-Eleven Calinan</a></h3>
+    <p>This is the main 7-Eleven branch in Calinan Poblacion — a 24-hour convenience store where locals, commuters, and students can quickly buy snacks, drinks, ready-to-eat food, toiletries, mobile load, and daily essentials.<br><br>Location: Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Convenience Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 35 -->
+<div class="card" data-name="Calinan Computer Center" data-category="Electronics & Repair" data-lat="7.1875" data-lng="125.4515" data-tag="Tech Store" data-pin="💻" data-maps-query="Pausta+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/SHOPPING AND STORES.jpg" alt="Calinan Computer Center"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Pausta+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Calinan Computer Center</a></h3>
+    <p>Calinan Computer Center is a local computer retail and service shop in Calinan District providing computer products, peripherals, and repair services to individuals, schools, and small businesses in the area.<br><br>Location: Pausta, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Tech Store</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 36 -->
+<div class="card" data-name="SNM Adzprint Calinan (Branch)" data-category="Printing & Photo" data-lat="7.1883" data-lng="125.4523" data-tag="Printing Shop Branch" data-pin="🖨️" data-maps-query="Malanos+St+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/SNM ADZPRINT CALINAN2.png" alt="SNM ADZPRINT CALINAN Branch"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Malanos+St+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">SNM ADZPRINT CALINAN</a></h3>
+    <p>A printing and computer service center offering tarpaulin printing, photocopy, lamination, rush ID, scanning, encoding, and basic computer services — a one-stop shop for students and office needs in Calinan.<br><br>Location: Malanos St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop Branch</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 37 -->
+<div class="card" data-name="SNM Adzprint Calinan (Main)" data-category="Printing & Photo" data-lat="7.1904" data-lng="125.4551" data-tag="Printing Shop Main Branch" data-pin="🖨️" data-maps-query="Calinan+Highway+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/SNM ADZPRINT CALINAN.png" alt="SNM ADZPRINT CALINAN Main"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Calinan+Highway+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">SNM ADZPRINT CALINAN</a></h3>
+    <p>A printing and advertising service provider along Calinan Highway offering customized print solutions for businesses and individuals.<br><br>Location: Calinan Highway, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop Main Branch</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 38 -->
+<div class="card" data-name="Baldeo Printing Services" data-category="Printing & Photo" data-lat="7.1879" data-lng="125.4519" data-tag="Printing Shop" data-pin="🖨️" data-maps-query="Roman+Diaz+St+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/Baldeo Printing Services.png" alt="Baldeo Printing Services"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Roman+Diaz+St+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Baldeo Printing Services</a></h3>
+    <p>Baldeo Printing Services is a small-scale local business in Calinan District specializing in commercial and digital printing solutions for individuals and organizations — accessible and affordable for the community.<br><br>Location: Roman Diaz St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 39 -->
+<div class="card" data-name="Dredge Calinan" data-category="Printing & Photo" data-lat="7.1898" data-lng="125.4538" data-tag="Printing Shop" data-pin="🖨️" data-maps-query="Aurora+Quiambao+St+Calinan+Poblacion+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/Dredge Calinan.jpg" alt="Dredge Calinan"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Aurora+Quiambao+St+Calinan+Poblacion+Davao+City+Davao+del+Sur" target="_blank">Dredge Calinan</a></h3>
+    <p>Dredge Calinan is a local business on Aurora Quiambao Street in Calinan Poblacion, situated within a busy community hub in western Davao City.<br><br>Location: Aurora Quiambao St, Calinan Poblacion, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 40 -->
+<div class="card" data-name="Right Grafico Design" data-category="Printing & Photo" data-lat="7.1871" data-lng="125.4511" data-tag="Printing Shop" data-pin="🖨️" data-maps-query="Datu+Abing+St+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/Right Grafico Design.jpg" alt="Right Grafico Design"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Datu+Abing+St+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Right Grafico Design</a></h3>
+    <p>Right Grafico Design is a local printing and graphic design shop on Datu Abing Street providing visual design and printing solutions for individuals and small enterprises in the Calinan area.<br><br>Location: Datu Abing St, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 41 -->
+<div class="card" data-name="Jupjop Salera Photography" data-category="Printing & Photo" data-lat="7.1873" data-lng="125.4513" data-tag="Printing Shop / Photo Services Shop" data-pin="📷" data-maps-query="Roman+Diaz+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/Jupjop Salera Photography.png" alt="Jupjop Salera Photography"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Roman+Diaz+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Jupjop Salera Photography</a></h3>
+    <p>Jupjop Salera Photography, powered by Planet Studio, offers photography and event coverage for weddings, debuts, and graduations, plus everyday services like scanning, photocopying, lamination, rush IDs, mug and T-shirt printing, and computer repair.<br><br>Location: Roman Diaz, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Printing Shop / Photo Services Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 42 -->
+<div class="card" data-name="JLB Consumer Electronics Trading & Services" data-category="Electronics & Repair" data-lat="7.1889" data-lng="125.4529" data-tag="Tech Repair Shop" data-pin="🔌" data-maps-query="Villafuerte+St+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/JLB Consumer Electronics Trading & Services.png" alt="JLB Consumer Electronics Trading & Services"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Villafuerte+St+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">JLB Consumer Electronics Trading &amp; Services</a></h3>
+    <p>A local electronics repair shop specializing in aircon, washing machine, refrigerator, LED/LCD TV, microwave, and rice cooker repair — a practical repair center for Calinan residents needing affordable appliance maintenance.<br><br>Location: Villafuerte St, Calinan, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Tech Repair Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 43 -->
+<div class="card" data-name="Dino's Phone Repair" data-category="Electronics & Repair" data-lat="7.1899" data-lng="125.4539" data-tag="Tech Repair Shop" data-pin="📱" data-maps-query="Aurora+Street+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/Dino’s Phone Repair.png" alt="Dino's Phone Repair"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Aurora+Street+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">Dino's Phone Repair</a></h3>
+    <p>Dino's Phone Repair is a small local electronics service shop in Calinan District offering repair and maintenance services for smartphones, computers, and household electronic appliances at affordable prices.<br><br>Location: Aurora Street, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Tech Repair Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD 44 -->
+<div class="card" data-name="NORMTECH" data-category="Electronics & Repair" data-lat="7.1876" data-lng="125.4516" data-tag="Tech Repair Shop" data-pin="🖥️" data-maps-query="Roman+Diaz+Calinan+District+Davao+City+Davao+del+Sur">
+  <div class="card-image"><img src="image/NORMTECH.jpg" alt="NORMTECH"></div>
+  <div class="card-content">
+    <h3><a href="https://www.google.com/maps/search/?api=1&query=Roman+Diaz+Calinan+District+Davao+City+Davao+del+Sur" target="_blank">NORMTECH</a></h3>
+    <p>NORMTECH offers computer sales, upgrades, and technical repair services for desktops and laptops, plus peripherals like printers, routers, and accessories, along with software installation and basic networking setup.<br><br>Location: Roman Diaz, Calinan District, Davao City, Davao del Sur</p>
+    <span class="tag">Tech Repair Shop</span>
+    <div class="dist-badge"><div class="dot"></div><span class="dist-text"></span></div>
+    <div class="card-actions">
+      <button class="view-map-btn" onclick="showOnMap(this)">📍 View on Map</button>
+      <button class="route-btn" onclick="getRoute(this)">🧭 Get Directions</button>
+    </div>
+  </div>
+</div>
+
+<!-- Empty state -->
+<div id="empty-state">
+  <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#2e8b57" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+  </svg>
+  <h3>No results found</h3>
+  <p>Try a different search term or filter.</p>
+</div>
+
+</main>
+
+<!-- SPACER -->
+<div id="map-panel-spacer"></div>
+
+<!-- MAP PANEL -->
+<div id="map-panel">
+  <div id="map-panel-header">
+    <div>
+      <div id="map-panel-title">📍 Map</div>
+      <div id="map-panel-subtitle"></div>
+    </div>
+    <div id="map-panel-actions">
+      <a id="map-directions-link" href="#" target="_blank">🧭 Open in Google Maps</a>
+      <button id="map-panel-close" onclick="closeMap()" title="Close map">✕</button>
+    </div>
+  </div>
+  <div id="shopping-map"></div>
+  <div id="route-info">
+    <span>🛣️ Road distance: <strong id="route-dist">–</strong></span>
+    <span>⏱️ Estimated time: <strong id="route-time">–</strong></span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+</body>
+</html>

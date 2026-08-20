@@ -1,0 +1,268 @@
+:root {
+  --green: #2f7a4b;
+  --green-soft: #edf7ef;
+  --text: #1e2a23;
+  --paper: #ffffff;
+  --border: #cfe3d6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Georgia", serif;
+}
+
+body {
+  background: var(--green-soft);
+  color: var(--text);
+}
+
+/* NEWSPAPER HEADER */
+.paper-header {
+  text-align: center;
+  background: var(--paper);
+  padding: 25px 15px;
+  border-bottom: 3px solid var(--green);
+}
+
+.paper-header h1 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--green);
+}
+
+.paper-header p {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #4d5c52;
+}
+
+/* MAIN PAPER */
+.paper-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: var(--paper);
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* HEADLINE */
+.headline {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--green);
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 10px;
+}
+
+/* COLUMNS */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.column h2 {
+  font-size: 18px;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+
+.column p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* LINKS */
+a {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration:none
+}
+
+/* DIVIDER */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+/* FOOTER QUOTE */
+.footer-note {
+  margin-top: 20px;
+  text-align: center;
+  font-style: italic;
+  font-size: 14px;
+  color: #4d5c52;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}
+.paper-header {
+  text-align: center;
+  background: #ffffff;
+  border-bottom: 4px solid #2e8b57;
+  padding: 20px 10px;
+  font-family: "Times New Roman", serif;
+}
+
+.paper-header h1 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: #1e2a23;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.paper-header h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.paper-header h1 a:visited {
+  color: inherit;
+}
+
+.paper-header h1 a:hover {
+  color: #2e8b57;
+}
+
+.paper-header p {
+  font-size: 14px;
+  color: #4a5a52;
+  letter-spacing: 1px;
+  align-content: center;
+}
+.back-btn {
+  margin-top: 1px;
+  margin-bottom: 3px;
+}
+
+.back-btn {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green-600);
+  background: var(--green-soft);
+  padding: 7px 12px;
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  background: var(--green);
+  color: white;
+}
+/* TOP ROW */
+.header-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* CENTER TITLE */
+.header-top .title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* KEEP HOME ON LEFT */
+.back-btn {
+  z-index: 2;
+}
+
+/* =====================================================
+   RESPONSIVE FIXES — ADDED ON TOP, NOTHING ABOVE CHANGED
+   Only new breakpoints/rules below. No existing colors,
+   fonts, or layout values were edited.
+===================================================== */
+
+@media (max-width: 768px) {
+  /* The title is absolutely centered over the Home button,
+     which works on wide screens but can overlap the button
+     once the heading wraps on narrower ones. Stack them
+     instead so the two never collide. */
+  .header-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-top .title {
+    position: static;
+    transform: none;
+    width: 100%;
+  }
+
+  .paper-header h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .paper-header p {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+
+  .paper-container {
+    margin: 14px auto;
+    padding: 16px;
+  }
+
+  .headline {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paper-header {
+    padding: 14px 10px;
+  }
+
+  .paper-header h1 {
+    font-size: 20px;
+  }
+
+  .back-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .paper-container {
+    margin: 10px auto;
+    padding: 14px;
+  }
+
+  .headline {
+    font-size: 17px;
+  }
+
+  .column h2 {
+    font-size: 16px;
+  }
+
+  .column p {
+    font-size: 13px;
+  }
+
+  .footer-note {
+    font-size: 13px;
+  }
+}

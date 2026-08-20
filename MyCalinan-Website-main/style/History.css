@@ -1,0 +1,384 @@
+:root {
+  --green: #2f6f4f;
+  --green-dark: #1e4d35;
+  --green-soft: #edf7f0;
+  --white: #ffffff;
+  --text: #1f2a24;
+  --muted: #5f6d65;
+  --line: #d9e7dd;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, serif;
+}
+
+body {
+  background: var(--green-soft);
+  color: var(--text);
+}
+
+/* HEADER */
+.history-header {
+  height: 170px;
+  background: linear-gradient(rgba(20,40,28,0.55), rgba(20,40,28,0.55)),
+              url("../image/history-banner.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 6px solid var(--green);
+}
+
+.header-overlay {
+  text-align: center;
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+  padding: 25px 40px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.header-overlay h1 {
+  font-size: 30px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.header-overlay p {
+  margin-top: 10px;
+  font-size: 17px;
+  font-style: italic;
+}
+
+/* WRAPPER */
+.history-wrapper {
+  max-width: 1250px;
+  margin: auto;
+  padding: 30px 20px 50px;
+}
+
+/* HEADLINE FRAME */
+/* HEADLINE FRAME */
+.headline-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: var(--white);
+  border: 2px solid var(--green);
+  padding: 25px;
+  box-shadow: 0 8px 20px var(--shadow);
+  margin-bottom: 30px;
+}
+
+.headline-text .mini-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.headline-text h2 {
+  font-size: 20px;
+  line-height: 1.1;
+  margin: 10px 0;
+  color: var(--green-dark);
+}
+
+.headline-text p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+  text-align: justify;
+}
+
+.headline-image-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.headline-image-1 img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border: 2px solid var(--green);
+}
+
+.headline-image-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.headline-image-2 img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.history-paragraph{
+  margin-top: 10px;
+  font-size: 100px;
+}
+/* NEWSPAPER GRID */
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.news-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 14px var(--shadow);
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+}
+
+.news-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--green);
+}
+
+.news-content {
+  padding: 18px;
+}
+
+.news-content span {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.news-content h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--green-dark);
+  line-height: 1.2;
+}
+
+.news-content p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: justify;
+}
+
+/* SPECIAL SIZES */
+.news-card.large {
+  grid-column: span 2;
+}
+
+.news-card.wide {
+  grid-column: span 2;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .headline-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .history-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .news-card.large,
+  .news-card.wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-overlay h1 {
+    font-size: 34px;
+  }
+
+  .headline-text h2 {
+    font-size: 30px;
+  }
+
+  .history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .news-card.large,
+  .news-card.wide {
+    grid-column: span 1;
+  }
+}
+.header-overlay h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-overlay h1 a:visited {
+  color: inherit;
+}
+
+.header-overlay h1 a:hover {
+  color: #4d8b63; /* optional green hover effect */
+}
+
+/* ===== FIX: HOME BUTTON OUTSIDE (LEFT SIDE) ===== */
+
+.history-header {
+  position: relative; /* needed for absolute positioning */
+}
+
+/* HOME BUTTON POSITION */
+.history-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  color: white;
+  background: rgba(0, 0, 0, 0.45);
+
+  padding: 7px 12px;
+  border-radius: 10px;
+
+  white-space: nowrap;
+  z-index: 10;
+
+  transition: 0.3s ease;
+}
+
+.history-back:hover {
+  background: var(--green);
+  color: white;
+}
+
+/* =====================================================
+   RESPONSIVE FIXES — ADDED ON TOP, NOTHING ABOVE CHANGED
+   These only (1) fill in a missing rule for an unstyled
+   class and (2) extend/add breakpoints so the same design
+   adapts cleanly on tablets and phones. No colors, fonts,
+   or spacing values above this point were modified.
+===================================================== */
+
+/* `.headline-image` (singular — used throughout the
+   "20th Century - Present" section) had no matching CSS
+   at all, so those images were rendering at full native
+   size with zero constraints. This gives them the same
+   visual treatment your other image classes already use,
+   so the design is consistent instead of undefined. */
+.headline-image img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border: 2px solid var(--green);
+  display: block;
+}
+
+/* TABLET */
+@media (max-width: 992px) {
+  .history-wrapper {
+    padding: 25px 16px 40px;
+  }
+
+  .headline-image-1 img,
+  .headline-image img {
+    height: 260px;
+  }
+
+  .headline-image-2 img {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* LARGE PHONES / SMALL TABLETS */
+@media (max-width: 768px) {
+  .headline-frame {
+    padding: 18px;
+    gap: 18px;
+  }
+
+  /* Two-up image grid was overflowing on narrow screens —
+     stack to a single column instead of squeezing both
+     images down to an unreadable width. */
+  .headline-image-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .headline-image-1 img {
+    height: 220px;
+  }
+
+  /* Fixed 300x300 images side-by-side caused horizontal
+     overflow on phones. Let them wrap and shrink to fit
+     the viewport instead. */
+  .headline-image-2 {
+    flex-wrap: wrap;
+  }
+
+  .headline-image-2 img {
+    width: 100%;
+    max-width: 280px;
+    height: 220px;
+  }
+
+  .headline-image img {
+    height: 240px;
+  }
+
+  .header-overlay {
+    padding: 18px 24px;
+  }
+
+  .history-back {
+    top: 12px;
+    left: 12px;
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+  .history-header {
+    height: 150px;
+  }
+
+  .header-overlay {
+    padding: 14px 18px;
+  }
+
+  .header-overlay p {
+    font-size: 14px;
+  }
+
+  .headline-image-1 img {
+    height: 190px;
+  }
+
+  .headline-image-2 img {
+    max-width: 100%;
+    height: 180px;
+  }
+
+  .headline-image img {
+    height: 200px;
+  }
+
+  .news-content h3 {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Announcements</title>
+  <link rel="icon" type="image/png" href="image/CALINAN LOGO.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      background: #1a5c38;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 50;
+    }
+
+    .sidebar .logo {
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .sidebar .logo h2 { font-size: 1.2rem; font-weight: 700; }
+    .sidebar .logo p  { font-size: .75rem; opacity: .65; margin-top: 2px; }
+
+    /* Admin badge */
+    .admin-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      background: rgba(0,0,0,.12);
+    }
+
+    .admin-avatar {
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    .admin-info { min-width: 0; }
+    .admin-info .name { font-size: .82rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .admin-info .role { font-size: .7rem; color: rgba(255,255,255,.6); text-transform: capitalize; }
+
+    .sidebar .menu {
+      list-style: none;
+      padding: 16px 0;
+      flex: 1;
+    }
+
+    .sidebar .menu li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      color: rgba(255,255,255,.82);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: background .2s, color .2s;
+    }
+
+    .sidebar .menu li a:hover,
+    .sidebar .menu li.active a {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+    }
+
+    .sidebar .menu li a i { width: 16px; text-align: center; }
+
+    /* Logout at bottom */
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 16px;
+      background: rgba(231,76,60,.2);
+      border: 1px solid rgba(231,76,60,.35);
+      color: #ff8f85;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(231,76,60,.4);
+      color: #fff;
+    }
+
+    /* ── Main content ── */
+    .content {
+      margin-left: 240px;
+      padding: 32px 36px;
+      flex: 1;
+    }
+
+    /* ── Header row ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .header h1 { font-size: 1.4rem; color: #1a3d28; font-weight: 700; }
+
+    .add-btn {
+      background: #1a5c38;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background .2s;
+    }
+
+    .add-btn:hover { background: #145029; }
+
+    /* ── Stats ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    }
+
+    .stat-card i  { font-size: 1.5rem; color: #1a5c38; margin-bottom: 6px; display: block; }
+    .stat-card h2 { font-size: 1.7rem; font-weight: 700; color: #1a3d28; }
+    .stat-card p  { font-size: .78rem; color: #777; margin-top: 2px; }
+
+    /* ── Auth warning ── */
+    .auth-warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 22px;
+      font-size: .88rem;
+      color: #856404;
+      display: none;
+    }
+
+    /* ── Form section ── */
+    .form-section,
+    .table-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 26px 28px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+      margin-bottom: 28px;
+    }
+
+    .form-section h2,
+    .table-section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3d28;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e8f5ee;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .input-box { display: flex; flex-direction: column; gap: 5px; }
+
+    .input-box.full { grid-column: 1 / -1; }
+
+    .input-box label { font-size: .8rem; font-weight: 600; color: #444; }
+
+    .input-box input,
+    .input-box select,
+    .input-box textarea {
+      padding: 9px 13px;
+      border: 1.5px solid #dce8e0;
+      border-radius: 8px;
+      font-size: .88rem;
+      color: #2c3e50;
+      outline: none;
+      transition: border .2s;
+      font-family: inherit;
+    }
+
+    .input-box input:focus,
+    .input-box select:focus,
+    .input-box textarea:focus { border-color: #1a5c38; }
+
+    .input-box textarea { resize: vertical; }
+
+    .btn-row { display: flex; gap: 12px; margin-top: 14px; }
+
+    .save-btn {
+      background: #1a5c38;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .save-btn:hover { background: #145029; }
+    .save-btn.grey   { background: #888; }
+    .save-btn.grey:hover { background: #666; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      top: 20px; right: 24px;
+      background: #1a5c38;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+      display: none;
+      z-index: 9999;
+      animation: slideIn .25s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(60px); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+
+    /* ── Confirm modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 8000;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 30px 32px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    }
+
+    .modal-box i { font-size: 2rem; color: #e74c3c; margin-bottom: 10px; }
+    .modal-box h3 { font-size: 1.1rem; font-weight: 700; color: #1a3d28; margin-bottom: 8px; }
+    .modal-box p  { font-size: .88rem; color: #666; margin-bottom: 22px; }
+
+    .modal-btns { display: flex; gap: 10px; justify-content: center; }
+
+    .modal-btns button {
+      padding: 9px 24px;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .2s;
+    }
+
+    .modal-btns button:hover { opacity: .85; }
+    .modal-confirm { background: #e74c3c; color: #fff; }
+    .modal-cancel  { background: #e8f0ec; color: #333; }
+
+    /* ── Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .86rem;
+    }
+
+    thead { background: #f4faf6; }
+
+    th, td {
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid #e8f0ec;
+      vertical-align: top;
+    }
+
+    th { font-weight: 700; color: #1a3d28; font-size: .78rem; text-transform: uppercase; letter-spacing: .4px; }
+
+    tr:hover td { background: #f9fdfb; }
+
+    .desc-cell {
+      max-width: 320px;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .title-cell { display: flex; align-items: center; gap: 10px; }
+    .title-thumb {
+      width: 36px; height: 36px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: #e8f0ec;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 11px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 700;
+      background: #e8f5ee;
+      color: #1a5c38;
+    }
+
+    .tag.event    { background: #e3f0ff; color: #1a56a0; }
+    .tag.advisory { background: #fff3cd; color: #856404; }
+    .tag.program  { background: #d4edda; color: #155724; }
+    .tag.festival { background: #fde8f5; color: #8b1a6b; }
+
+    td button {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      margin-right: 5px;
+      transition: opacity .2s;
+    }
+
+    td button:hover { opacity: .8; }
+    td button.edit   { background: #d4edda; color: #155724; }
+    td button.delete { background: #f8d7da; color: #721c24; }
+
+    .table-state td {
+      text-align: center;
+      padding: 40px;
+      color: #888;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { width: 200px; }
+      .content { margin-left: 200px; padding: 18px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 540px) {
+      .sidebar { display: none; }
+      .content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="logo">
+    <h2>MyCalinan</h2>
+    <p>Admin Panel</p>
+  </div>
+
+  <!-- Admin info badge -->
+  <div class="admin-badge">
+    <div class="admin-avatar" id="adminInitial">A</div>
+    <div class="admin-info">
+      <div class="name" id="adminName">Admin</div>
+      <div class="role" id="adminRole">admin</div>
+    </div>
+  </div>
+
+  <ul class="menu">
+    <li>
+      <a href="HomePage.html"><i class="fas fa-home"></i> Home Page</a>
+    </li>
+    <li>
+      <a href="Admin-Events.html"><i class="fas fa-calendar-alt"></i> Events &amp; Festivals</a>
+    </li>
+    <li class="active">
+      <a href="Admin-Announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a>
+    </li>
+    <li>
+      <a href="Admin-Reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" onclick="confirmLogout()">
+      <i class="fas fa-sign-out-alt"></i> Log Out
+    </button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="content">
+
+  <div id="toast"></div>
+
+  <!-- Auth warning -->
+  <div class="auth-warning" id="authWarning">
+    <i class="fas fa-exclamation-triangle"></i>
+    You are not logged in. <a href="Admin-login.html">Click here to log in</a> — changes will not be saved until you do.
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1><i class="fas fa-bullhorn" style="color:#1a5c38;margin-right:8px;"></i>Community Announcements</h1>
+    <button class="add-btn" onclick="showForm()">
+      <i class="fas fa-plus"></i> Add Announcement
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <i class="fas fa-bullhorn"></i>
+      <h2 id="statTotal">—</h2>
+      <p>Total Announcements</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-calendar-day"></i>
+      <h2 id="statEvents">—</h2>
+      <p>Events</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-hands-helping"></i>
+      <h2 id="statPrograms">—</h2>
+      <p>Programs</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-exclamation-circle"></i>
+      <h2 id="statAdvisories">—</h2>
+      <p>Advisories</p>
+    </div>
+  </div>
+
+  <!-- Form (hidden by default) -->
+  <section class="form-section" id="announcementForm" style="display:none;">
+    <h2 id="formTitle">Create Announcement</h2>
+    <input type="hidden" id="editId">
+
+    <div class="form-grid">
+      <div class="input-box">
+        <label>Title *</label>
+        <input type="text" id="annTitle" placeholder="Community Clean-Up Drive">
+      </div>
+      <div class="input-box">
+        <label>Date</label>
+        <input type="text" id="annDate" placeholder="June 28, 2026">
+      </div>
+      <div class="input-box">
+        <label>Category</label>
+        <select id="annCategory">
+          <option>General</option>
+          <option>Event</option>
+          <option>Program</option>
+          <option>Advisory</option>
+          <option>Festival</option>
+        </select>
+      </div>
+      <div class="input-box">
+        <label>Image URL</label>
+        <input type="text" id="annImage" placeholder="image/announcement1.jpg">
+      </div>
+      <div class="input-box full">
+        <label>Description *</label>
+        <textarea id="annDescription" rows="4" placeholder="Write the announcement details…"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="save-btn" onclick="saveAnnouncement()">
+        <i class="fas fa-save"></i> Save Announcement
+      </button>
+      <button class="save-btn grey" onclick="hideForm()">
+        <i class="fas fa-times"></i> Cancel
+      </button>
+    </div>
+  </section>
+
+  <!-- Table -->
+  <section class="table-section">
+    <h2>Announcement List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="announcementsTableBody">
+        <tr class="table-state">
+          <td colspan="5"><i class="fas fa-spinner fa-spin"></i> Loading announcements…</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<!-- ── DELETE CONFIRM MODAL ── -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <i class="fas fa-trash-alt"></i>
+    <h3>Delete Announcement?</h3>
+    <p>This action cannot be undone. The announcement will be permanently removed from the database.</p>
+    <div class="modal-btns">
+      <button class="modal-cancel"  onclick="closeModal()">Cancel</button>
+      <button class="modal-confirm" onclick="confirmDelete()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOGOUT CONFIRM MODAL ── -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="modal-box">
+    <i class="fas fa-sign-out-alt" style="color:#1a5c38;"></i>
+    <h3>Log Out?</h3>
+    <p>You will be returned to the login page. Any unsaved changes will be lost.</p>
+    <div class="modal-btns">
+      <button class="modal-cancel"  onclick="closeLogoutModal()">Stay</button>
+      <button class="modal-confirm" style="background:#1a5c38;" onclick="doLogout()">Log Out</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* Public GET lives at /api/announcements.
+     Admin create/update/delete live under /api/admin/announcements,
+     matching the Flask routes already defined in app.py. */
+  const PUBLIC_API = 'http://localhost:5000/api/announcements';
+  const ADMIN_API  = 'http://localhost:5000/api/admin/announcements';
+
+  /* ── Get stored JWT token ── */
+  function getToken() {
+    return localStorage.getItem('mycalinan_admin_token')
+        || sessionStorage.getItem('mycalinan_admin_token')
+        || '';
+  }
+
+  /* ── Auth headers ── */
+  function authHeaders() {
+    return {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${getToken()}`
+    };
+  }
+
+  /* ── Show auth warning if not logged in ── */
+  function checkAuth() {
+    const token = getToken();
+    if (!token) {
+      document.getElementById('authWarning').style.display = 'block';
+      return false;
+    }
+    return true;
+  }
+
+  /* ── Populate sidebar admin info ── */
+  function loadAdminInfo() {
+    const username = localStorage.getItem('mycalinan_admin_username')
+                  || sessionStorage.getItem('mycalinan_admin_username')
+                  || 'Admin';
+    const role     = localStorage.getItem('mycalinan_admin_role')
+                  || sessionStorage.getItem('mycalinan_admin_role')
+                  || 'admin';
+
+    document.getElementById('adminName').textContent    = username;
+    document.getElementById('adminRole').textContent    = role;
+    document.getElementById('adminInitial').textContent = username.charAt(0).toUpperCase();
+  }
+
+  /* ── Toast ── */
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = isError ? '#c0392b' : '#1a5c38';
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3000);
+  }
+
+  /* ── Escape user content before injecting into innerHTML (XSS guard) ── */
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /* ── Category tag class ── */
+  function tagClass(category) {
+    const c = (category || '').toLowerCase();
+    if (c.includes('event'))    return 'event';
+    if (c.includes('advisory')) return 'advisory';
+    if (c.includes('program'))  return 'program';
+    if (c.includes('festival')) return 'festival';
+    return '';
+  }
+
+  /* ── Select a <select> option case-insensitively, falling back to the first option ── */
+  function setSelectValue(selectEl, value) {
+    const target = (value || '').toLowerCase();
+    for (const opt of selectEl.options) {
+      if (opt.value.toLowerCase() === target) {
+        selectEl.value = opt.value;
+        return;
+      }
+    }
+    selectEl.selectedIndex = 0;
+  }
+
+  /* ── Render table + stats ── */
+  let announcementsCache = [];
+
+  function renderTable(items) {
+    const tbody = document.getElementById('announcementsTableBody');
+    tbody.innerHTML = '';
+
+    if (!items || items.length === 0) {
+      tbody.innerHTML = `<tr class="table-state"><td colspan="5">No announcements yet. Click <b>Add Announcement</b> to create one.</td></tr>`;
+      document.getElementById('statTotal').textContent      = 0;
+      document.getElementById('statEvents').textContent     = 0;
+      document.getElementById('statPrograms').textContent   = 0;
+      document.getElementById('statAdvisories').textContent = 0;
+      return;
+    }
+
+    let events = 0, programs = 0, advisories = 0;
+
+    items.forEach(item => {
+      const cat = (item.category || '').toLowerCase();
+      if (cat.includes('event'))    events++;
+      if (cat.includes('program'))  programs++;
+      if (cat.includes('advisory')) advisories++;
+
+      const id = item._id || '';
+      const tc = tagClass(item.category);
+
+      const thumb = item.image
+        ? `<img class="title-thumb" src="${escapeHtml(item.image)}" alt="" onerror="this.style.display='none'">`
+        : '';
+
+      tbody.innerHTML += `
+        <tr>
+          <td><div class="title-cell">${thumb}<b>${escapeHtml(item.title) || '—'}</b></div></td>
+          <td><span class="tag ${tc}">${escapeHtml(item.category) || 'General'}</span></td>
+          <td>${escapeHtml(item.date) || '—'}</td>
+          <td class="desc-cell">${escapeHtml(item.description) || '—'}</td>
+          <td>
+            <button class="edit"   onclick="editAnnouncement('${id}')"><i class="fas fa-pen"></i> Edit</button>
+            <button class="delete" onclick="openDeleteModal('${id}')"><i class="fas fa-trash"></i> Delete</button>
+          </td>
+        </tr>`;
+    });
+
+    document.getElementById('statTotal').textContent      = items.length;
+    document.getElementById('statEvents').textContent     = events;
+    document.getElementById('statPrograms').textContent   = programs;
+    document.getElementById('statAdvisories').textContent = advisories;
+  }
+
+  /* ── Load announcements from DB ── */
+  async function loadAnnouncements() {
+    try {
+      const res  = await fetch(PUBLIC_API);
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      announcementsCache = data;
+      renderTable(data);
+    } catch (err) {
+      console.error('Load announcements error:', err);
+      document.getElementById('announcementsTableBody').innerHTML =
+        `<tr class="table-state"><td colspan="5">⚠️ Cannot connect to server. Make sure Flask is running on port 5000.</td></tr>`;
+      showToast('Server unreachable', true);
+    }
+  }
+
+  /* ── Form show/hide ── */
+  function isFormOpen() {
+    return document.getElementById('announcementForm').style.display === 'block';
+  }
+
+  function showForm() {
+    document.getElementById('formTitle').textContent        = 'Create Announcement';
+    document.getElementById('editId').value                 = '';
+    document.getElementById('annTitle').value                = '';
+    document.getElementById('annDate').value                 = '';
+    setSelectValue(document.getElementById('annCategory'), 'General');
+    document.getElementById('annImage').value                 = '';
+    document.getElementById('annDescription').value          = '';
+    document.getElementById('announcementForm').style.display = 'block';
+    document.getElementById('announcementForm').scrollIntoView({ behavior:'smooth' });
+  }
+
+  function hideForm() {
+    document.getElementById('announcementForm').style.display = 'none';
+  }
+
+  /* ── Save (create or update) ── */
+  async function saveAnnouncement() {
+    if (!checkAuth()) {
+      showToast('Please log in first.', true);
+      return;
+    }
+
+    const id          = document.getElementById('editId').value.trim();
+    const title       = document.getElementById('annTitle').value.trim();
+    const date        = document.getElementById('annDate').value.trim();
+    const category    = document.getElementById('annCategory').value;
+    const image       = document.getElementById('annImage').value.trim();
+    const description = document.getElementById('annDescription').value.trim();
+
+    if (!title || !description) {
+      showToast('Title and Description are required.', true);
+      return;
+    }
+
+    const isEdit  = id !== '';
+    const url     = isEdit ? `${ADMIN_API}/${id}` : ADMIN_API;
+    const method  = isEdit ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: authHeaders(),
+        body: JSON.stringify({ title, date, category, image, description })
+      });
+
+      if (res.status === 401) {
+        showToast('Session expired. Please log in again.', true);
+        setTimeout(() => window.location.href = 'Admin-login.html', 1500);
+        return;
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        showToast(err.error || 'Failed to save announcement.', true);
+        return;
+      }
+
+      showToast(isEdit ? '✅ Announcement updated!' : '✅ Announcement created!');
+      hideForm();
+      loadAnnouncements();
+
+    } catch (err) {
+      console.error('Save error:', err);
+      showToast('Cannot reach server. Check Flask is running.', true);
+    }
+  }
+
+  /* ── Edit ── */
+  function editAnnouncement(id) {
+    const item = announcementsCache.find(a => a._id === id);
+    if (!item) return;
+
+    document.getElementById('editId').value          = id;
+    document.getElementById('annTitle').value         = item.title || '';
+    document.getElementById('annDate').value          = item.date || '';
+    setSelectValue(document.getElementById('annCategory'), item.category);
+    document.getElementById('annImage').value          = item.image || '';
+    document.getElementById('annDescription').value   = item.description || '';
+    document.getElementById('formTitle').textContent  = 'Edit Announcement';
+    document.getElementById('announcementForm').style.display = 'block';
+    document.getElementById('announcementForm').scrollIntoView({ behavior:'smooth' });
+  }
+
+  /* ── Delete (with modal) ── */
+  let pendingDeleteId = null;
+
+  function openDeleteModal(id) {
+    pendingDeleteId = id;
+    document.getElementById('deleteModal').classList.add('open');
+  }
+
+  function closeModal() {
+    pendingDeleteId = null;
+    document.getElementById('deleteModal').classList.remove('open');
+  }
+
+  async function confirmDelete() {
+    if (!pendingDeleteId) return;
+    closeModal();
+
+    if (!checkAuth()) {
+      showToast('Please log in first.', true);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${ADMIN_API}/${pendingDeleteId}`, {
+        method:  'DELETE',
+        headers: authHeaders()
+      });
+
+      if (res.status === 401) {
+        showToast('Session expired. Please log in again.', true);
+        setTimeout(() => window.location.href = 'Admin-login.html', 1500);
+        return;
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        showToast(err.error || 'Failed to delete announcement.', true);
+        return;
+      }
+
+      showToast('🗑️ Announcement deleted.');
+      loadAnnouncements();
+
+    } catch (err) {
+      console.error('Delete error:', err);
+      showToast('Cannot reach server. Check Flask is running.', true);
+    }
+  }
+
+  /* ── Logout ── */
+  function confirmLogout() {
+    document.getElementById('logoutModal').classList.add('open');
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('open');
+  }
+
+  function doLogout() {
+    localStorage.removeItem('mycalinan_admin_token');
+    localStorage.removeItem('mycalinan_admin_username');
+    localStorage.removeItem('mycalinan_admin_role');
+    sessionStorage.removeItem('mycalinan_admin_token');
+    sessionStorage.removeItem('mycalinan_admin_username');
+    sessionStorage.removeItem('mycalinan_admin_role');
+    window.location.href = 'Admin-login.html';
+  }
+
+  /* ── Close modals on overlay click ── */
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  document.getElementById('logoutModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLogoutModal();
+  });
+
+  /* ── Init ── */
+  loadAdminInfo();
+  checkAuth();
+  loadAnnouncements();
+  /* Skip the periodic refresh while the form is open so it can't wipe out
+     an in-progress create/edit. */
+  setInterval(() => { if (!isFormOpen()) loadAnnouncements(); }, 30000);
+</script>
+
+</body>
+</html>
